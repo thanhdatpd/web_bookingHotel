@@ -10,6 +10,10 @@ router
   .route("/login")
   .get(AuthController.login)
   .post(AuthController.postLogin);
+router
+  .route("/register")
+  .get(AuthController.register)
+  .post(AuthController.postRegister);
 //router.get("/logout", AuthController.logout);
 /* router admin */
 //router.get("/admin/dashboard", AdminController.dashboard);
