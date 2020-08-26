@@ -1,0 +1,17 @@
+p { 
+  margin-top: 16px;
+  margin-bottom: 10px;
+  font-size: 16px
+}
+.form-control-lg{
+  opacity: 1;
+  width: 22rem;
+  padding-right: 0px;
+  padding-left: 0px;
+}
+.border {
+  background-color:#b3e2ff;
+  width: 20rem;
+  padding-top: 6px;
+  margin-top: 20px;
+}

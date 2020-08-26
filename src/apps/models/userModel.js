@@ -1,11 +1,11 @@
 const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema({
-  email: { type: String},
+  email: { type: String, unique: true},
   fullName: { type: String },
   password: { type: String },
   role: { type: String, default: "user" },
-  avatar: { type: String, default: "" },
+  avatar: { type: String, default: "assets/images/uploads/avatar.jpg" },
   phoneNumber: { type: Number},
   gender: { type: String, default: "male" }, 
 },
@@ -13,4 +13,5 @@ const userSchema = new mongoose.Schema({
     timestamps: true,
   });
 
-mongoose.model("users", userSchema);
+const userModel = mongoose.model("users", userSchema);
+module.exports = userModel;

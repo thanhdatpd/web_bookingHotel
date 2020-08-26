@@ -1,82 +1,135 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
   <base href="/assets/auth/" />
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
   <title>Đăng kí</title>
-  <link rel="stylesheet" href="fonts/material-icon/css/material-design-iconic-font.min.css">
-  <link rel="stylesheet" href="css/style.css">
-    <!-- <script>
-      var password = document.getElementById("pass")
-        , confirm_password = document.getElementById("re_pass");
-
-      function validatePassword() {
-        if (password.value != confirm_password.value) {
-          confirm_password.setCustomValidity("Mật khẩu không trùng khớp");
-        } else {
-          confirm_password.setCustomValidity('');
-        }
-      }
-      password.onchange = validatePassword;
-      confirm_password.onkeyup = validatePassword;
-    </script> -->
+  <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="fonts/fontawesome-all.min.css">
+  <link rel="stylesheet" href="fonts/font-awesome.min.css">
+  <link rel="stylesheet" href="fonts/ionicons.min.css">
+  <link rel="stylesheet" href="fonts/fontawesome5-overrides.min.css">
+  <link rel="stylesheet" href="css/Card-slider-sk.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.3.1/css/swiper.min.css">
+  <link rel="stylesheet" href="css/Login-Form-Dark.css">
+  <link rel="stylesheet" href="css/Media-Slider-Bootstrap-3-1.css">
+  <link rel="stylesheet" href="css/Media-Slider-Bootstrap-3.css">
+  <link rel="stylesheet" href="css/Navigation-Clean.css">
+  <link rel="stylesheet" href="css/Navigation-with-Search.css">
+  <link rel="stylesheet" href="css/Simple-Slider.css">
+  <link rel="stylesheet" href="css/Social-Icons.css">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="alertifyjs/css/alertify.min.css">
+  <script src="alertifyjs/alertify.min.js"></script>
 </head>
 
 <body>
-  <div class="main">
-    <!-- Sign up form -->
-    <section class="signup">
-      <div class="container">
-        <div class="signup-content">
-          <div class="signup-form">
-            <h2 class="form-title">Đăng kí</h2>
-            <form method="POST" class="register-form" id="register-form">
-              <div class="form-group">
-                <label for="name"><i class="zmdi zmdi-account material-icons-name"></i></label>
-                <input type="text" name="name" id="name" required placeholder="Tên của bạn" 
-                oninvalid="this.setCustomValidity('Vui lòng nhập tên của bạn')"> 
-              </div>
-              <div class="form-group">
-                <label for="email"><i class="zmdi zmdi-email"></i></label>
-                <input type="email" name="email" id="email" required placeholder="Địa chỉ email" 
-                 oninvalid="this.setCustomValidity('Vui lòng nhập địa chỉ email')">
-              </div>
-              <div class="form-group">
-                <label for="pass"><i class="zmdi zmdi-lock"></i></label>
-                <input type="password" name="pass" id="pass" required placeholder="Mật khẩu" 
-                oninvalid="this.setCustomValidity('Vui lòng nhập mật khẩu')">
-              </div>
-              <div class="form-group">
-                <label for="re-pass"><i class="zmdi zmdi-lock-outline"></i></label>
-                <input type="password" name="re_pass" id="re_pass" required placeholder="Nhập lại mật khẩu" 
-                oninvalid="this.setCustomValidity('Vui lòng nhập mật khẩu')">
-              </div>
-              <div class="form-group">
-                <label for="re-pass"><i class="zmdi zmdi-lock-outline"></i></label>
-                <input type="number" name="re_pass" id="re_pass" required placeholder="Nhập số điện thoại"
-                  oninvalid="this.setCustomValidity('Vui lòng nhập số điện thoại')">
-              </div>
-              <div class="form-group">
-                <input type="checkbox" name="agree-term" id="agree-term" class="agree-term" />
-                <label for="agree-term" class="label-agree-term"><span><span></span></span> Tôi đồng ý với các điều khoản <a
-                    href="#" class="term-service">Điều khoản dịch vụ</a></label>
-              </div>
-              <div class="form-group form-button">
-                <input type="submit" name="signup" id="signup" class="form-submit" value="Đăng kí ngay" />
-              </div>
-            </form>
-          </div>
-          <div class="signup-image">
-            <figure><img src="images/signup-image.jpg" alt="sing up image"></figure>
-            <a href="/login" class="signup-image-link">Tôi đã có tài khoản</a>
-          </div>
+  <div>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col" style="background-color: #b3e2ff;">
+          <p class="d-flex justify-content-center" style="color:rgb(27, 7, 7);font-size: 17px;"><br>Đăng ký thành
+            viên Phương Đông - Tích điểm thưởng và nhận ưu đãi<br>Nhanh chóng, tiện lợi và an toàn. Đăng ký liền tay, rinh
+            ngay quyền lợi.<br><br></p>
         </div>
       </div>
-    </section>
+    </div>
   </div>
-  <script src="vendor/jquery/jquery.min.js"></script>
-  <script src="js/main.js"></script>
+  <div style="padding-top: 40px;">
+    <div class="container">
+      <div class="row text-center">
+        <div class="col-auto col-sm-12 col-md-8 col-xs-12">
+          <div class="row">
+            <div class="col-md-6 col-sm-6 col-xs-12">
+              <img src="img/coins@2x.png" alt="" width="70rem">
+              <h3>Tích điểm nhanh chóng</h3>
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+              <img src="img/top-sales@2x.png" alt="" width="70rem">
+              <h3>Tiện ích thông minh</h3>
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+              <img src="img/wallet@2x.png" alt="" width="70rem">
+              <h3>Thanh toán đơn giản</h3>
+              
+            </div>
+            <div class="col-auto col-md-6 col-sm-6 col-xs-12">
+              <img src="img/backpack@2x.png" alt="" width="70rem">
+              <h3>Ưu đãi mỗi ngày</h3>
+            </div>
+          </div>
+        </div>
+        <div class="col-auto col-sm-12 col-md-4 text-center">
+          <form id="form-register">
+            <h3>Đăng ký thành viên<br></h3>
+          <p>Địa chỉ email</p> <input class="form-control-lg" id="email" name="email" type="text" required>
+          <p>Số điện thoại</p><input class="form-control-lg" id="phoneNumber" name="phoneNumber" type="text"  required>
+          <p> Họ và Tên</p> <input class="form-control-lg" id="fullName" name="fullName" type="text"  required>
+          <p>Mật Khẩu</p><input class="form-control-lg" id="password" name="password" type="password"  required>
+          <p >Xác nhận mật khẩu mới</p> <input class="form-control-lg" id="confirm_password" type="password"  required>
+            <button class="btn btn-primary border rounded " id="btn-register" type="button">Đăng ký</button>
+          <p class="text-center"><br>Bạn đã có tài khoản ? <a href="/login">Đăng nhập</a>
+            <br>Tôi đồng ý với Bảo mật và Điều khoản hoạt động của khách sạn</p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+  </div>
+  <script src="js/jquery.min.js"></script>
+  <script src="bootstrap/js/bootstrap.min.js"></script>
+  <script src="js/smart-forms.min.js"></script>
+  <script src="js/Card-slider-sk.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.3.1/js/swiper.jquery.min.js"></script>
+  <script src="js/Media-Slider-Bootstrap-3.js"></script>
+  <script src="js/Simple-Slider.js"></script>
+  <script>
+    //  $("#form-register").validate({
+    //     rules:{
+    //       email:{ required: true },
+    //       password:{ required: true, minlength: 6 },
+    //       phoneNumber: { required: true, minlength: 9 },
+    //       confirm_password: { equalTo: "#password", minlength: 6 },
+    //       fullName: { required: true },
+    //     },
+    //     message:{
+    //       email: { required: "Email không được để trống" },
+    //       password: { required: "Mật khẩu không được để trống"},
+    //       phoneNumber: { required: "Số điện thoại không được để trống"},
+    //       confirm_password: { equalTo: "Hai password phải giống nhau",},
+    //       fullName: { required: "Họ tên không được để trống" }
+    //     }
+    //  })
+    $("#btn-register").click(function(){
+      var email = $("#email").val();
+      var password = $("#password").val();
+      var phoneNumber = $("#phoneNumber").val();
+      var fullName = $("#fullName").val();
+      var confirm_password = $("#confirm_password").val()
+        $.ajax({
+          url: "/register",
+          method: "POST",
+          data: {
+              email : email,
+              password : password,
+              phoneNumber: phoneNumber,
+              fullName: fullName,
+              confirm_password: confirm_password,
+          }
+        }).then(function (data) {        
+          alertify.success(data.message);
+          window.timeout = setTimeout(function(){
+            window.location.href = "/login";
+          },2000)           
+        }).catch(function (err) {
+            alertify.error(err.responseJSON.message);
+        })
+      })
+
+  </script>
 </body>
+
 </html>

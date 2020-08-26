@@ -1,56 +1,110 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
   <base href="/assets/auth/" />
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
   <title>Đăng nhập</title>
-  <link rel="stylesheet" href="fonts/material-icon/css/material-design-iconic-font.min.css">
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="fonts/fontawesome-all.min.css">
+  <link rel="stylesheet" href="fonts/font-awesome.min.css">
+  <link rel="stylesheet" href="fonts/ionicons.min.css">
+  <link rel="stylesheet" href="fonts/fontawesome5-overrides.min.css">
+  <link rel="stylesheet" href="css/Card-slider-sk.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.3.1/css/swiper.min.css">
+  <link rel="stylesheet" href="css/Login-Form-Dark.css">
+  <link rel="stylesheet" href="css/Media-Slider-Bootstrap-3-1.css">
+  <link rel="stylesheet" href="css/Media-Slider-Bootstrap-3.css">
+  <link rel="stylesheet" href="css/Navigation-Clean.css">
+  <link rel="stylesheet" href="css/Navigation-with-Search.css">
+  <link rel="stylesheet" href="css/Simple-Slider.css">
+  <link rel="stylesheet" href="css/Social-Icons.css">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="alertifyjs/css/alertify.min.css">
+  <script src="alertifyjs/alertify.min.js"></script>
+
 </head>
 <body>
-  <div class="main">
-    <!-- Sing in  Form -->
-    <section class="sign-in">
-      <div class="container">
-        <div class="signin-content">
-          <div class="signin-image">
-            <figure><img src="images/signin-image.jpg" alt="sing up image"></figure>
-            <a href="/register" class="signup-image-link">Tạo tài khoản</a>
-          </div>
-          <div class="signin-form">
-            <h2 class="form-title">Đăng nhập</h2>
-            <form method="POST" class="register-form" id="login-form">
-              <div class="form-group">
-                <label for="your_name"><i class="zmdi zmdi-account material-icons-name"></i></label>
-                <input type="text" name="your_name" id="your_name" placeholder="Tên đăng nhập" required/>
-              </div>
-              <div class="form-group">
-                <label for="your_pass"><i class="zmdi zmdi-lock"></i></label>
-                <input type="password" name="your_pass" id="your_pass"  placeholder="Mật khẩu" required/>
-              </div>
-              <div class="form-group">
-                <input type="checkbox" name="remember-me" id="remember-me" class="agree-term" />
-                <label for="remember-me" class="label-agree-term"><span><span></span></span>Nhớ tài khoản</label>
-              </div>
-              <div class="form-group form-button">
-                <input type="submit" name="signin" id="signin" class="form-submit" value="Đăng nhập" />
-              </div>
-            </form>
-            <div class="social-login">
-              <span class="social-label">Khách sạn Phương Đông - Sự lựa chọn hoàn hảo cho bạn </span>
+  <div>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12" style="background-color:#b3e2ff;">
+          <p class="text-center" style="color: rgb(27, 7, 7);font-size: 17px;margin-top: 20px;margin-bottom: 20px;">
+            <br>Đăng ký thành viên Phương Đông Hotel - Tích điểm thưởng và nhận ưu đãi<br>Nhanh chóng, tiện lợi và an toàn. Đăng
+            ký liền tay, rinh ngay quyền lợi.<br><br></p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="padding-top: 40px;">
+    <div class="container">
+      <div class="row text-center d-flex justify-content-center">
+        <div class="col-8 col-md-8">
+          <div class="row">
+            <div class="col-md-6 col-sm-6 col-xs-12">
+              <img src="img/coins@2x.png" alt="" width="70rem">
+              <h3>Tích điểm nhanh chóng</h3>     
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+              <img src="img/top-sales@2x.png" alt="" width="70rem">
+              <h3>Tiện ích thông minh</h3>    
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-12" s>
+              <img src="img/wallet@2x.png" alt="" width="70rem">
+              <h3>Thanh toán đơn giản</h3>        
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+              <img src="img/backpack@2x.png" alt="" width="70rem">
+              <h3>Ưu đãi mỗi ngày</h3>
             </div>
           </div>
         </div>
+        <div class="col-auto col-sm-12 col-md-4 text-center">
+          <form id="form-login">
+            <h3>Đăng nhập<br></h3>
+            <p>Địa chỉ email</p>
+          <input class="form-control-lg" type="text" id="email" required="" name="email">
+          <p >Mật Khẩu</p>
+          <input class="form-control-lg" id="password" type="password" name="password" required="">
+            <button class="btn btn-primary border rounded " id="btn-login" type="button">Đăng nhập </button>
+          <p class="text-center"><br>Quên mật khẩu? <a href="#">Nhấn vào đây</a> <br>
+            <br>Bạn chưa có tài khoản ? 
+            <a href="/register"> Đăng ký</a> <br><br></p>
+            </form>
+        </div>
       </div>
-    </section>
-
+    </div>
   </div>
-
-  <!-- JS -->
-  <script src="vendor/jquery/jquery.min.js"></script>
-  <script src="js/main.js"></script>
-</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+  <div>
+  </div>
+  <script src="js/jquery.min.js"></script>
+  <script src="bootstrap/js/bootstrap.min.js"></script>
+  <script src="js/smart-forms.min.js"></script>
+  <script src="js/Card-slider-sk.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.3.1/js/swiper.jquery.min.js"></script>
+  <script src="js/Media-Slider-Bootstrap-3.js"></script>
+  <script src="js/Simple-Slider.js"></script>
+  <script>
+      $("#btn-login").click(function () {
+          var email = $("#email").val();
+          var password = $("#password").val();
+          $.ajax({
+            url: "/login",
+            method: "POST",
+            data: {
+              email: email,
+              password: password,
+            }
+          }).then(function (data) {
+            alertify.success(data.message);
+            window.timeout = setTimeout(function () {
+              window.location.href = "/";
+            }, 2000)
+          }).catch(function (err) {
+            alertify.error(err.responseJSON.message);
+          })
+        })
+  </script>
+</body>
 
 </html>
