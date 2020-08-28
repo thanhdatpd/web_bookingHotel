@@ -3,11 +3,27 @@ p {
   margin-bottom: 10px;
   font-size: 16px
 }
+.icon-content{
+  padding-top: 80px;
+}
 .form-control-lg{
   opacity: 1;
-  width: 22rem;
+  background-color: whitesmoke;
+  width: 20rem;
+  border-radius: 20px;
   padding-right: 0px;
   padding-left: 0px;
+  padding: 10px;
+}
+#form-login{
+  background-color:#dfa974;
+  border-radius: 20px;
+  border: 1px solid rgb(185, 197, 250);
+}
+#form-register{
+  background-color:#dfa974;
+  border-radius: 20px;
+  border: 1px solid rgb(185, 197, 250);
 }
 .border {
   background-color:#b3e2ff;
@@ -21,4 +37,8 @@ p {
 .d-flex{
   color:rgb(27, 7, 7);
   font-size: 20px;
+}
+.css-button{
+  background-color: blue;
+ border-radius: 50px;
 }

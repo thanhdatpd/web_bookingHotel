@@ -29,7 +29,7 @@
   <div>
     <div class="container-fluid">
       <div class="row">
-        <div class="col" style="background-color: #b3e2ff;">
+        <div class="col" style="background-color: #dfa974;">
           <p class="d-flex justify-content-center"><br>Đăng ký thành
             viên Phương Đông - Tích điểm thưởng và nhận ưu đãi<br>Nhanh chóng, tiện lợi và an toàn. Đăng ký liền tay, rinh
             ngay quyền lợi.<br><br></p>
@@ -41,7 +41,7 @@
     <div class="container">
       <div class="row text-center">
         <div class="col-auto col-sm-12 col-md-8 col-xs-12">
-          <div class="row">
+          <div class="row icon-content">
             <div class="col-md-6 col-sm-6 col-xs-12">
               <img src="img/coins@2x.png" alt="" width="70rem">
               <h3>Tích điểm nhanh chóng</h3>
@@ -69,7 +69,7 @@
           <p> Họ và Tên</p> <input class="form-control-lg" id="fullName" name="fullName" type="text"  required>
           <p>Mật Khẩu</p><input class="form-control-lg" id="password" name="password" type="password"  required>
           <p >Xác nhận mật khẩu mới</p> <input class="form-control-lg" id="confirm_password" name="confirm_password" type="password"  required>
-            <button class="btn btn-primary border rounded " id="btn-register" type="button">Đăng ký</button>
+            <button class="btn btn-primary border css-button " id="btn-register" type="button">Đăng ký</button>
           <p class="text-center"><br>Bạn đã có tài khoản ? <a href="/login">Đăng nhập</a>
             <br>Tôi đồng ý với Bảo mật và Điều khoản hoạt động của khách sạn</p>
           </form>
@@ -120,7 +120,6 @@
             password: password,
             phoneNumber: phoneNumber,
             fullName: fullName,
-            confirm_password: confirm_password,
           }
         }).then(function (data) {
           alertify.success(data.message);

@@ -2,7 +2,8 @@ const { Router } = require("express");
 const {
   AdminController,
   AuthController,
-  SiteController
+  SiteController,
+  UserController,
 } = require("../apps/controllers");
 const { checkLogin } = require("../apps/middlewares/checkLogin");
 const { checkAdmin } = require("../apps/middlewares/checkAdmin");
@@ -11,20 +12,25 @@ const router = Router();
 router
   .route("/login")
   .get(AuthController.login)
-  .post(AuthController.postLogin);
+  .post(AuthController.p_login);
 router
   .route("/register")
   .get(AuthController.register)
-  .post(AuthController.postRegister);
+  .post(AuthController.p_register);
 //router.get("/logout", AuthController.logout);
 /* router client */
 router.get("/", SiteController.index);
 //router.use(checkLogin);
 router.get("/profile", SiteController.profile);
 /* router admin */
-//router.use(checkAdmin);
+// router.use("/admin" ,checkAdmin);
 //router.get("/admin/dashboard", checkAdmin, AdminController.dashboard); // tạm ẩn làm chức năng admin
 router.get("/admin/dashboard", AdminController.dashboard);
-router.get("/admin/users", AdminController.users);
+router.get("/admin/users", UserController.user);
+router
+  .route("/admin/users/add")
+  .get(UserController.add)
+  .post(UserController.p_add)
+
 
 module.exports = router;
