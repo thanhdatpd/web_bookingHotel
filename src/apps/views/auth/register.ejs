@@ -30,7 +30,7 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col" style="background-color: #b3e2ff;">
-          <p class="d-flex justify-content-center" style="color:rgb(27, 7, 7);font-size: 17px;"><br>Đăng ký thành
+          <p class="d-flex justify-content-center"><br>Đăng ký thành
             viên Phương Đông - Tích điểm thưởng và nhận ưu đãi<br>Nhanh chóng, tiện lợi và an toàn. Đăng ký liền tay, rinh
             ngay quyền lợi.<br><br></p>
         </div>
@@ -68,7 +68,7 @@
           <p>Số điện thoại</p><input class="form-control-lg" id="phoneNumber" name="phoneNumber" type="text"  required>
           <p> Họ và Tên</p> <input class="form-control-lg" id="fullName" name="fullName" type="text"  required>
           <p>Mật Khẩu</p><input class="form-control-lg" id="password" name="password" type="password"  required>
-          <p >Xác nhận mật khẩu mới</p> <input class="form-control-lg" id="confirm_password" type="password"  required>
+          <p >Xác nhận mật khẩu mới</p> <input class="form-control-lg" id="confirm_password" name="confirm_password" type="password"  required>
             <button class="btn btn-primary border rounded " id="btn-register" type="button">Đăng ký</button>
           <p class="text-center"><br>Bạn đã có tài khoản ? <a href="/login">Đăng nhập</a>
             <br>Tôi đồng ý với Bảo mật và Điều khoản hoạt động của khách sạn</p>
@@ -86,49 +86,52 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.3.1/js/swiper.jquery.min.js"></script>
   <script src="js/Media-Slider-Bootstrap-3.js"></script>
   <script src="js/Simple-Slider.js"></script>
+  <script src="js/jquery-validation-1.19.2/dist/jquery.validate.js"></script>
   <script>
-    //  $("#form-register").validate({
-    //     rules:{
-    //       email:{ required: true },
-    //       password:{ required: true, minlength: 6 },
-    //       phoneNumber: { required: true, minlength: 9 },
-    //       confirm_password: { equalTo: "#password", minlength: 6 },
-    //       fullName: { required: true },
-    //     },
-    //     message:{
-    //       email: { required: "Email không được để trống" },
-    //       password: { required: "Mật khẩu không được để trống"},
-    //       phoneNumber: { required: "Số điện thoại không được để trống"},
-    //       confirm_password: { equalTo: "Hai password phải giống nhau",},
-    //       fullName: { required: "Họ tên không được để trống" }
-    //     }
-    //  })
+     $("#form-register").validate({
+        rules:{
+          email: { required: true },
+          phoneNumber: { required: true, minlength: 9 },
+          fullName: { required: true },
+          password:{ required: true, minlength: 6 },
+          confirm_password: { required: true, equalTo: "#password" },
+        },
+        messages:{
+          email: { required: "Email không được để trống " },
+          phoneNumber: { required: "Số điện thoại không được để trống", minlength: "Số điện thoại chưa đúng" },
+          fullName: { required: "Họ tên không được để trống" },
+          password: { required: "Mật khẩu không được để trống", minlength: "Mật khẩu tối thiểu 6 kí tự"},
+          confirm_password: { required: " Nhập lại mật khẩu không được để trống",
+          equalTo: "Hai password phải giống nhau"},
+        }
+     })
     $("#btn-register").click(function(){
       var email = $("#email").val();
       var password = $("#password").val();
       var phoneNumber = $("#phoneNumber").val();
       var fullName = $("#fullName").val();
       var confirm_password = $("#confirm_password").val()
+      if($("#form-register").valid()){
         $.ajax({
           url: "/register",
           method: "POST",
           data: {
-              email : email,
-              password : password,
-              phoneNumber: phoneNumber,
-              fullName: fullName,
-              confirm_password: confirm_password,
+            email: email,
+            password: password,
+            phoneNumber: phoneNumber,
+            fullName: fullName,
+            confirm_password: confirm_password,
           }
-        }).then(function (data) {        
+        }).then(function (data) {
           alertify.success(data.message);
-          window.timeout = setTimeout(function(){
+          window.timeout = setTimeout(function () {
             window.location.href = "/login";
-          },2000)           
+          }, 2000)
         }).catch(function (err) {
-            alertify.error(err.responseJSON.message);
+          alertify.error(err.responseJSON.message);
         })
-      })
-
+      }
+      })   
   </script>
 </body>
 

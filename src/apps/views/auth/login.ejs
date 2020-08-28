@@ -29,7 +29,7 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-12" style="background-color:#b3e2ff;">
-          <p class="text-center" style="color: rgb(27, 7, 7);font-size: 17px;margin-top: 20px;margin-bottom: 20px;">
+          <p class="d-flex justify-content-center" >
             <br>Đăng ký thành viên Phương Đông Hotel - Tích điểm thưởng và nhận ưu đãi<br>Nhanh chóng, tiện lợi và an toàn. Đăng
             ký liền tay, rinh ngay quyền lợi.<br><br></p>
         </div>
@@ -84,10 +84,47 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.3.1/js/swiper.jquery.min.js"></script>
   <script src="js/Media-Slider-Bootstrap-3.js"></script>
   <script src="js/Simple-Slider.js"></script>
+  <script src="js/jquery-validation-1.19.2/dist/jquery.validate.js"></script>
   <script>
+    //setCookie in Cookies
+    function setCookie(cname, cvalue, exdays) {
+        var d = new Date();
+        d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+        var expires = "expires=" + d.toUTCString();
+        document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+      }
+      //setCookie in Cookies
+    function getCookie(cname) {
+        var name = cname + "=";
+        var decodedCookie = decodeURIComponent(document.cookie);
+        var ca = decodedCookie.split(';');
+        for (var i = 0; i < ca.length; i++) {
+          var c = ca[i];
+          while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+          }
+          if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+          }
+        }
+        return "";
+      }
+    // validate form = jquery
+    $("#form-login").validate({
+        rules: {
+          email: { required: true },
+          password: { required: true},
+        },
+        messages: {
+          email: { required: "Email không được để trống " },
+          password: { required: "Mật khẩu không được để trống"},
+        }
+      })
+      // button click-Login
       $("#btn-login").click(function () {
           var email = $("#email").val();
           var password = $("#password").val();
+          if ($("#form-login").valid()) {
           $.ajax({
             url: "/login",
             method: "POST",
@@ -97,13 +134,22 @@
             }
           }).then(function (data) {
             alertify.success(data.message);
-            window.timeout = setTimeout(function () {
+            setCookie("token", data.token ,1 )
+            if(data.role === "user"){
+              window.timeout = setTimeout(function () { 
               window.location.href = "/";
-            }, 2000)
+            }, 2000)}
+            else if(data.role === "admin"){
+              window.timeout = setTimeout(function () {
+                window.location.href = "/admin/dashboard";
+              }, 2000)
+            }
+            
           }).catch(function (err) {
             alertify.error(err.responseJSON.message);
           })
-        })
+        }
+      })
   </script>
 </body>
 

@@ -1,7 +1,8 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
-const { accountValidation}   = require("../../../errLang/vn")
-
+const jwt = require("jsonwebtoken");
+const config = require("../../../config/default")
+const { accountValidation , transValidation}   = require("../../../errLang/vn")
 const userModel = require("../../models/userModel");
 // salt to HashPassword
 const salt = bcrypt.genSaltSync(10);
@@ -39,25 +40,34 @@ exports.postLogin = async (req, res,next) => {
   try {
     const { email, password } = req.body;
     //Check email
-    const user = await userModel.findOne({ email: email })
+    const user = await userModel.findOne({ email: email });
     if (!user) {
       return res.status(400).json({
         status: "fail",
-        message: accountValidation.account_not_find
+        message: accountValidation.account_not_find,
       });
     }
     //Check password
-    const passLogin = await bcrypt.compare(password, hashPassword);
-    console.log(passLogin);
+    const passLogin = await bcrypt.compare(password, user.password);
     if (user && !passLogin) {
       return res.status(400).json({
         status: "fail",
-        message: accountValidation.account_incorrect
+        message: accountValidation.account_incorrect,
       });
     }
-    //const token = await user.generateAuthToken()
-    // res.send({ user, token })
+    //create Token
+    const token = await jwt.sign({ _id: user._id, role: user.role }, config.app.SECRET_TOKEN, { expiresIn: "3h" });
+    console.log(user.role);
+    return res.status(200).json({
+      status: "success",
+      message: accountValidation.account_login,
+      token: token,    
+      role: user.role
+    });
   } catch (error) {
-    next(error)
+    return res.status(400).json({
+      status: "fail",
+      message: transValidation.server_incorrect,
+    });
   }
 };

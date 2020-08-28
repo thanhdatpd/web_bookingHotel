@@ -1,3 +1,8 @@
+
 exports.index = (req, res) => {
-  res.json('HOME SITE');
+  res.render("site/home")
 };
+exports.profile = (req, res, next) => {
+  
+   res.json("Trang ca nhan sau khi da dang nhap");
+ };

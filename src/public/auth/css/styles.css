@@ -15,3 +15,10 @@ p {
   padding-top: 6px;
   margin-top: 20px;
 }
+.error{
+  color: red;
+}
+.d-flex{
+  color:rgb(27, 7, 7);
+  font-size: 20px;
+}
