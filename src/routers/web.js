@@ -31,6 +31,10 @@ router
   .route("/admin/users/add")
   .get(UserController.add)
   .post(UserController.p_add)
+router
+  .route("/admin/user-edit/:id")
+  .get(UserController.edit)
+  .put(UserController.p_edit)
 
 
 module.exports = router;

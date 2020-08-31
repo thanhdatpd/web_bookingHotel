@@ -1,0 +1,112 @@
+<%- include("../../layouts/head.ejs") %>
+
+<body>
+  <%- include("../../layouts/header.ejs") %>
+  <%- include("../../layouts/leftMenu.ejs") %>
+<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+  <div class="row">
+    <ol class="breadcrumb">
+      <li><a href="#"><svg class="glyph stroked home">
+            <use xlink:href="#stroked-home"></use>
+          </svg></a></li>
+      <li><a href="">Quản lý thành viên</a></li>
+      <li class="active">Nguyễn Văn A</li>
+    </ol>
+  </div>
+  <!--/.row-->
+
+  <div class="row">
+    <div class="col-lg-12">
+      <h1 class="page-header">Thành viên: <%=user.fullName %> </h1>
+    </div>
+  </div>
+  <!--/.row-->
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <div class="col-md-8">
+            <form id="form-edit-user">
+              <div class="form-group">
+                <label>Email</label>
+                <input id="email" type="text" name="email" required value="<%=user.email %>" class="form-control">
+              </div>
+              <div class="form-group">
+                <label>Họ & Tên</label>
+                <input id="fullName" type="text" name="fullName" required class="form-control" value="<%=user.fullName %>" placeholder="">
+              </div>
+              <div class="form-group">
+                <label>Số điện thoại</label>
+                <input id="phoneNumber" name="phoneNumber" required class="form-control" value="<%=user.phoneNumber %>" placeholder="">
+              </div>
+              <div class="form-group">
+                <label>Mật khẩu</label>
+                <input type="password" id="password" name="password" required class="form-control">
+              </div>
+              <div class="form-group">
+                <label>Nhập lại mật khẩu</label>
+                <input type="password" name="confirm_password" required class="form-control">
+              </div>
+              <div class="form-group">
+                <input type="password" value="<%=user._id %>" name="id" required class="form-control">
+              </div>
+              <button id="btn-edit-user" type="button" class="btn btn-success">Cập nhật </button>
+              <button type="reset" class="btn btn-default">Làm mới</button>
+          </div>
+          </form>
+        </div>
+      </div>
+    </div><!-- /.col-->
+  </div><!-- /.row -->
+</body>
+</div>
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/jquery-validation-1.19.2/dist/jquery.validate.js"></script>
+<script>
+   $("#form-edit-user").validate({
+      rules: {
+        email: { required: true },
+        phoneNumber: { required: true, minlength: 9 },
+        fullName: { required: true },
+        password: { required: true, minlength: 6 },
+        confirm_password: { required: true, equalTo: "#password" },
+      },
+      messages: {
+        email: { required: "Email không được để trống " },
+        phoneNumber: { required: "Số điện thoại không được để trống", minlength: "Số điện thoại chưa đúng" },
+        fullName: { required: "Họ tên không được để trống" },
+        password: { required: "Mật khẩu không được để trống", minlength: "Mật khẩu tối thiểu 6 kí tự" },
+        confirm_password: {
+          required: " Nhập lại mật khẩu không được để trống",
+          equalTo: "Hai password phải giống nhau"
+        },
+      }
+    })
+    $("#btn-edit-user").click(function () {
+      var email = $("#email").val();
+      var password = $("#password").val();
+      var phoneNumber = $("#phoneNumber").val();
+      var fullName = $("#fullName").val();
+      if ($("#form-edit-user").valid()) {
+        $.ajax({
+          url: "/admin/user-edit/",
+          method: "PUT",
+          data: {
+            id: window.location.pathname.split("/")[3],
+            email: email,
+            password: password,
+            phoneNumber: phoneNumber,
+            fullName: fullName,
+          }
+        }).then(function (data) {
+          alertify.success(data.message);
+          window.timeout = setTimeout(function () {
+            window.location.href = "/admin/users";
+          }, 2000)
+        }).catch(function (err) {
+          alertify.error(err.responseJSON.message);
+        })
+      }
+    })
+</script>
