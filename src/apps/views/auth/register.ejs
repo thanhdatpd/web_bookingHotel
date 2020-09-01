@@ -64,9 +64,9 @@
         <div class="col-auto col-sm-12 col-md-4 text-center">
           <form id="form-register">
             <h3>Đăng ký thành viên<br></h3>
-          <p>Địa chỉ email</p> <input class="form-control-lg" id="email" name="email" type="text" required>
-          <p>Số điện thoại</p><input class="form-control-lg" id="phoneNumber" name="phoneNumber" type="text"  required>
+          <p>Địa chỉ email</p> <input class="form-control-lg" id="email" name="email" type="text" required>     
           <p> Họ và Tên</p> <input class="form-control-lg" id="fullName" name="fullName" type="text"  required>
+            <p>Số điện thoại</p><input class="form-control-lg" id="phoneNumber" name="phoneNumber" type="text" required>
           <p>Mật Khẩu</p><input class="form-control-lg" id="password" name="password" type="password"  required>
           <p >Xác nhận mật khẩu mới</p> <input class="form-control-lg" id="confirm_password" name="confirm_password" type="password"  required>
             <button class="btn btn-primary border css-button " id="btn-register" type="button">Đăng ký</button>
@@ -110,7 +110,6 @@
       var password = $("#password").val();
       var phoneNumber = $("#phoneNumber").val();
       var fullName = $("#fullName").val();
-      var confirm_password = $("#confirm_password").val()
       if($("#form-register").valid()){
         $.ajax({
           url: "/register",

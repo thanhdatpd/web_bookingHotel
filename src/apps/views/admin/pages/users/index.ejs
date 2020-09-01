@@ -63,11 +63,34 @@
               <div class="panel-footer">
                 <nav aria-label="Page navigation example">
                   <ul class="pagination">
-                    <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
+                    <nav aria-label="Page navigation example">
+                      <ul class="pagination">
+                        <% if (page > 1) { %>
+                        <li class="page-item ">
+                          <a class="page-link" href="/admin/users?page=<%= page - 1 %>"> Prev </a>
+                        </li>
+                        <% } %>
+                        <% range.map((i) => { %>
+                        <li class="page-item <%= page === i ? "active" : "" %>">
+                    
+                          <% if (i === "...") { %>
+                    
+                          <span> <%= i %> </span>
+                    
+                          <% } else { %>
+                    
+                          <a class="page-link" href="/admin/users?page=<%= i %>"><%= i %></a>
+                          <% } %>
+                        </li>
+                        <% }) %>
+                        <% if (page < totalPages) { %>
+                        <li class="page-item ">
+                          <a class="page-link" href="/admin/users?page=<%= page + 1 %>"> Next </a>
+                        </li>
+                        <% } %>
+                    
+                      </ul>
+                    </nav>
                   </ul>
                 </nav>
               </div>

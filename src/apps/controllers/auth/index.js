@@ -4,14 +4,14 @@ const jwt = require("jsonwebtoken");
 const config = require("../../../config/default")
 const { accountValidation , transValidation}   = require("../../../errLang/vn")
 const userModel = require("../../models/userModel");
-
+const joi = require("joi");
+// salt to HashPassword
+const salt = bcrypt.genSaltSync(config.app.NUMBER_SALT);
 exports.register = (req, res,next) => {
   res.render("auth/register");
 };
 exports.p_register = async (req, res,next) => {
   try {
-    // salt to HashPassword
-    const salt = bcrypt.genSaltSync(config.app.NUMBER_SALT);
     //check user
     const foundUser = await userModel.findOne({ email: req.body.email });
     if (foundUser)
@@ -19,8 +19,20 @@ exports.p_register = async (req, res,next) => {
         status: "fail",
         message: accountValidation.account_in_use
       });
-    //create newUser
-    const newUser = new userModel(req.body);
+    const bodySchema = joi.object({
+      email: joi.string().required(),
+      fullName: joi.string(),
+      password: joi.string(),
+      phoneNumber: joi.string().min(9),
+    });
+    const value = await bodySchema.validateAsync(req.body)
+    //update user
+    const newUser = new userModel ({
+      email: value.email,
+      fullName: value.fullName,
+      password: value.password,
+      phoneNumber: value.phoneNumber,
+    });
     const hashPassword = await bcrypt.hash(newUser.password, salt);
     newUser.password = hashPassword;
     newUser.save();
@@ -31,7 +43,7 @@ exports.p_register = async (req, res,next) => {
   } catch (error) {
     return res.status(400).json({
       status: "fail",
-      message: transValidation.server_incorrect,
+      message: transValidation.input_incorrect,
     });
   }
 
