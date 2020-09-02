@@ -1,19 +1,15 @@
 
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
-const config = require("../../../config/default")
+const config = require("../../../config/default");
 const { accountValidation, transValidation } = require("../../../errLang/vn")
 const userModel = require("../../models/userModel");
 const joi = require("joi");
 // salt to HashPassword
 const salt = bcrypt.genSaltSync(config.app.NUMBER_SALT);
-
-
 //get user
 exports.user = async (req, res, next) => {
- //  const { limit, currentPage, skip, next, prev } = pagination.index(req);
-   
-const users = await userModel.find({})
+   const users = await userModel.find({})
    .sort("-_id")
    .limit(limit)
    .skip(skip)

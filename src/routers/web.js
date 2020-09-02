@@ -20,10 +20,10 @@ router
 //router.get("/logout", AuthController.logout);
 /* router client */
 router.get("/", SiteController.index);
-router.use(checkLogin);
+// router.use(checkLogin);
 router.get("/profile", SiteController.profile);
 /* router admin */
-router.use("/admin" ,checkAdmin);
+// router.use("/admin" ,checkAdmin);
 //router.get("/admin/dashboard", checkAdmin, AdminController.dashboard); // tạm ẩn làm chức năng admin
 router.get("/admin/dashboard", AdminController.dashboard);
 router.get("/admin/users", UserController.user);
