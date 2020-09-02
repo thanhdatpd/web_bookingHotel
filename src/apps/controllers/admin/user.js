@@ -11,7 +11,7 @@ const salt = bcrypt.genSaltSync(config.app.NUMBER_SALT);
 
 //get user
 exports.user = async (req, res, next) => {
-   const { limit, currentPage, skip, next, prev } = pagination.index(req);
+ //  const { limit, currentPage, skip, next, prev } = pagination.index(req);
    
 const users = await userModel.find({})
    .sort("-_id")
