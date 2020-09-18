@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "./node_modules/.bin/cross-env NODE_CONFIG_DIR=./src/config ./node_modules/.bin/nodemon ./src/bin/www",
-    "start": "node ./src/bin/www"
+    "start": "nodemon ./src/bin/www"
   },
   "keywords": [],
   "author": "",
