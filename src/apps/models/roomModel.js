@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const roomSchema = new mongoose.Schema(
   {
     name: { type: String, default: "" },
-    size: { type: String, default: "" },
+    size: { type: Number, default: 30 },
     type: { type: String, enum: ["single", "double", "vip"], default: "single" },
     services: { type: String, default: "Wifi, Television, Bathroom,..." },
     description: { type: String, default: "" },
@@ -23,7 +23,7 @@ const roomSchema = new mongoose.Schema(
     ],
     rating: [
       {
-        type: String,
+        type: Number,
         ref: "bookings",
       },
     ],

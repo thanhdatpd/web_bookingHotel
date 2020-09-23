@@ -7,7 +7,7 @@ const userSchema = new mongoose.Schema(
     password: { type: String, default: "" },
     role: { type: String, default: "user" },
     avatar: { type: String, default: "avatar.jpg" },
-    phoneNumber: { type: Number , default:0123456789 },
+    phoneNumber: { type: Number },
     gender: { type: String, default: "male" },
   },
   {
