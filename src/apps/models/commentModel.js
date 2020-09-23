@@ -2,9 +2,10 @@ const mongoose = require("mongoose");
 
 const commentSchema = new mongoose.Schema(
   {
-    content: { type: String },
-    userId: {type: mongoose.Schema.Types.ObjectId, required: true, ref: 'users'},
-    roomId: {type: mongoose.Schema.Types.ObjectId, required: true, ref: 'rooms'},
+    content: { type: String, default: "" },
+    rating: { type: Number, default: 5 },
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: "users" },
+    roomId: { type: mongoose.Schema.Types.ObjectId, ref: "rooms" },
   },
   {
     timestamps: true,

@@ -2,18 +2,31 @@ const mongoose = require("mongoose");
 
 const roomSchema = new mongoose.Schema(
   {
-    name: { type: String, unique: true },
-    services: { type: String },
-    description: { type: String },
-    image: { type: String, default: "user" },
-    status: { type: String },
-    commentId: { type: Number },
-    BookingId: {
-      type: mongoose.Schema.Types.ObjectId,
-      required: true,
-      ref: "bookings",
-    },
-    numberStar: { type: String },
+    name: { type: String, default: "" },
+    size: { type: String, default: "" },
+    type: { type: String, enum: ["single", "double", "vip"], default: "single" },
+    services: { type: String, default: "Wifi, Television, Bathroom,..." },
+    description: { type: String, default: "" },
+    image: { type: String, default: "avatar.jpg" },
+    status: { type: String, enum: ["empty", "ordered"], default: "empty" },
+    commentId: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "comments",
+      },
+    ],
+    bookingId: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "bookings",
+      },
+    ],
+    rating: [
+      {
+        type: String,
+        ref: "bookings",
+      },
+    ],
   },
   {
     timestamps: true,
