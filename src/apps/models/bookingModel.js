@@ -5,11 +5,11 @@ const bookingSchema = new mongoose.Schema(
     startAt: { type: Date, default: new Date() },
     endAt: { type: Date, default: new Date() },
     price: { type: Number, required: true },
-    roomId: {
+    roomId: [{
       type: mongoose.Schema.Types.ObjectId,
       required: true,
       ref: "rooms",
-    },
+    }],
     userId: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
