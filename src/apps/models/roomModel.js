@@ -7,7 +7,7 @@ const roomSchema = new mongoose.Schema(
     type: { type: String, enum: ["single", "double", "vip"], default: "single" },
     services: { type: String, default: "Wifi, Television, Bathroom,..." },
     description: { type: String, default: "" },
-    image: { type: String, default: "avatar.jpg" },
+    image: { type: String, default: "default.jpeg" },
     status: { type: String, enum: ["empty", "ordered"], default: "empty" },
     commentId: [
       {
