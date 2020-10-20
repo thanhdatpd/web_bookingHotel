@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const config = require("../../../config/default");
 const { accountValidation, transValidation } = require("../../../errLang/vn");
 const bookingModel = require("../../models/bookingModel");
+const moment = require("moment");
 const joi = require("joi");
 
 //get services
@@ -45,6 +46,9 @@ exports.bookings = async (req, res, next) => {
     .sort("-_id")
     .limit(limit)
     .skip(skip);
+  // var data = moment("bookings.startAt", "DD-MM-YYYY HH:mm:ss");
+  // console.log("exports.bookings -> data", data)
+  // bookings.startAt = 
   res.render("admin/pages/bookings/index", {
     bookings,
     range: rangerForDot,

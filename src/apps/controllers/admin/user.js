@@ -149,11 +149,9 @@ exports.p_edit = async (req, res) => {
    
 
 };
-
 //delete user
-exports.p_delete = async (req, res) => {
+exports.delete = async (req, res) => {
    const { id } = req.params;
-console.log(id);
-  const user = await userModel.deleteOne({_id:id});
-  res.render("admin/pages/users", { user });
+   await userModel.deleteOne({ _id: id });
+  return res.redirect("/admin/users");
 }

@@ -96,3 +96,9 @@ exports.p_add = (req, res) => {
     return res.redirect("/admin/rooms");
     })
 };
+//delete room
+exports.delete = async (req, res) => {
+   const { id } = req.params;
+   await roomModel.deleteOne({ _id: id });
+  return res.redirect("/admin/rooms");
+}

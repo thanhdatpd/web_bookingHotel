@@ -24,7 +24,7 @@ app.use(cookieParser());
 app.use("/api", require("../routers/api"));
 app.use("/", require("../routers/web"));
 app.use("*", (req, res) =>{
-  return res.json("404 NOT FOUND");
+  return res.render("admin/layouts/404");
 });
 
 module.exports = app;

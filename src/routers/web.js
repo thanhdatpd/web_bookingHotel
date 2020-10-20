@@ -42,8 +42,7 @@ router
   .put(UserController.p_edit)
 router
   .route("/admin/user-delete/:id")
-  // .get(UserController.delete);
-  .post(UserController.p_delete);
+  .get(UserController.delete)
 
 
 //dashboard_Room
@@ -52,6 +51,8 @@ router
   .route("/admin/rooms/add")
   .get(RoomController.add)
   .post(RoomController.p_add)
+router.route("/admin/room-delete/:id")
+  .get(RoomController.delete);
 // router
 //   .route("/admin/room-edit/:id")
 //   .get(RoomController.edit)
