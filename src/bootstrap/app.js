@@ -7,8 +7,7 @@ const cookieParser = require("cookie-parser");
 require("../libs/mongo-db");
 
 app.use("/assets", express.static(path.join(__dirname, "..", "public")));
-//middelwares
-//app.use(checkLogin);
+
 //Using body parser
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());

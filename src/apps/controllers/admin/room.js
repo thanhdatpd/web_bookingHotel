@@ -96,6 +96,14 @@ exports.p_add = (req, res) => {
     return res.redirect("/admin/rooms");
     })
 };
+//edit user
+exports.edit = async (req, res) => {
+   const { id } = req.params;
+   const room = await roomModel.findById(id);
+   res.render("admin/pages/rooms/edit", { room});
+};
+
+
 //delete room
 exports.delete = async (req, res) => {
    const { id } = req.params;

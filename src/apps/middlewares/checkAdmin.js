@@ -6,5 +6,5 @@ exports.checkAdmin = async (req, res, next) => {
     if (role === 'admin') {
       return next();
     }
-    return res.json("Ban khong co quyen quan tri")
+    return res.json("Bạn không có quyền quản trị !!!!")
 }

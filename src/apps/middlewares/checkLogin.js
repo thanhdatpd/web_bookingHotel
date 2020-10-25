@@ -5,16 +5,16 @@ exports.checkLogin = async (req, res, next) => {
   try {
     const token = req.cookies.token;
     const decodeToken = jwt.verify(token, config.app.SECRET_TOKEN);
-    //check decode token wiht id User 
+    //check decode token with id User 
     const user = await userModel.findOne({
       _id: decodeToken._id
     })
     if (!user) {      
-      return res.json("Ban chua dag nhap")
+      return res.json("Bạn chưa đăng nhập , vui lòng đăng nhập lại")
     }
     req.user = user
     next();
   } catch (error) {
-    return res.json("Khong duoc quyen ")
+    return res.render("admin/layouts/404");
   }
 }

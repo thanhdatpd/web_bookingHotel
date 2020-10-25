@@ -24,12 +24,11 @@ router
 //router.get("/logout", AuthController.logout);
 /* router client */
 router.get("/", SiteController.index);
-// router.use(checkLogin);
+//router.use(checkLogin); // checkLogin
 router.get("/profile", SiteController.profile);
 /* router admin */
-// router.use("/admin" ,checkAdmin);
+//router.use("/admin" ,checkAdmin); // checkAdmin
 //dashboard_User
-//router.get("/admin/dashboard", checkAdmin, AdminController.dashboard); // tạm ẩn làm chức năng admin
 router.get("/admin/dashboard", AdminController.dashboard);
 router.get("/admin/users", UserController.user);
 router
@@ -53,16 +52,24 @@ router
   .post(RoomController.p_add)
 router.route("/admin/room-delete/:id")
   .get(RoomController.delete);
-// router
-//   .route("/admin/room-edit/:id")
-//   .get(RoomController.edit)
-//   .put(RoomController.p_edit);
+router
+  .route("/admin/room-edit/:id")
+  .get(RoomController.edit)
+  // .post(RoomController.p_edit);
 
 //dashboard_bookings
 router.get("/admin/bookings", BookingsController.bookings);
 
 //dashboard_services
-router.get("/admin/services", ServicesController.services);
+router.get("/admin/services", ServicesController.services)
+router
+  .route("/admin/services/add")
+  .get(ServicesController.add)
+  .post(ServicesController.p_add)
+router
+  .route("/admin/services-edit/:id")
+  .get(ServicesController.edit)
+  .put(ServicesController.p_edit);
 
 //dashboard_comments
 router.get("/admin/comments", CommentsController.comments);

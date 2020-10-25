@@ -46,10 +46,10 @@
                 <% bookings.forEach((booking, index) => { %>
                 <tr>
                   <td style=""> <%=index+1 %> </td>
-                  <td style=""><%=booking.startAt %></td>
-                  <td style=""><%=booking.endAt%></td>
-                  <td style=""><span class="label label-danger"><%=booking.roomId%></span> </td>
-                  <td style=""><%=booking.userId%></td>
+                  <td> <%= moment(booking.startAt).format('HH:mm DD-MM-YYYY ') %>  </td>
+                  <td> <%= moment(booking.endAt).format('HH:mm DD-MM-YYYY') %> </td>
+                  <td style=""><span class="label label-danger"><%=booking.roomId.name%></span> </td>
+                  <td style=""><%=booking.userId.email%></td>
                   <td style=""><%=booking.numberCustomer%></td>
                   <% if (booking.status === "wait_confirm") { %>
                   <td><span class="label label-danger">Đang chờ xác nhận</span></td>

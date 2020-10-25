@@ -4,8 +4,8 @@ module.exports.transValidation = {
 };
 module.exports.accountValidation = {
   account_incorrect: "Sai tài khoản hoặc mật khẩu",
-  account_in_use: "Tài khoản đã được đăng kí ",
-  account_create: "Đăng kí tài khoản thành công ",
+  account_in_use: "Tên đã được đăng kí , vui lòng chọn tên khác ",
+  account_create: "Thao tác thành công ",
   account_not_find: " Không tìm thấy tài khoản ",
   account_login: "Đăng nhập thành công ",
   account_update: "Cập nhật thành công ",

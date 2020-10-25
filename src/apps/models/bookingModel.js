@@ -32,8 +32,4 @@ const bookingSchema = new mongoose.Schema(
 );
 
 const bookingModel = mongoose.model("bookings", bookingSchema);
-bookingModel.create({
-  roomId: "5f8ea5191a475c0e600aa48d",
-  userId: "5f8eac3295b08c175c64b8a5",
-});
 module.exports = bookingModel;

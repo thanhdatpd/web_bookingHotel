@@ -1,0 +1,79 @@
+<%- include("../../layouts/head.ejs") %>
+
+<body>
+  <%- include("../../layouts/header.ejs") %>
+  <%- include("../../layouts/leftMenu.ejs") %>
+  <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+    <div class="row">
+      <ol class="breadcrumb">
+        <li><a href="#"><svg class="glyph stroked home">
+              <use xlink:href="#stroked-home"></use>
+            </svg></a></li>
+        <li><a href="">Quản lý dịch vụ</a></li>
+        <li class="active"><%=services.fullName %></li>
+      </ol>
+    </div>
+    <!--/.row-->
+
+    <div class="row">
+      <div class="col-lg-12">
+        <h1 class="page-header">Dịch vụ: <%=services.fullName %> </h1>
+      </div>
+    </div>
+    <!--/.row-->
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <div class="col-md-8">
+              <form id="form-edit-services">
+                <div class="form-group">
+                  <input type="hidden" id="id" name="id" required value="<%=services._id %>" class="form-control">
+                </div>
+                <div class="form-group">
+                  <label>Tên dịch vụ</label>
+                  <input id="name" type="text" name="name" required value="<%=services.name %>" class="form-control">
+                </div>
+                <div class="form-group">
+                  <label>Giá tiền</label>
+                  <input id="price" type="text" name="price" required class="form-control"
+                    value="<%=services.price %>" placeholder="">
+                </div>
+                
+                <button id="btn-edit-services" type="button" class="btn btn-success">Cập nhật </button>
+                <button type="reset" class="btn btn-default">Làm mới</button>
+            </div>
+            </form>
+          </div>
+        </div>
+      </div><!-- /.col-->
+    </div><!-- /.row -->
+</body>
+</div>
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/jquery-validation-1.19.2/dist/jquery.validate.js"></script>
+<script>
+  $("#btn-edit-services").click(function () {
+    var name = $("#name").val();
+    var price = $("#price").val();
+    var id = $("#id").val();
+    $.ajax({
+      url: `/admin/services-edit/${id}`,
+      method: "PUT",
+      data: {
+        id: id,
+        name: name,
+        price: price,
+        
+      }
+    }).then(function (data) {
+      alertify.success(data.message);
+      window.timeout = setTimeout(function () {
+        window.location.href = "/admin/services";
+      }, 2000)
+    }).catch(function (err) {
+      alertify.error(err.responseJSON.message);
+    })
+  })
+</script>
