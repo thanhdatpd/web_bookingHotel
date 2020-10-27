@@ -24,8 +24,13 @@ router
 //router.get("/logout", AuthController.logout);
 /* router client */
 router.get("/", SiteController.index);
-//router.use(checkLogin); // checkLogin
+router.get("/abouts", SiteController.about);
+router.get("/contacts", SiteController.contact);
+router.get("/rooms", SiteController.room);
 router.get("/profile", SiteController.profile);
+
+
+//router.use(checkLogin); // checkLogin
 /* router admin */
 //router.use("/admin" ,checkAdmin); // checkAdmin
 //dashboard_User
@@ -50,15 +55,15 @@ router
   .route("/admin/rooms/add")
   .get(RoomController.add)
   .post(RoomController.p_add)
-router.route("/admin/room-delete/:id")
-  .get(RoomController.delete);
 router
   .route("/admin/room-edit/:id")
   .get(RoomController.edit)
-  // .post(RoomController.p_edit);
+  .post(RoomController.p_edit);
+  router.route("/admin/room-delete/:id").get(RoomController.delete);
 
 //dashboard_bookings
 router.get("/admin/bookings", BookingsController.bookings);
+router.route("/admin/bookings-delete/:id").get(BookingsController.delete);
 
 //dashboard_services
 router.get("/admin/services", ServicesController.services)
@@ -70,6 +75,8 @@ router
   .route("/admin/services-edit/:id")
   .get(ServicesController.edit)
   .put(ServicesController.p_edit);
+router.route("/admin/services-delete/:id").get(ServicesController.delete);
+
 
 //dashboard_comments
 router.get("/admin/comments", CommentsController.comments);

@@ -65,7 +65,7 @@ exports.add = (req, res) => {
   res.render("admin/pages/rooms/add");
 };
 exports.p_add = (req, res) => {
-  upload(req, res, function (err) {
+  upload(req, res,  function (err) {
     if (err instanceof multer.MulterError) {
       res.json("Lỗi định dạng, vui lòng xem lại ảnh"); 
     } else if (err) {
@@ -101,6 +101,43 @@ exports.edit = async (req, res) => {
    const { id } = req.params;
    const room = await roomModel.findById(id);
    res.render("admin/pages/rooms/edit", { room});
+};
+
+//edit user
+exports.p_edit =  (req, res) => {
+  const { id } = req.params;
+  upload(req, res, async function (err) {
+    // user not choose file to edit
+    if (!req.file) {
+      const updateRoom = {
+        name: req.body.name,
+        size: req.body.size,
+        type: req.body.type,
+        services: req.body.services,
+        description: req.body.description,
+      };
+      await roomModel.updateOne({ _id: id }, updateRoom);
+      return res.redirect("/admin/rooms");
+    } else {
+      if (err instanceof multer.MulterError) {
+        res.json("Lỗi định dạng, vui lòng xem lại ảnh");
+      } else if (err) {
+        res.json("Lỗi server quá tải , vui lòng đợi 1 lát");
+      }
+      const updateRoom = {
+        name: req.body.name,
+        size: req.body.size,
+        type: req.body.type,
+        services: req.body.services,
+        description: req.body.description,
+        image: req.file.filename,
+      };
+      await roomModel.updateOne({ _id: id }, updateRoom);
+
+      return res.redirect("/admin/rooms");
+    }
+  });
+ 
 };
 
 

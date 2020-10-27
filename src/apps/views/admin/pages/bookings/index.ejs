@@ -63,9 +63,10 @@
 
 
                   <td class="form-group">
-                    <a href="/admin/booking-edit/<%=booking._id%>" class="btn btn-primary"><i
-                        class="glyphicon glyphicon-pencil"></i></a>
-                    <a href="/" class="btn btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
+                    <a href="/admin/bookings-edit/<%=booking._id%>" class="btn btn-primary"><i class="glyphicon glyphicon-pencil"></i></a>
+                    <a href="/admin/bookings-delete/<%=booking._id%>"
+                      onclick="return confirm('Bạn chắc chắn muốn xoá yêu cầu đặt phòng chứ ?')" class="btn btn-danger"><i
+                        class="glyphicon glyphicon-remove"></i></a>
                   </td>
                 </tr>
                 <% }) %>

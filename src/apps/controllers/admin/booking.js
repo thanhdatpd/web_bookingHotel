@@ -57,3 +57,11 @@ exports.bookings = async (req, res, next) => {
     moment,
   });
 };
+
+
+//delete booking
+exports.delete = async (req, res) => {
+   const { id } = req.params;
+   await bookingModel.deleteOne({ _id: id });
+  return res.redirect("/admin/bookings");
+}

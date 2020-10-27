@@ -94,20 +94,12 @@ exports.edit = async (req, res) => {
   const services = await servicesModel.findById(id);
   res.render("admin/pages/services/edit", { services });
 };
-exports.p_edit = async (req, res, next) => {
+exports.p_edit = async (req, res) => {
   try {
- 
     const { id } = req.params;
-   
-    const bodySchema = joi.object({
-      name: joi.string().required(),
-      price: joi.string().required(),
-    });
-    const value = await bodySchema.validateAsync(req.body);
-    //create newServices
     const updateServices = {
-      name: value.name,
-      price: value.price,
+      name: req.body.name,
+      price: req.body.price,
     };
     await servicesModel.updateOne({ _id: id }, updateServices);
     return res.status(200).json({
@@ -121,3 +113,9 @@ exports.p_edit = async (req, res, next) => {
     });
   }
 };
+//delete services
+exports.delete = async (req, res) => {
+   const { id } = req.params;
+   await servicesModel.deleteOne({ _id: id });
+  return res.redirect("/admin/services");
+}
