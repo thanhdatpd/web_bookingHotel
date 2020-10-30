@@ -46,31 +46,31 @@
       <i class="icon_search"></i>
     </div>
     <div class="header-configure-area">
-      <a href="#" class="bk-btn">Đặt phòng </a>
+      <a href="/" class="bk-btn">Đặt phòng </a>
     </div>
     <nav class="mainmenu mobile-menu">
       <ul>
-        <li class="active"><a href="./index.html">Trang chủ</a></li>
-        <li><a href="./about-us.html">Giới thiệu</a></li>
-        <li><a href="/">Phòng</a>
+        <li class="active"><a href="/">Trang chủ</a></li>
+        <li><a href="/abouts">Giới thiệu</a></li>
+        <li><a href="/rooms">Phòng</a>
           <ul class="dropdown">
-            <li><a href="#">Phòng VIP</a></li>
-            <li><a href="#">Phòng Đôi</a></li>
-            <li><a href="#">Phòng Đơn</a></li>
+            <li><a href="/">Phòng VIP</a></li>
+            <li><a href="/">Phòng Đôi</a></li>
+            <li><a href="/">Phòng Đơn</a></li>
           </ul>
         </li>
-        <li><a href="./blog.html">Khuyến mãi</a></li>
-        <li><a href="#">Liên hệ </a></li>
-        <li><a href="./contact.html">Tài khoản</a></li>
+        <li><a href="/news">Tin tức - Khuyến mãi</a></li>
+        <li><a href="/contacts">Liên hệ </a></li>
+        <li><a href="/login">Tài khoản</a></li>
 
       </ul>
     </nav>
     <div id="mobile-menu-wrap"></div>
     <div class="top-social">
-      <a href="#"><i class="fa fa-facebook"></i></a>
-      <a href="#"><i class="fa fa-twitter"></i></a>
-      <a href="#"><i class="fa fa-tripadvisor"></i></a>
-      <a href="#"><i class="fa fa-instagram"></i></a>
+      <a href="/"><i class="fa fa-facebook"></i></a>
+      <a href="/"><i class="fa fa-twitter"></i></a>
+      <a href="/"><i class="fa fa-tripadvisor"></i></a>
+      <a href="/"><i class="fa fa-instagram"></i></a>
     </div>
     <ul class="top-widget">
       <li><i class="fa fa-phone"></i> +84 666 6655555</li>
@@ -92,12 +92,12 @@
           <div class="col-lg-6">
             <div class="tn-right">
               <div class="top-social">
-                <a href="#"><i class="fa fa-facebook"></i></a>
-                <a href="#"><i class="fa fa-twitter"></i></a>
-                <a href="#"><i class="fa fa-tripadvisor"></i></a>
-                <a href="#"><i class="fa fa-instagram"></i></a>
+                <a href="/"><i class="fa fa-facebook"></i></a>
+                <a href="/"><i class="fa fa-twitter"></i></a>
+                <a href="/"><i class="fa fa-tripadvisor"></i></a>
+                <a href="/"><i class="fa fa-instagram"></i></a>
               </div>
-              <a href="#" class="bk-btn">Đặt phòng</a>
+              <a href="/" class="bk-btn">Đặt phòng</a>
             </div>
           </div>
         </div>
@@ -122,15 +122,15 @@
                   <!-- <li><a href="./rooms.html">Phòng được yêu thích </a></li> -->
                   <li><a href="/rooms">Phòng</a>
                     <ul class="dropdown">
-                      <li><a href="#">Phòng VIP</a></li>
-                      <li><a href="#">Phòng Đôi</a></li>
-                      <li><a href="#">Phòng Đơn</a></li>
+                      <li><a href="/">Phòng VIP</a></li>
+                      <li><a href="/">Phòng Đôi</a></li>
+                      <li><a href="/">Phòng Đơn</a></li>
                     </ul>
                   </li>
-                  <li><a href="/blog">Khuyến mãi</a></li>
+                  <li><a href="/news">Tin tức - Khuyến mãi</a></li>
                   <li><a href="/contacts">Liên hệ</a></li>
 
-                  <li><a href="/login">Tài khoản</a></li>
+                  <li><a onclick="checkLogin()">Tài khoản</a></li>
                 </ul>
               </nav>
               <div class="nav-right search-switch">
@@ -143,3 +143,30 @@
     </div>
   </header>
   <!-- Header End -->
+  <script>
+      //getCookie in Cookies
+        function getCookie(cname) {
+          var name = cname + "=";
+          var decodedCookie = decodeURIComponent(document.cookie);
+          var ca = decodedCookie.split(';');
+          for (var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ') {
+              c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+              return c.substring(name.length, c.length);
+            }
+          }
+          return "";
+        }
+  function checkLogin() {
+   // alert('Click me ')
+    const user = getCookie("token")
+    if(user != ""){
+        window.location.href = "/profile";
+    }else{
+      window.location.href = "/login";
+    }
+    }
+  </script>

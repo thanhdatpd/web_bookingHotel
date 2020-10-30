@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const config = require("../../../config/default");
 const multer = require("multer");
 const { accountValidation, transValidation } = require("../../../errLang/vn");
+const pagination = require("./../../../libs/pagination");
 const roomModel = require("../../models/roomModel");
 const joi = require("joi");
 
@@ -22,33 +23,14 @@ const upload = multer({
 
 //get room
 exports.room = async (req, res, next) => {
-  const page = parseInt(req.query.page || 1);
-  const limit = 2;
-  const skip = (page - 1) * limit;
-  const totalDocuments = await roomModel.find().countDocuments();
-  const totalPages = Math.ceil(totalDocuments / limit);
-  const range = [];
-  const rangerForDot = [];
-  const detal = 1;
-  const left = page - detal;
-  const right = page + detal;
-  for (let i = 1; i <= totalPages; i++) {
-    if (i === 1 || i === totalPages || (i >= left && i <= right)) {
-      range.push(i);
-    }
-  }
-  let temp;
-  range.map((i) => {
-    if (temp) {
-      if (i - temp === 2) {
-        rangerForDot.push(i - 1);
-      } else if (i - temp !== 1) {
-        rangerForDot.push("...");
-      }
-    }
-    temp = i;
-    rangerForDot.push(i);
-  });
+  const {
+    limit,
+    skip,
+    range,
+    rangerForDot,
+    page,
+    totalPages,
+  } = await pagination.room(req);
   const rooms = await roomModel.find({})
     .sort("-_id")
     .limit(limit)
@@ -86,6 +68,7 @@ exports.p_add = (req, res) => {
       name: req.body.name,
       size: req.body.size,
       type: req.body.type,
+      price: req.body.price,
       services: req.body.services,
       description: req.body.description,
       image: file.filename,
@@ -96,22 +79,23 @@ exports.p_add = (req, res) => {
     return res.redirect("/admin/rooms");
     })
 };
-//edit user
+//edit room
 exports.edit = async (req, res) => {
    const { id } = req.params;
    const room = await roomModel.findById(id);
    res.render("admin/pages/rooms/edit", { room});
 };
 
-//edit user
+//edit room
 exports.p_edit =  (req, res) => {
   const { id } = req.params;
   upload(req, res, async function (err) {
-    // user not choose file to edit
+    // room not choose file to edit
     if (!req.file) {
       const updateRoom = {
         name: req.body.name,
         size: req.body.size,
+        price: req.body.price,
         type: req.body.type,
         services: req.body.services,
         description: req.body.description,
@@ -127,6 +111,7 @@ exports.p_edit =  (req, res) => {
       const updateRoom = {
         name: req.body.name,
         size: req.body.size,
+        price: req.body.price,
         type: req.body.type,
         services: req.body.services,
         description: req.body.description,

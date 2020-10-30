@@ -73,7 +73,6 @@ exports.p_login = async (req, res,next) => {
     }
     //create Token
     const token = await jwt.sign({ _id: user._id, role: user.role }, config.app.SECRET_TOKEN, { expiresIn: "3h" });
-    console.log(user.role);
     return res.status(200).json({
       status: "success",
       message: accountValidation.account_login,

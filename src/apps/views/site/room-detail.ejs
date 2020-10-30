@@ -1,0 +1,169 @@
+<!-- Header -->
+<%- include("./layouts/header") %>
+  <!-- Breadcrumb Section Begin -->
+  <div class="breadcrumb-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="breadcrumb-text">
+            <h2>Chi tiết phòng</h2>
+            <div class="bt-option">
+              <a href="/">Trang chủ</a>
+              <span><%=room.name %></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Breadcrumb Section End -->
+  
+  <!-- Room Details Section Begin -->
+  <section class="room-details-section spad">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8">
+          <div class="room-details-item">
+            
+            <img src="/assets/images/uploads/rooms/<%=room.image %>" width="750px" height="430px">
+          
+            <div class="rd-text">
+              <div class="rd-title">
+                <h3 class="text-uppercase text-warning"><%=room.type %> - <%=room.name %></h3>
+                <div class="rdt-right">
+                  <div class="rating">
+                    <i class="icon_star"></i>
+                    <i class="icon_star"></i>
+                    <i class="icon_star"></i>
+                    <i class="icon_star"></i>
+                    <i class="icon_star-half_alt"></i>
+                  </div>
+                  <a href="#">Đặt phòng ngay</a>
+                </div>
+              </div>
+              <h2><%=room.price %><span>/ 1 ngày</span></h2>
+              <table class="m-auto">
+                <tbody>
+                  <tr>
+                    <td class="r-o">Kích cỡ:</td>
+                    <td><%=room.size %> m2</td>
+                  </tr>
+                  <tr>
+                    <td class="r-o">Tối đa:</td>
+                    <td> 3 người</td>
+                  </tr>
+                  <tr>
+                    <td class="r-o">Dịch vụ:</td>
+                    <td><%=room.services %></td>
+                  </tr>
+                  <tr>
+                    <td class="r-o">Mô tả:</td>
+                    <td><%=room.description %></td>
+                  </tr>
+                </tbody>
+              </table>
+             
+              </p>
+            </div>
+          </div>
+          <div class="rd-reviews">
+            <h4>Nhận xét</h4>
+            <div class="review-item">
+              <div class="ri-pic">
+                <img src="img/room/avatar/avatar-1.jpg" alt="">
+              </div>
+              <div class="ri-text">
+                <span>10 tháng 10 năm 2020</span>
+                <div class="rating">
+                  <i class="icon_star"></i>
+                  <i class="icon_star"></i>
+                  <i class="icon_star"></i>
+                  <i class="icon_star"></i>
+                  <i class="icon_star-half_alt"></i>
+                </div>
+                <h5>Trần Quân</h5>
+                <p>Phòng đẹp dã man </p>
+              </div>
+            </div>
+            <div class="review-item">
+              <div class="ri-pic">
+                <img src="img/room/avatar/avatar-2.jpg" alt="">
+              </div>
+              <div class="ri-text">
+                <span>20 tháng 10 năm 2020</span>
+                <div class="rating">
+                  <i class="icon_star"></i>
+                  <i class="icon_star"></i>
+                  <i class="icon_star"></i>
+                  <i class="icon_star"></i>
+                  <i class="icon_star-half_alt"></i>
+                </div>
+                <h5>Trần Mai</h5>
+                <p>Phòng đẹp mê ly</p>
+              </div>
+            </div>
+          </div>
+          <div class="review-add">
+            <h4>Thêm nhận xét</h4>
+            <form action="#" class="ra-form">
+              <div class="row">
+                <div class="col-lg-6">
+                  <input type="text" placeholder="Tên của bạn *">
+                </div>
+                <div class="col-lg-6">
+                  <input type="text" placeholder="Email của bạn *">
+                </div>
+                <div class="col-lg-12">
+                  <div>
+                    <h5>Số sao</h5>
+                    <div class="rating">
+                      <i class="icon_star"></i>
+                      <i class="icon_star"></i>
+                      <i class="icon_star"></i>
+                      <i class="icon_star"></i>
+                      <i class="icon_star-half_alt"></i>
+                    </div>
+                  </div>
+                  <textarea placeholder="Nhận xét của bạn"></textarea>
+                  <button type="submit">Gửi ngay</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="room-booking">
+            <h3>Đặt phòng </h3>
+            <form action="#">
+              <div class="check-date">
+                <label for="date-in">Ngày đến:</label>
+                <input type="text" class="date-input" id="date-in">
+                <i class="icon_calendar"></i>
+              </div>
+              <div class="check-date">
+                <label for="date-out">Ngày đi:</label>
+                <input type="text" class="date-input" id="date-out">
+                <i class="icon_calendar"></i>
+              </div>
+              <div class="select-option">
+                <label for="guest">Số người:</label>
+                <select id="guest">
+                  <option value="">3 Người</option>
+                </select>
+              </div>
+              <div class="select-option">
+                <label for="room">Số phòng:</label>
+                <select id="room">
+                  <option value="">1 phòng</option>
+                </select>
+              </div>
+              <button type="submit">Kiểm tra</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- Room Details Section End -->
+<!-- Rooms Section End -->
+<%- include("./layouts/footer") %>

@@ -27,6 +27,8 @@ router.get("/", SiteController.index);
 router.get("/abouts", SiteController.about);
 router.get("/contacts", SiteController.contact);
 router.get("/rooms", SiteController.room);
+router.get("/news", SiteController.new);
+router.get("/room-detail/:id", SiteController.room_detail);
 router.get("/profile", SiteController.profile);
 
 

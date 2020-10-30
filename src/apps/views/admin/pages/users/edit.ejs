@@ -43,9 +43,16 @@
                 <input id="phoneNumber" type="number" name="phoneNumber" required class="form-control" value="<%=user.phoneNumber %>" placeholder="">
               </div>
               <div class="form-group">
-                <label>Mật khẩu</label>
+                
                 <input id="password" type="hidden" type="password" name="password" required class="form-control" value="<%=user.password %>"
                   placeholder="">
+              </div>
+              <div class="form-group">
+                <label>Quyền</label>
+                <select id="role" name="role" class="form-control">
+                  <option value="admin" <% if (user.role === "admin") { %> selected <%} %>>Admin</option>
+                  <option value="user" <% if (user.role === "user" ) { %> selected <%} %>>User</option>
+                </select>
               </div>
               <button id="btn-edit-user" type="button" class="btn btn-success">Cập nhật </button>
               <button type="reset" class="btn btn-default">Làm mới</button>
@@ -66,6 +73,7 @@
       var password = $("#password").val();
       var phoneNumber = $("#phoneNumber").val();
       var fullName = $("#fullName").val();
+      var role = $("#role").val();
       var id = $("#id").val();
         $.ajax({
           url: `/admin/user-edit/${id}`,
@@ -76,6 +84,7 @@
             password: password,
             phoneNumber: phoneNumber,
             fullName: fullName,
+            role: role,
           }
         }).then(function (data) {
           alertify.success(data.message);
