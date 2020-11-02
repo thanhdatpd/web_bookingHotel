@@ -2,8 +2,8 @@ const mongoose = require("mongoose");
 
 const bookingSchema = new mongoose.Schema(
   {
-    startAt: { type: Date, default: new Date() },
-    endAt: { type: Date, default: new Date() },
+    startAt: { type: Number, default: new Date() },
+    endAt: { type: Number, default: new Date() },
     roomId: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
@@ -22,8 +22,8 @@ const bookingSchema = new mongoose.Schema(
     },
     numberCustomer: {
       type: String,
-      enum: ["two","three"],
-       default: "two"
+      enum: ["two", "three"],
+      default: "two",
     },
   },
   {
@@ -32,4 +32,5 @@ const bookingSchema = new mongoose.Schema(
 );
 
 const bookingModel = mongoose.model("bookings", bookingSchema);
+
 module.exports = bookingModel;

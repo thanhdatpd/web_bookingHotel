@@ -124,35 +124,43 @@ exports.room_detail = async (req, res) => {
 };
 
 exports.check = async (req, res) => {
-  // const { startAt, endAt, numberCustomer } = req.body
-  // const a = req.body;
-  // const booking = await bookingModel.find(
-  //   {
-  //     startAt: { $lt: startAt },
-  //     endAt: {$gt: endAt } ,
+  const { startAt, endAt, numberCustomer } = req.body
+  // console.log(new Date(startAt));
+  // console.log(new Date(startAt).getTime());
+  const a = req.body;
+  const booking = await bookingModel
+    .find({
+      startAt: { $gte: new Date(startAt).getTime() },
+      endAt: { $lte: new Date(endAt).getTime() },
+    })
+    // .populate("roomId");
+  const arrRoom = booking.map((roomId) => {
+ 
+      return roomId.roomId;
+  })
+  
+   console.log("exports.check -> arrRoom", arrRoom);
+  
+
+  res.json(booking);
+  // const {
+  //   limit,
+  //   skip,
+  //   range,
+  //   rangerForDot,
+  //   page,
+  //   totalPages,
+  // } = await pagination.room(req);
+  // const rooms = await roomModel
+  //   .find({ status: "empty" })
+  //   .sort("-_id")
+  //   .limit(limit)
+  //   .skip(skip);
+
+  // res.render("site/rooms/room-result", {
+  //   rooms,
+  //   range: rangerForDot,
+  //   page,
+  //   totalPages,
   // });
-  // console.log("exports.check -> booking", booking)
-  //  .populate("roomId");
-
-  // res.json(booking);
-  const {
-    limit,
-    skip,
-    range,
-    rangerForDot,
-    page,
-    totalPages,
-  } = await pagination.room(req);
-  const rooms = await roomModel
-    .find({ status: "empty" })
-    .sort("-_id")
-    .limit(limit)
-    .skip(skip);
-
-  res.render("site/rooms/room-result", {
-    rooms,
-    range: rangerForDot,
-    page,
-    totalPages,
-  });
 };

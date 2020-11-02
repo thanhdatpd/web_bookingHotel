@@ -64,7 +64,7 @@
          <div class="col-lg-12 d-flex justify-content-center ">
           <% if (page > 1) { %>
           <div class="room-pagination p-2 ">
-            <a href="/check?page=<%= page - 1 %>"> Prev </a>
+            <a href="/rooms?page=<%= page - 1 %>"> Prev </a>
           </div>
           <% } %>
           <% range.map((i) => { %>
@@ -72,13 +72,13 @@
             <% if (i === "...") { %>
             <span> <%= i %> </span>
             <% } else { %>
-            <a href="/check?page=<%= i %>"><%= i %></a>
+            <a href="/rooms?page=<%= i %>"><%= i %></a>
             <% } %>
           </div>
           <% }) %>
           <% if (page < totalPages) { %>
           <div class="room-pagination p-2 ">
-            <a href="/check?page=<%= page + 1 %>"> Next </a>
+            <a href="/rooms?page=<%= page + 1 %>"> Next </a>
           </div>
           <% } %>
   
