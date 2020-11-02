@@ -1,5 +1,5 @@
 <!-- Header -->
-<%- include("./layouts/header") %>
+<%- include("./../layouts/header") %>
   <!-- Breadcrumb Section Begin -->
   <div class="breadcrumb-section">
     <div class="container">
@@ -38,7 +38,7 @@
                     <i class="icon_star"></i>
                     <i class="icon_star-half_alt"></i>
                   </div>
-                  <a href="#">Đặt phòng ngay</a>
+                  <a onclick="checkBooking()" >Đặt phòng ngay</a>
                 </div>
               </div>
               <h2><%=room.price %><span>/ 1 ngày</span></h2>
@@ -134,36 +134,46 @@
         <div class="col-lg-4">
           <div class="room-booking">
             <h3>Đặt phòng </h3>
-            <form action="#">
+            <form>
               <div class="check-date">
                 <label for="date-in">Ngày đến:</label>
-                <input type="text" class="date-input" id="date-in">
+                <input type="text" class="date-input" id="startAt" name="startAt" required>
                 <i class="icon_calendar"></i>
               </div>
               <div class="check-date">
                 <label for="date-out">Ngày đi:</label>
-                <input type="text" class="date-input" id="date-out">
+                <input type="text" class="date-input" id="endAt" name="endAt" required>
                 <i class="icon_calendar"></i>
               </div>
               <div class="select-option">
                 <label for="guest">Số người:</label>
-                <select id="guest">
-                  <option value="">3 Người</option>
+                <select id="numberCustomer" name="numberCustomer" required>
+                  <option value="two">1-2 Người</option>
+                  <option value="three">3 Người</option>
                 </select>
               </div>
-              <div class="select-option">
+              <!-- <div class="select-option">
                 <label for="room">Số phòng:</label>
                 <select id="room">
                   <option value="">1 phòng</option>
                 </select>
-              </div>
-              <button type="submit">Kiểm tra</button>
+              </div> -->
+              <button onclick="check()">Kiểm tra</button>
             </form>
           </div>
         </div>
       </div>
     </div>
   </section>
+
+  <script>
+    function check() {
+        // alert("Sẵn sàng đặt !!!!!")
+      }
+    function checkBooking(){
+      alert("Vui lòng điền bấm Kiểm tra ");
+    }
+  </script>
   <!-- Room Details Section End -->
 <!-- Rooms Section End -->
-<%- include("./layouts/footer") %>
+<%- include("./../layouts/footer") %>

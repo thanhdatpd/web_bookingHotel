@@ -27,14 +27,22 @@ router.get("/", SiteController.index);
 router.get("/abouts", SiteController.about);
 router.get("/contacts", SiteController.contact);
 router.get("/rooms", SiteController.room);
+router.get("/room-single", SiteController.room_single);
+router.get("/room-double", SiteController.room_double);
+router.get("/room-vip", SiteController.room_vip);
 router.get("/news", SiteController.new);
 router.get("/room-detail/:id", SiteController.room_detail);
 router.get("/profile", SiteController.profile);
 
+router.post("/check", SiteController.check);
 
-//router.use(checkLogin); // checkLogin
+
+
+
 /* router admin */
-//router.use("/admin" ,checkAdmin); // checkAdmin
+// router.use(checkLogin); // checkLogin
+
+// router.use("/admin" ,checkAdmin); // checkAdmin
 //dashboard_User
 router.get("/admin/dashboard", AdminController.dashboard);
 router.get("/admin/users", UserController.user);
@@ -65,6 +73,12 @@ router
 
 //dashboard_bookings
 router.get("/admin/bookings", BookingsController.bookings);
+router
+  .route("/admin/bookings/add")
+  .get(BookingsController.add)
+ // .post(BookingsController.p_add);
+
+
 router.route("/admin/bookings-delete/:id").get(BookingsController.delete);
 
 //dashboard_services

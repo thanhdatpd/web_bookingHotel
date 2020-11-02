@@ -36,6 +36,7 @@
                   <th data-field="name" data-sortable="true">Tên phòng</th>
                   <th data-field="price" data-sortable="true">Kích cỡ</th>
                   <th>Kiểu phòng</th>
+                  <th>Giá</th>
                   <th>Hình ảnh</th>
                   <th>Trạng thái</th>
                   <th>Hành động</th>
@@ -55,7 +56,7 @@
                   <td><span class="label label-warning">Phòng VIP</span></td>
 
                   <% } %>
-                  
+                  <td style=""><%=room.price%></td>
                   <td style=""><img width="160" height="160" src="/assets/images/uploads/rooms/<%= room.image %>" /></td>
                   <% if (room.status === "empty") { %>
                   <td><span class="label label-danger">Còn trống</span></td>

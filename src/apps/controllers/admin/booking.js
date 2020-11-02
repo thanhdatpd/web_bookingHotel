@@ -33,6 +33,42 @@ exports.bookings = async (req, res, next) => {
     moment,
   });
 };
+//add bookings
+exports.add = async (req, res) => {
+  res.render("admin/pages/bookings/add");
+};
+// exports.p_add = async (req, res, next) => {
+//   try {
+//     //check user
+//     const foundServices = await servicesModel.findOne({ name: req.body.name });
+//     if (foundServices)
+//       return res.status(400).json({
+//         status: "fail",
+//         message: accountValidation.account_in_use,
+//       });
+//     const bodySchema = joi.object({
+//       name: joi.string().required(),
+//       price: joi.string().required(),
+//     });
+//     const value = await bodySchema.validateAsync(req.body);
+//     //create newServices
+//     const newServices = new servicesModel({
+//       name: value.name,
+//       price: value.price,
+//     });
+//     newServices.save();
+//     return res.status(200).json({
+//       status: "success",
+//       message: accountValidation.account_create,
+//     });
+//   } catch (error) {
+//     return res.status(400).json({
+//       status: "fail",
+//       message: transValidation.server_incorrect,
+//     });
+//   }
+// };
+
 
 
 //delete booking

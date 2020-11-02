@@ -1,0 +1,91 @@
+<!-- Header -->
+<%- include("./../layouts/header") %>
+<!-- Breadcrumb Section Begin -->
+<div class="breadcrumb-section">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="breadcrumb-text">
+          <h2>Danh sách phòng </h2>
+          <div class="bt-option">
+            <a href="/">Trang chủ</a>
+            <span>Phòng trống </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Breadcrumb Section End -->
+
+  <!-- Rooms Section Begin -->
+  <section class="rooms-section spad">
+    <div class="container">
+      <div class="row">
+        <% rooms.forEach((room, index) => { %>
+        <div class="col-lg-4 col-md-6">
+          <div class="room-item">
+            <a href="/room-detail/<%=room._id %>">
+              <img src="/assets/images/uploads/rooms/<%=room.image %>" alt="" height="360px" width="234px" /> </a>
+            <div class="ri-text">
+              <h5 class="text-center text-uppercase text-warning"> <%=room.type %></h5>
+              <h3 class="text-center"><%=room.price %><span>/ 1 ngày</span></h3>
+              <table class="m-auto">
+                <tbody>
+                  <tr>
+                    <td class="r-o">Kích cỡ:</td>
+                    <td><%=room.size %> m2</td>
+                  </tr>
+                  <tr>
+                    <td class="r-o">Tối đa:</td>
+                    <td> 3 người</td>
+                  </tr>
+                  <tr>
+                    <td class="r-o">Tên phòng :</td>
+                    <td class="text-success"><%=room.name %></td>
+                  </tr>
+                  <tr>
+                    <td class="r-o">Dịch vụ:</td>
+                    <td><%=room.services %></td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="text-center">
+                <a href="/room-detail/<%=room._id %>" class="primary-btn ">Xem thêm</a>
+              </div>
+  
+            </div>
+          </div>
+        </div>
+  
+        <% }) %>
+  
+  
+         <div class="col-lg-12 d-flex justify-content-center ">
+          <% if (page > 1) { %>
+          <div class="room-pagination p-2 ">
+            <a href="/check?page=<%= page - 1 %>"> Prev </a>
+          </div>
+          <% } %>
+          <% range.map((i) => { %>
+          <div class="room-pagination p-2 <%= page === i ? "active" : "" %>">
+            <% if (i === "...") { %>
+            <span> <%= i %> </span>
+            <% } else { %>
+            <a href="/check?page=<%= i %>"><%= i %></a>
+            <% } %>
+          </div>
+          <% }) %>
+          <% if (page < totalPages) { %>
+          <div class="room-pagination p-2 ">
+            <a href="/check?page=<%= page + 1 %>"> Next </a>
+          </div>
+          <% } %>
+  
+        </div> 
+      </div>
+    </div>
+  </section>
+
+<!-- Rooms Section End -->
+<%- include("./../layouts/footer") %>
