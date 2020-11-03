@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const config = require("../../../config/default");
 const jwt = require("jsonwebtoken");
 const multer = require("multer");
+const moment = require("moment");
 const { accountValidation, transValidation } = require("../../../errLang/vn");
 const pagination = require("./../../../libs/pagination");
 const roomModel = require("../../models/roomModel");
@@ -124,25 +125,32 @@ exports.room_detail = async (req, res) => {
 };
 
 exports.check = async (req, res) => {
-  const { startAt, endAt, numberCustomer } = req.body
+  const { startAt, endAt, numberCustomer } = req.body;
+
   // console.log(new Date(startAt));
   // console.log(new Date(startAt).getTime());
-  const a = req.body;
-  const booking = await bookingModel
-    .find({
-      startAt: { $gte: new Date(startAt).getTime() },
-      endAt: { $lte: new Date(endAt).getTime() },
-    })
-    // .populate("roomId");
-  const arrRoom = booking.map((roomId) => {
- 
-      return roomId.roomId;
+  // const a = req.body;
+  // console.log(moment.utc(startAt).format('YYYY-MM-DD HH:mm:ss'));
+  // console.log(moment.utc(endAt).format("YYYY-MM-DD HH:mm:ss"));
+  const booking = await bookingModel.find({
+    startAt: { $gte: moment.utc(startAt).format("YYYY-MM-DD 00:00:00") },
+    endAt: { $lt: moment.utc(endAt).format("YYYY-MM-DD 23:59:59") },
   })
-  
-   console.log("exports.check -> arrRoom", arrRoom);
-  
+     const arrRoom = booking.map(roomId => roomId.roomId)  
+  res.json(arrRoom);
 
-  res.json(booking);
+  // console.log("exports.check -> booking", booking)
+
+  
+  //   // .populate("roomId");
+  // const arrRoom = booking.map((roomId) => {
+
+  //     return roomId.roomId;
+  // })
+
+  //  console.log("exports.check -> arrRoom", arrRoom);
+
+  // res.json(booking);
   // const {
   //   limit,
   //   skip,
@@ -163,4 +171,37 @@ exports.check = async (req, res) => {
   //   page,
   //   totalPages,
   // });
+};
+
+
+exports.booking = async (req, res) => {
+  try {
+    //get idUser
+    const token = req.cookies.token;
+    const decodeToken = jwt.verify(token, config.app.SECRET_TOKEN);
+    //check decode token with id User
+    const { startAt, endAt, numberCustomer, roomId } = req.body;
+    console.log("roomId", roomId)
+    const newBooking = new bookingModel({
+      startAt: moment.utc(startAt),
+      endAt: moment.utc(endAt),
+      roomId: [],
+      userId: decodeToken._id,
+      numberCustomer,
+    });
+    newBooking.roomId.push(roomId);
+    
+    newBooking.save();
+    return res.status(200).json({
+      status: "success",
+      message: accountValidation.account_create,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      status: "fail",
+      message: transValidation.server_incorrect,
+    });
+  }
+  
+  
 };

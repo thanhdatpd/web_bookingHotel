@@ -38,10 +38,11 @@
                     <i class="icon_star"></i>
                     <i class="icon_star-half_alt"></i>
                   </div>
-                  <a onclick="checkBooking()" >Đặt phòng ngay</a>
+                  <a onclick="checkBooking()"  >Đặt phòng ngay</a>
                 </div>
               </div>
               <h2><%=room.price %><span>/ 1 ngày</span></h2>
+              <input type="hidden" id="roomId" name="roomId" required value="<%=room._id %>" class="form-control">
               <table class="m-auto">
                 <tbody>
                   <tr>
@@ -152,12 +153,6 @@
                   <option value="three">3 Người</option>
                 </select>
               </div>
-              <!-- <div class="select-option">
-                <label for="room">Số phòng:</label>
-                <select id="room">
-                  <option value="">1 phòng</option>
-                </select>
-              </div> -->
               <button onclick="check()">Kiểm tra</button>
             </form>
           </div>
@@ -171,7 +166,30 @@
         // alert("Sẵn sàng đặt !!!!!")
       }
     function checkBooking(){
-      alert("Vui lòng điền bấm Kiểm tra ");
+      var startAt = $("#startAt").val() ;
+      var endAt = $("#endAt").val();
+      var numberCustomer = $("#numberCustomer").val();
+      var roomId = $("#roomId").val();
+
+        $.ajax({
+        url: "/booking",
+        method: "POST",
+        data: {
+          startAt: startAt,
+          endAt: endAt,
+          numberCustomer: numberCustomer,
+         }
+        })
+      .then(function (data) {
+         alertify.success(data.message);
+      //   window.timeout = setTimeout(function () {
+      //     window.location.href = "/admin/users";
+      //   }, 2000)
+       }).catch(function (err) {
+         alertify.error(err.responseJSON.message);
+       })
+      // alert("Vui lòng điền bấm Kiểm tra ");
+
     }
   </script>
   <!-- Room Details Section End -->

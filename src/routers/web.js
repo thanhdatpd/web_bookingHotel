@@ -35,6 +35,7 @@ router.get("/room-detail/:id", SiteController.room_detail);
 router.get("/profile", SiteController.profile);
 
 router.post("/check", SiteController.check);
+router.post("/booking", SiteController.booking);
 
 
 

@@ -97,8 +97,8 @@
 		Date Picker
 	--------------------*/
     $(".date-input").datepicker({
-        minDate: 0,
-        dateFormat: 'dd MM, yy'
+      minDate: 0,
+      dateFormat: "dd-mm-yy",
     });
 
     /*------------------
