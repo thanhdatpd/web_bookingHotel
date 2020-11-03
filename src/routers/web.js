@@ -79,6 +79,9 @@ router
   .get(BookingsController.add)
  // .post(BookingsController.p_add);
 
+router.route("/admin/bookings/update/:id")
+  .get(BookingsController.update)
+  .post(BookingsController.p_update)
 
 router.route("/admin/bookings-delete/:id").get(BookingsController.delete);
 

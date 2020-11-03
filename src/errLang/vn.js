@@ -1,6 +1,7 @@
 module.exports.transValidation = {
   server_incorrect: " Server đang quá tải , vui lòng đăng nhập lại !!! ",
   input_incorrect: " Vui lòng kiểm tra lại thông tin ",
+  input_success: "Đặt phòng thành công , xin vui lòng đợi xác nhận từ khách sạn ",
 };
 module.exports.accountValidation = {
   account_incorrect: "Sai tài khoản hoặc mật khẩu",

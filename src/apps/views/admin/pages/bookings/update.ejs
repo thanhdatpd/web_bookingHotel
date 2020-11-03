@@ -1,0 +1,67 @@
+<%- include("../../layouts/head.ejs") %>
+
+<body>
+  <%- include("../../layouts/header.ejs") %>
+  <%- include("../../layouts/leftMenu.ejs") %>
+  <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+    <div class="row">
+      <ol class="breadcrumb">
+        <li><a href="#"><svg class="glyph stroked home">
+              <use xlink:href="#stroked-home"></use>
+            </svg></a></li>
+        <li class="active"> Đặt phòng</li>
+      </ol>
+    </div>
+    <!--/.row-->
+    <div class="row">
+      <div class="col-lg-12">
+        <h1 class="page-header text-center">Thông tin đơn đặt phòng</h1>
+        <input type="hidden" id="id" name="id" required value="<%=booking._id %>" class="form-control">
+
+        <h2 class="page-header text-center">Bạn muốn cập nhật trạng thái của phòng <% booking.roomId.map((item) =>{ %>
+        <span class="label label-danger"><%=item.name%></span>
+        <%})%> ?</h2>
+      
+        
+        <div class="d-flex justify-content-center">
+          <button class="btn btn-success">
+            Chờ nhận phòng
+          </button>
+          <button class="btn btn-success">
+           Nhận phòng
+          </button>
+          <button  class="btn btn-success">
+            Huỷ đặt phòng
+          </button>
+        </div>
+    </div>
+
+    </div>
+    </div>
+
+</body>
+<script src="js/jquery-1.11.1.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/bootstrap-table.js"></script>
+<script>
+  $("button").click(function () {
+      var text = $(this).text();
+      var id = $("#id").val();
+      $.ajax({
+      url: `/admin/bookings/update/${id}`,
+      method: "POST",
+      data: {
+        id: id,
+        text: text.trim(),
+      }
+      }).then(function (data) {
+        alertify.success(data.message);
+        window.timeout = setTimeout(function () {
+          window.location.href = "/admin/bookings";
+        }, 2000)
+      }).catch(function (err) {
+        alertify.error(err.responseJSON.message);
+      })
+    });
+</script>
+</html>

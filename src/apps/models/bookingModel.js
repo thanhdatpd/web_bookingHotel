@@ -32,12 +32,4 @@ const bookingSchema = new mongoose.Schema(
 );
 
 const bookingModel = mongoose.model("bookings", bookingSchema);
-// bookingModel.create({
-//   // startAt: "2020-11-03T09:00:00Z",
-//   // endAt: "2020-11-04T09:00:00Z",
-
-//   roomId: "5f9b8759b0965a122cf55c69",
-//   userId: "5f9b8387842db8238897f0e0",
-// });
-
 module.exports = bookingModel;

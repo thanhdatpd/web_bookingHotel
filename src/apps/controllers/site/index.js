@@ -181,20 +181,18 @@ exports.booking = async (req, res) => {
     const decodeToken = jwt.verify(token, config.app.SECRET_TOKEN);
     //check decode token with id User
     const { startAt, endAt, numberCustomer, roomId } = req.body;
-    console.log("roomId", roomId)
     const newBooking = new bookingModel({
-      startAt: moment.utc(startAt),
-      endAt: moment.utc(endAt),
+      startAt: moment.utc(startAt).format('DD-MM-YYYY'),
+      endAt: moment.utc(endAt).format('DD-MM-YYYY'),
       roomId: [],
       userId: decodeToken._id,
       numberCustomer,
     });
     newBooking.roomId.push(roomId);
-    
-    newBooking.save();
+    await newBooking.save();
     return res.status(200).json({
       status: "success",
-      message: accountValidation.account_create,
+      message: transValidation.input_success,
     });
   } catch (error) {
     return res.status(400).json({

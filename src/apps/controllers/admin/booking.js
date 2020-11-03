@@ -37,6 +37,56 @@ exports.bookings = async (req, res, next) => {
 exports.add = async (req, res) => {
   res.render("admin/pages/bookings/add");
 };
+
+//update status bookings
+exports.update = async (req, res) => {
+  const { id } = req.params;
+  const booking = await bookingModel
+    .findOne({ _id: id })
+    .populate("userId")
+    .populate("roomId");
+ res.render("admin/pages/bookings/update", {
+   booking,
+ });
+};
+//update status bookings
+exports.p_update = async (req, res) => {
+  try {
+     const { id, text } = req.body;
+     console.log(req.body);
+     if (text === "Chờ nhận phòng") {
+       await bookingModel.updateOne(
+         { _id: id },
+         { $set: { status: "wait_check_in" } }
+       );
+       
+     }
+    if (text === "Nhận phòng") {
+       await bookingModel.updateOne(
+         { _id: id },
+         { $set: { status: "check_in" } }
+       );
+    }
+    if (text === "Huỷ đặt phòng") {
+      await bookingModel.updateOne(
+        { _id: id },
+        { $set: { status: "fail" } }
+      );
+    }
+    return res.status(200).json({
+      status: "success",
+      message: accountValidation.account_update,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      status: "fail",
+      message: transValidation.input_incorrect,
+    });
+  }
+ 
+};
+
+
 // exports.p_add = async (req, res, next) => {
 //   try {
 //     //check user
