@@ -225,10 +225,11 @@ exports.booking = async (req, res) => {
       numberCustomer,
     });
     newBooking.roomId.push(roomId);
+    
     await newBooking.save();
     return res.status(200).json({
       status: "success",
-      message: transValidation.input_success,
+      message: transValidation.input_continue_success,
     });
   } catch (error) {
     return res.status(400).json({

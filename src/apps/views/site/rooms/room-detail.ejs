@@ -42,7 +42,7 @@
                 </div>
               </div>
               <h2><%=room.price %><span>/ 1 ngày</span></h2>
-              <input type="text" id="roomId" name="roomId" required value="<%=room._id %>" class="form-control">
+              <input type="hidden" id="roomId" name="roomId" required value="<%=room._id %>" class="form-control">
               <table class="m-auto">
                 <tbody>
                   <tr>
@@ -181,10 +181,18 @@
          }
         })
       .then(function (data) {
-         alertify.success(data.message);
-        window.timeout = setTimeout(function () {
-          window.location.href = "/rooms";
-        }, 2000)
+        alertify.confirm(data.message,
+          function () {
+            window.timeout = setTimeout(function () {
+              window.location.href = "/rooms";
+            }, 2000)
+          },
+          function () {
+            alertify.success('Cám ơn bạn đã đặt phòng tại khách sạn , chúc bạn có chuyến trải nghiệm thật vui vẻ ');
+            window.timeout = setTimeout(function () {
+              window.location.href = "/";
+            }, 2000)
+          });        
        }).catch(function (err) {
          alertify.error(err.responseJSON.message);
        })

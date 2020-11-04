@@ -77,6 +77,16 @@ exports.p_update = async (req, res) => {
         { $set: { status: "fail" } }
       );
     }
+    if (text === "Trả phòng") {
+      await bookingModel.updateOne(
+        { _id: id },
+        { $set: { status: "success" } }
+      );
+      await roomModel.updateMany(
+        { _id: { $in: roomId } },
+        { $set: { status: "empty" } }
+      );
+    }
     return res.status(200).json({
       status: "success",
       message: accountValidation.account_update,

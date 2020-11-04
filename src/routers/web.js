@@ -8,6 +8,7 @@ const {
   ServicesController,
   BookingsController,
   CommentsController,
+  ContactsController,
 } = require("../apps/controllers");
 const { checkLogin } = require("../apps/middlewares/checkLogin");
 const { checkAdmin } = require("../apps/middlewares/checkAdmin");
@@ -21,7 +22,7 @@ router
   .route("/register")
   .get(AuthController.register)
   .post(AuthController.p_register);
-//router.get("/logout", AuthController.logout);
+router.get("/logout", AuthController.logout);
 /* router client */
 router.get("/", SiteController.index);
 router.get("/abouts", SiteController.about);
@@ -104,5 +105,9 @@ router.route("/admin/services-delete/:id").get(ServicesController.delete);
 
 //dashboard_comments
 router.get("/admin/comments", CommentsController.comments);
+
+//dashboard_contacts
+router.get("/admin/contacts", ContactsController.contacts);
+router.route("/admin/contact-delete/:id").get(ContactsController.delete);
 
 module.exports = router;

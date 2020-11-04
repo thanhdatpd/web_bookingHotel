@@ -1,0 +1,107 @@
+<%- include("../../layouts/head.ejs") %>
+
+<body>
+  <%- include("../../layouts/header.ejs") %>
+  <%- include("../../layouts/leftMenu.ejs") %>
+  <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+    <div class="row">
+      <ol class="breadcrumb">
+        <li><a href="#"><svg class="glyph stroked home">
+              <use xlink:href="#stroked-home"></use>
+            </svg></a></li>
+        <li class="active">Phản hồi</li>
+      </ol>
+    </div>
+    <!--/.row-->
+    <div class="row">
+      <div class="col-lg-12">
+        <h1 class="page-header text-center">Danh sách phản hồi</h1>
+      </div>
+    </div>
+    <!--/.row-->
+    <div id="toolbar" class="btn-group">
+      <a href="/admin/contacts" class="btn btn-success">
+        <i class="glyphicon glyphicon-plus"></i> Thêm phản hồi
+      </a>
+    </div>
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <table data-toolbar="#toolbar" data-toggle="table">
+
+              <thead>
+                <tr>
+                  <th data-field="id" data-sortable="true">ID</th>
+                  <th data-field="name" data-sortable="true">Tên khách hàng</th>
+                  <th data-field="email" data-sortable="true">Email</th>
+                  <th data-field="content" data-sortable="true">Nội dung phản hồi</th>
+                  <th>Hành động</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% contacts.forEach((contact, index) => { %>
+                <tr>
+                  <td style=""> <%=index+1 %> </td>
+                  <td style=""><%=contact.userId.fullName %></td>
+                  <td style=""><%=contact.userId.email %></td>
+                  <td style=""><%=contact.content%> </td>
+
+                  <td class="form-group">
+                    <a href="/admin/contacts" class="btn btn-primary"><i
+                        class="glyphicon glyphicon-pencil"></i></a>
+                    <a href="/admin/contact-delete/<%=contact._id%>"
+                      onclick="return confirm('Bạn chắc chắn muốn xoá phản hồi của <%=contact.userId.fullName%> chứ ?')"
+                      class="btn btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
+                  </td>
+                </tr>
+                <% }) %>
+              </tbody>
+            </table>
+          </div>
+          <div class="panel-footer" style='display: flex; justify-content: center;'>
+            <nav aria-label="Page navigation example">
+              <ul class="pagination">
+                <nav aria-label="Page navigation example">
+                  <ul class="pagination">
+                    <% if (page > 1) { %>
+                    <li class="page-item ">
+                      <a class="page-link" href="/admin/contacts?page=<%= page - 1 %>"> Prev </a>
+                    </li>
+                    <% } %>
+                    <% range.map((i) => { %>
+                    <li class="page-item <%= page === i ? "active" : "" %>">
+
+                      <% if (i === "...") { %>
+
+                      <span> <%= i %> </span>
+
+                      <% } else { %>
+
+                      <a class="page-link" href="/admin/contacts?page=<%= i %>"><%= i %></a>
+                      <% } %>
+                    </li>
+                    <% }) %>
+                    <% if (page < totalPages) { %>
+                    <li class="page-item ">
+                      <a class="page-link" href="/admin/contacts?page=<%= page + 1 %>"> Next </a>
+                    </li>
+                    <% } %>
+
+                  </ul>
+                </nav>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--/.row-->
+  </div>
+  <!--/.main-->
+</body>
+<script src="js/jquery-1.11.1.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/bootstrap-table.js"></script>
+
+</html>
