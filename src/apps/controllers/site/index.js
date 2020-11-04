@@ -8,6 +8,7 @@ const pagination = require("./../../../libs/pagination");
 const roomModel = require("../../models/roomModel");
 const userModel = require("../../models/userModel");
 const bookingModel = require("../../models/bookingModel");
+const contactModel = require("../../models/contactModel");
 const joi = require("joi");
 exports.index = (req, res) => {
   res.render("site/home")
@@ -25,9 +26,43 @@ exports.profile = async (req, res, next) => {
 exports.about = (req, res) => {
   res.render("site/about");
 };
-exports.contact = (req, res) => {
-  res.render("site/contact");
+exports.contact = async (req, res) => {
+  try {
+    const token = req.cookies.token;
+  const decodeToken = jwt.verify(token, config.app.SECRET_TOKEN);
+  //check decode token with id User
+  const user = await userModel.findOne({
+    _id: decodeToken._id,
+  });
+    if (user) {
+      return res.render("site/contact" , {user})
+    } 
+  } catch (error) {
+    res.render("site/contact-no-acc");
+  }
 };
+exports.p_contact = async (req, res) => {
+  try {
+    //get idUser
+    const newContact = new contactModel({
+      content: req.body.content,
+      userId: req.body.id
+    });
+    await newContact.save();
+    return res.status(200).json({
+      status: "success",
+      message: transValidation.contact_incorrect,
+    });  
+  } catch (error) {
+     return res.status(400).json({
+       status: "fail",
+       message: transValidation.server_incorrect,
+     });
+  }
+  
+};
+
+
 exports.new = (req, res) => {
   res.render("site/news");
 };
@@ -126,18 +161,19 @@ exports.room_detail = async (req, res) => {
 
 exports.check = async (req, res) => {
   const { startAt, endAt, numberCustomer } = req.body;
+  const bookings = await bookingModel.find({
+    // status: { $in: ["wait_confirm", "wait_check_in"] },
+    startAt: { $gte: moment.utc(startAt).format("DD-MM-YYYY 00:00:00") },
+    endAt: { $lt: moment.utc(endAt).format("DD-MM-YYYY 23:59:59") },
+  }).populate("roomId");
+  console.log("booking", bookings)
+ 
+  const arrRoomID = bookings.map((booking) => {
+       return booking.roomId.map((item) => item._id);
+  })  
+  const arrRooms = [...arrRoomID]
 
-  // console.log(new Date(startAt));
-  // console.log(new Date(startAt).getTime());
-  // const a = req.body;
-  // console.log(moment.utc(startAt).format('YYYY-MM-DD HH:mm:ss'));
-  // console.log(moment.utc(endAt).format("YYYY-MM-DD HH:mm:ss"));
-  const booking = await bookingModel.find({
-    startAt: { $gte: moment.utc(startAt).format("YYYY-MM-DD 00:00:00") },
-    endAt: { $lt: moment.utc(endAt).format("YYYY-MM-DD 23:59:59") },
-  })
-     const arrRoom = booking.map(roomId => roomId.roomId)  
-  res.json(arrRoom);
+  // console.log("arrRooms", arrRooms);
 
   // console.log("exports.check -> booking", booking)
 
@@ -197,9 +233,34 @@ exports.booking = async (req, res) => {
   } catch (error) {
     return res.status(400).json({
       status: "fail",
-      message: transValidation.server_incorrect,
+      message: transValidation.check_incorrect,
     });
   }
   
   
 };
+
+
+exports.myBooking = async (req, res) => {
+  try {
+    const token = req.cookies.token;
+    const decodeToken = jwt.verify(token, config.app.SECRET_TOKEN);
+    //check decode token with id User
+    const user = await userModel.findOne({
+      _id: decodeToken._id,
+    });
+    //check booking with userId
+    const bookings = await bookingModel
+      .find({ userId: decodeToken._id, })
+      .populate("userId")
+      .populate("roomId")
+      .sort("-_id");
+    res.render("site/myBooking", { user, bookings, moment });
+    
+  } catch (error) {
+    return res.status(400).json({
+      status: "fail",
+      message: transValidation.server_incorrect,
+    })
+  }
+}

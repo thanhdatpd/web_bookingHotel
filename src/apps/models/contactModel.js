@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const feedbackSchema = new mongoose.Schema(
+const contactSchema = new mongoose.Schema(
   {
     content: { type: String, default: "" },
     userId: { type: mongoose.Schema.Types.ObjectId, ref: "users" },
@@ -10,5 +10,5 @@ const feedbackSchema = new mongoose.Schema(
   }
 );
 
-const feedbackModel = mongoose.model("feedbacks", feedbackSchema);
-module.exports = feedbackModel;
+const contactModel = mongoose.model("contacts", contactSchema);
+module.exports = contactModel;

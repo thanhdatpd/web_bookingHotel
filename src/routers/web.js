@@ -25,7 +25,10 @@ router
 /* router client */
 router.get("/", SiteController.index);
 router.get("/abouts", SiteController.about);
-router.get("/contacts", SiteController.contact);
+router
+  .route("/contacts")
+  .get(SiteController.contact)
+  .post(SiteController.p_contact);
 router.get("/rooms", SiteController.room);
 router.get("/room-single", SiteController.room_single);
 router.get("/room-double", SiteController.room_double);
@@ -36,6 +39,7 @@ router.get("/profile", SiteController.profile);
 
 router.post("/check", SiteController.check);
 router.post("/booking", SiteController.booking);
+router.get("/my-bookings", SiteController.myBooking);
 
 
 

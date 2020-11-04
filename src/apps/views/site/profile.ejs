@@ -8,8 +8,8 @@
         <div class="breadcrumb-text">
           <h2>Trang cá nhân </h2>
           <div class="bt-option">
-            <a href="/">Thông tin cá nhân</a>
-            <span><%= user.fullName %></span>
+            <a href="/profile">Thông tin cá nhân</a>
+            <span class="text-warning"><%= user.fullName %></span>
           </div>
         </div>
       </div>
@@ -23,14 +23,14 @@
 <section class="rooms-section spad">
 <div class="container">
   <div class="row">
-    <div class="col-md-4 col-xs-12">
-      <div class="list-group">
-        <a href="#" class="list-group-item list-group-item-action active">
+    <div class="col-md-4 col-xs-12 ">
+      <div class="list-group mt-5">
+        <a href="profile" class="list-group-item list-group-item-action active">
           Thông tin tài khoản
         </a>
+        <a href="/my-bookings" class="list-group-item list-group-item-action">Thông tin đặt phòng</a>
         <a href="/profile" class="list-group-item list-group-item-action">Thay đổi mật khẩu</a>
-        <a href="/profile" class="list-group-item list-group-item-action">Thông tin đặt phòng</a>
-        <a href="/profile" class="list-group-item list-group-item-action">Mã giảm giá</a>
+        <a href="/profile" class="list-group-item list-group-item-action">Thêm dịch vụ</a>
         <a href="/profile" class="list-group-item list-group-item-action disabled">Liên kết tài khoản</a>
       </div>
     </div>
@@ -78,14 +78,8 @@
     <div class="d-flex justify-content-center">
         <button type="button" class="btn btn-primary">Cập nhật</button>
         <button type="reset" class="btn btn-default">Làm mới</button>
+    </div> 
     </div>
-    
-
-
-    
-    </div>
-
-
   </div>
 </div>
 

@@ -56,7 +56,14 @@
                    </td> 
 
                   <td style=""><%=booking.userId.email%></td>
-                  <td style=""><%=booking.numberCustomer%></td>
+                  <% if (booking.numberCustomer === "two") { %>
+                  <td><span class="label label-warning">1-2 người</span></td>
+                  <% }                                              
+                                      else { %>
+                  <td><span class="label label-warning">3 người trở lên</span></td>
+                  
+                  <% } %>
+                  
 
                     <% if (booking.status === "wait_confirm") { %>
                     <td><span class="label label-warning">Chờ xác nhận</span></td>

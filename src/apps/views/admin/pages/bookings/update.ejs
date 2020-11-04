@@ -17,9 +17,10 @@
       <div class="col-lg-12">
         <h1 class="page-header text-center">Thông tin đơn đặt phòng</h1>
         <input type="hidden" id="id" name="id" required value="<%=booking._id %>" class="form-control">
+        <input type="" id="roomId" name="roomId"value="<%booking.roomId.map((item) =>{ %><%=item._id %>,<%})%> %>">
 
         <h2 class="page-header text-center">Bạn muốn cập nhật trạng thái của phòng <% booking.roomId.map((item) =>{ %>
-        <span class="label label-danger"><%=item.name%></span>
+        <%=item.name%></span>
         <%})%> ?</h2>
       
         
@@ -28,7 +29,7 @@
             Chờ nhận phòng
           </button>
           <button class="btn btn-success">
-           Nhận phòng
+          Đã nhận phòng
           </button>
           <button  class="btn btn-success">
             Huỷ đặt phòng
@@ -47,12 +48,15 @@
   $("button").click(function () {
       var text = $(this).text();
       var id = $("#id").val();
+      var roomId = $("#roomId").val().split(",")
+      roomId.pop()
       $.ajax({
       url: `/admin/bookings/update/${id}`,
       method: "POST",
       data: {
         id: id,
         text: text.trim(),
+         roomId: roomId
       }
       }).then(function (data) {
         alertify.success(data.message);

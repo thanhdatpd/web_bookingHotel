@@ -3,6 +3,7 @@ const config = require("../../../config/default");
 const { accountValidation, transValidation } = require("../../../errLang/vn");
 const pagination = require("./../../../libs/pagination");
 const bookingModel = require("../../models/bookingModel");
+const roomModel = require("../../models/roomModel");
 const moment = require("moment");
 const joi = require("joi");
 
@@ -52,20 +53,23 @@ exports.update = async (req, res) => {
 //update status bookings
 exports.p_update = async (req, res) => {
   try {
-     const { id, text } = req.body;
-     console.log(req.body);
+    const { id, text, roomId } = req.body;
      if (text === "Chờ nhận phòng") {
        await bookingModel.updateOne(
          { _id: id },
          { $set: { status: "wait_check_in" } }
        );
-       
      }
-    if (text === "Nhận phòng") {
+    if (text === "Đã nhận phòng") {
        await bookingModel.updateOne(
          { _id: id },
          { $set: { status: "check_in" } }
-       );
+      );
+      await roomModel.updateMany(
+        { _id: { $in: roomId } },
+        { $set: { status: "ordered" } }
+      );
+      
     }
     if (text === "Huỷ đặt phòng") {
       await bookingModel.updateOne(

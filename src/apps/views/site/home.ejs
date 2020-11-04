@@ -15,15 +15,15 @@
         <div class="col-xl-4 col-lg-5 offset-xl-2 offset-lg-1">
           <div class="booking-form">
             <h3>Đặt phòng ngay</h3>
-            <form action="/check" method="post">
+            <form >
               <div class="check-date">
                 <label for="date-in">Ngày đến:</label>
-                <input type="text" class="date-input" id="startAt" name="startAt">
+                <input type="text" class="date-input" id="startAt" name="startAt" required>
                 <i class="icon_calendar"></i>
               </div>
               <div class="check-date">
                 <label for="date-out">Ngày đi:</label>
-                <input type="text" class="date-input" id="endAt" name="endAt">
+                <input type="text" class="date-input" id="endAt" name="endAt" required>
                 <i class="icon_calendar"></i>
               </div>
               <div class="select-option">
@@ -33,14 +33,14 @@
                   <option value="three"> 3 Người trở lên</option>
                 </select>
               </div>
-              <div class="select-option">
+              <!-- <div class="select-option">
                 <label for="room">Phòng:</label>
                 <select id="room">
                   <option value="">1 Phòng</option>
                   <option value="">2 Phòng</option>
                 </select>
-              </div>
-              <button type="submit"> Kiểm tra </button>
+              </div> -->
+              <button onclick="check()"> Kiểm tra </button>
             </form>
           </div>
         </div>
@@ -267,5 +267,28 @@
     </div>
   </section> -->
   <!-- Home Room Section End -->
-
     <%- include("./layouts/footer") %>
+    <script>
+      function check(){
+        var startAt = $("#startAt").val();
+        var endAt = $("#endAt").val();
+        var numberCustomer = $("#numberCustomer").val();
+        $.ajax({
+          url: "/check",
+          method: "POST",
+          data: {
+            startAt: startAt,
+            endAt: endAt,
+            numberCustomer: numberCustomer,
+          }
+        })
+          .then(function (data) {
+            alertify.success(data.message);
+            // window.timeout = setTimeout(function () {
+            //   window.location.href = "/room-result";
+            // }, 2000)
+          }).catch(function (err) {
+           // alertify.error(err.responseJSON.message);
+          })
+      }
+    </script>
