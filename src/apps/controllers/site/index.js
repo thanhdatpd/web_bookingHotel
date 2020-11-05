@@ -21,8 +21,7 @@ exports.profile = async (req, res, next) => {
     _id: decodeToken._id,
   });
   res.render("site/profile", {user});
-};
- 
+}; 
 exports.about = (req, res) => {
   res.render("site/about");
 };
@@ -61,11 +60,10 @@ exports.p_contact = async (req, res) => {
   }
   
 };
-
-
 exports.new = (req, res) => {
   res.render("site/news");
 };
+/* @room */
 exports.room = async (req, res) => {
   const {
     limit,
@@ -211,26 +209,44 @@ exports.check = async (req, res) => {
 
 
 exports.booking = async (req, res) => {
+
   try {
+    //check decode token with id User
+    const { startAt, endAt, numberCustomer, roomId, contentConfirm , newBookingId } = req.body;
     //get idUser
     const token = req.cookies.token;
     const decodeToken = jwt.verify(token, config.app.SECRET_TOKEN);
-    //check decode token with id User
-    const { startAt, endAt, numberCustomer, roomId } = req.body;
-    const newBooking = new bookingModel({
-      startAt: moment.utc(startAt).format('DD-MM-YYYY'),
-      endAt: moment.utc(endAt).format('DD-MM-YYYY'),
-      roomId: [],
-      userId: decodeToken._id,
-      numberCustomer,
-    });
-    newBooking.roomId.push(roomId);
+    if (contentConfirm == "") {
+      const newBooking = new bookingModel({
+        startAt: moment.utc(startAt).format("DD-MM-YYYY"),
+        endAt: moment.utc(endAt).format("DD-MM-YYYY"),
+        roomId: [],
+        userId: decodeToken._id,
+        numberCustomer,
+      });
+      newBooking.roomId.push(roomId);
+      await newBooking.save();
+      //delete cookie
+      res.clearCookie("newBookingId");
+      return res.status(200).json({
+        status: "success",
+        message: transValidation.input_continue_success,
+        newBookingId: newBooking._id,
+      });
+    } else if (contentConfirm === "OK") {
+      await bookingModel.updateOne(
+        { _id: newBookingId },
+        { $push: { roomId: [roomId] } }
+      );
+        //delete cookie
+      res.clearCookie("newBookingId");
+      return res.status(200).json({
+        status: "success",
+        message: transValidation.input_continue_success,
+      });
+
+    }
     
-    await newBooking.save();
-    return res.status(200).json({
-      status: "success",
-      message: transValidation.input_continue_success,
-    });
   } catch (error) {
     return res.status(400).json({
       status: "fail",

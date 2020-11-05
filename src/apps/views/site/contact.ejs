@@ -40,7 +40,7 @@
               <input type="text" placeholder="Địa chỉ email" value="<%=user.email%>" disabled>
             </div>
             <div class="col-lg-12">
-              <textarea placeholder="Nội dung" id="content"></textarea>
+              <textarea placeholder="Nội dung" id="content" required></textarea>
               <button type="button" onclick="sendContact()" >Gửi yêu cầu</button>
             </div>
           </div>
@@ -61,6 +61,9 @@
   function sendContact() {
       var id = $("#id").val();
       var content = $("#content").val();
+      if(content == ""){
+          alertify.error(" Bạn chưa nhập nội dung bình luận !");
+      }else{     
       $.ajax({
         url: "/contacts",
         method: "POST",
@@ -78,4 +81,5 @@
            alertify.error(err.responseJSON.message);
         })
       }
+       }
 </script>

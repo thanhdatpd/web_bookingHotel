@@ -59,7 +59,7 @@
                   <% if (booking.numberCustomer === "two") { %>
                   <td><span class="label label-warning">1-2 người</span></td>
                   <% }                                              
-                                      else { %>
+                    else { %>
                   <td><span class="label label-warning">3 người trở lên</span></td>
                   
                   <% } %>
@@ -71,13 +71,13 @@
                     <td><span class="label label-info">Chờ nhận phòng</span></td>
                     <% }
                     else if (booking.status === "check_in"){ %>
-                    <td><span class="label label-success">Nhận phòng</span></td>
+                    <td><span class="label label-success">Đã nhận phòng</span></td>
                     <% }
                     else if (booking.status === "fail"){ %>
                     <td><span class="label label-danger">Huỷ phòng</span></td>
                     <% }
                     else { %>
-                    <td><span class="label label-warning">Thành công</span></td>
+                    <td><span class="label label-success">Thành công</span></td>
                     
                     <% } %>
 

@@ -59,6 +59,10 @@ exports.p_update = async (req, res) => {
          { _id: id },
          { $set: { status: "wait_check_in" } }
        );
+       await roomModel.updateMany(
+         { _id: { $in: roomId } },
+         { $set: { status: "empty" } }
+       );
      }
     if (text === "Đã nhận phòng") {
        await bookingModel.updateOne(
@@ -75,6 +79,10 @@ exports.p_update = async (req, res) => {
       await bookingModel.updateOne(
         { _id: id },
         { $set: { status: "fail" } }
+      );
+      await roomModel.updateMany(
+        { _id: { $in: roomId } },
+        { $set: { status: "empty" } }
       );
     }
     if (text === "Trả phòng") {
