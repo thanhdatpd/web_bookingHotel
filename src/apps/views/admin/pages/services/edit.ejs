@@ -1,26 +1,16 @@
-<%- include("../../layouts/head.ejs") %>
+<%- include("../../layouts/head") %>
 
-<body>
-  <%- include("../../layouts/header.ejs") %>
-  <%- include("../../layouts/leftMenu.ejs") %>
-  <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
-    <div class="row">
-      <ol class="breadcrumb">
-        <li><a href="#"><svg class="glyph stroked home">
-              <use xlink:href="#stroked-home"></use>
-            </svg></a></li>
-        <li><a href="">Quản lý dịch vụ</a></li>
-        <li class="active"><%=services.fullName %></li>
-      </ol>
-    </div>
-    <!--/.row-->
+<body id="page-top">
+  <%- include("../../layouts/sidebar") %>
+  <%- include("../../layouts/header") %>
+  <!-- Begin Page Content -->
+  <div class="container-fluid">
 
-    <div class="row">
-      <div class="col-lg-12">
-        <h1 class="page-header">Dịch vụ: <%=services.fullName %> </h1>
-      </div>
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-center mb-4">
+      <h1 class=" h3 mb-0 text-gray-800  ">Dịch vụ: <%=services.name %></h1>
     </div>
-    <!--/.row-->
+    <!-- Content Row -->
     <div class="row">
       <div class="col-lg-12">
         <div class="panel panel-default">
@@ -36,23 +26,28 @@
                 </div>
                 <div class="form-group">
                   <label>Giá tiền</label>
-                  <input id="price" type="text" name="price" required class="form-control"
-                    value="<%=services.price %>" placeholder="">
+                  <input id="price" type="text" name="price" required class="form-control" value="<%=services.price %>"
+                    placeholder="">
                 </div>
-                
+              
                 <button id="btn-edit-services" type="button" class="btn btn-success">Cập nhật </button>
                 <button type="reset" class="btn btn-default">Làm mới</button>
+              </form>
             </div>
-            </form>
+
+
           </div>
         </div>
       </div><!-- /.col-->
     </div><!-- /.row -->
+    <!-- /.container-fluid -->
+
+  </div>
+  <!-- End of Main Content -->
+  <!-- Footer -->
+  <%- include("../../layouts/footer") %>
+  <!-- End of Footer -->
 </body>
-</div>
-<script src="js/jquery.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/jquery-validation-1.19.2/dist/jquery.validate.js"></script>
 <script>
   $("#btn-edit-services").click(function () {
     var name = $("#name").val();
@@ -65,7 +60,7 @@
         id: id,
         name: name,
         price: price,
-        
+
       }
     }).then(function (data) {
       alertify.success(data.message);
@@ -77,3 +72,5 @@
     })
   })
 </script>
+
+</html>

@@ -1,96 +1,165 @@
-<%- include("../layouts/head.ejs") %>
-<body>
-<!-- Header -->
-<%- include("../layouts/header.ejs") %>
-<%- include("../layouts/leftMenu.ejs") %>
-  <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
-    <div class="row">
-      <ol class="breadcrumb">
-        <li><a href="#"><svg class="glyph stroked home">
-              <use xlink:href="#stroked-home"></use>
-            </svg></a></li>
-        <li class="active">Quản trị</li>
-      </ol>
-    </div>
-    <!--/.row-->
-
-    <div class="row">
-      <div class="col-lg-12">
-        <h1 class="page-header text-center">Trang chủ quản trị</h1>
-      </div>
-    </div>
-    <!--/.row-->
-
-    <div class="row">
-      <div class="col-xs-12 col-md-6 col-lg-3">
-        <div class="panel panel-blue panel-widget ">
-          <div class="row no-padding">
-            <div class="col-sm-3 col-lg-5 widget-left">
-              <svg class="glyph stroked bag">
-                <use xlink:href="#stroked-bag"></use>
-              </svg>
-            </div>
-            <div class="col-sm-9 col-lg-7 widget-right">
-              <div class="large"><%=totalDocumentsRooms %></div>
-              <div class="text-muted">Phòng</div>
-            </div>
+<%- include("../layouts/head") %>
+<body id="page-top">
+    <%- include("../layouts/sidebar") %>
+      <%- include("../layouts/header") %>
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class=" h3 mb-0 text-gray-800 ">Phương Đông Hotel</h1>
           </div>
-        </div>
-      </div>
-      <div class="col-xs-12 col-md-6 col-lg-3">
-        <div class="panel panel-orange panel-widget">
-          <div class="row no-padding">
-            <div class="col-sm-3 col-lg-5 widget-left">
-              <svg class="glyph stroked empty-message">
-                <use xlink:href="#stroked-empty-message"></use>
-              </svg>
-            </div>
-            <div class="col-sm-9 col-lg-7 widget-right">
-              <div class="large"> <%= totalDocumentsComments %></div>
-              <div class="text-muted">Bình Luận</div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-xs-12 col-md-6 col-lg-3">
-        <div class="panel panel-teal panel-widget">
-          <div class="row no-padding">
-            <div class="col-sm-3 col-lg-5 widget-left">
-              <svg class="glyph stroked male-user">
-                <use xlink:href="#stroked-male-user"></use>
-              </svg>
-            </div>
-            <div class="col-sm-9 col-lg-7 widget-right">
-              <div class="large"><%= totalDocumentsUsers %> </div>
-              <div class="text-muted">Thành Viên</div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-xs-12 col-md-6 col-lg-3">
-        <div class="panel panel-red panel-widget">
-          <div class="row no-padding">
-            <div class="col-sm-3 col-lg-5 widget-left">
-              <svg class="glyph stroked app-window-with-content">
-                <use xlink:href="#stroked-app-window-with-content"></use>
-              </svg>
-            </div>
-            <div class="col-sm-9 col-lg-7 widget-right">
-              <div class="large">25.2k</div>
-              <div class="text-muted">Quảng Cáo</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!--/.row-->
-  </div>
-  <!--/.main-->
 
 
-<!-- Footer -->
+          <!-- Content Row -->
+          <div class="row">
+
+            <!-- Earnings (Monthly) Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Tổng số phòng </div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800"><%=totalDocumentsRooms%></div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Earnings (Monthly) Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Tổng số khách hàng</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800"><%=totalDocumentsUsers%></div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-user fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Earnings (Monthly) Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-info shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Tổng số bình luận</div>
+                      <div class="row no-gutters align-items-center">
+                        <div class="col-auto">
+                          <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800"><%=totalDocumentsComments%></div>
+                        </div>
+                        <div class="col">
+                          <div class="progress progress-sm mr-2">
+                            <div class="progress-bar bg-info" role="progressbar" style="width: 50%" aria-valuenow="50"
+                              aria-valuemin="0" aria-valuemax="100"></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Pending Requests Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-warning shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Phản hồi của khách hàng
+                      </div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800"><%=totalDocumentsContacts%></div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-comments fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Content Row -->
+
+          <div class="row">
+
+            <!-- Area Chart -->
+            <div class="col-xl-8 col-lg-7">
+              <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary">Doanh thu tháng này</h6>
+                  <div class="dropdown no-arrow">
+
+                    <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                    </a>
+
+                  </div>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                  <div class="chart-area">
+                    <canvas id="myAreaChart"></canvas>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Pie Chart -->
+            <div class="col-xl-4 col-lg-5">
+              <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary">Trung bình độ tuổi</h6>
+                  <div class="dropdown no-arrow">
+                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
+                      aria-haspopup="true" aria-expanded="false">
+                      <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                    </a>
+
+                  </div>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                  <div class="chart-pie pt-4 pb-2">
+                    <canvas id="myPieChart"></canvas>
+                  </div>
+                  <div class="mt-4 text-center small">
+                    <span class="mr-2">
+                      <i class="fas fa-circle text-primary"></i> Direct
+                    </span>
+                    <span class="mr-2">
+                      <i class="fas fa-circle text-success"></i> Social
+                    </span>
+                    <span class="mr-2">
+                      <i class="fas fa-circle text-info"></i> Referral
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <!-- /.container-fluid -->
+
+        </div>
+        <!-- End of Main Content -->
+        <!-- Footer -->
+        <%- include("../layouts/footer") %>
+        <!-- End of Footer --> 
 </body>
-<script src="js/jquery-1.11.1.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-
 </html>

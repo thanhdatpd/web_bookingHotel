@@ -1,26 +1,16 @@
-<%- include("../../layouts/head.ejs") %>
+<%- include("../../layouts/head") %>
 
-<body>
-  <%- include("../../layouts/header.ejs") %>
-  <%- include("../../layouts/leftMenu.ejs") %>
-  <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
-    <div class="row">
-      <ol class="breadcrumb">
-        <li><a href="#"><svg class="glyph stroked home">
-              <use xlink:href="#stroked-home"></use>
-            </svg></a></li>
-        <li><a href="">Quản lý dịch vụ</a></li>
-        <li class="active">Thêm dịch vụ</li>
-      </ol>
-    </div>
-    <!--/.row-->
+<body id="page-top">
+  <%- include("../../layouts/sidebar") %>
+  <%- include("../../layouts/header") %>
+  <!-- Begin Page Content -->
+  <div class="container-fluid">
 
-    <div class="row">
-      <div class="col-lg-12">
-        <h1 class="page-header">Thêm dịch vụ</h1>
-      </div>
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-center mb-4">
+      <h1 class=" h3 mb-0 text-gray-800  ">Thêm mới dịch vụ</h1>
     </div>
-    <!--/.row-->
+    <!-- Content Row -->
     <div class="row">
       <div class="col-lg-12">
         <div class="panel panel-default">
@@ -33,7 +23,7 @@
                 </div>
                 <div class="form-group">
                   <label>Giá tiền</label>
-                  <input id="price" name="price" required class="form-control" placeholder="">
+                  <input id="price" name="price" required class="form-control" placeholder="" type="number">
                 </div>
                 <button id="btn-add-services" type="button" class="btn btn-success">Thêm mới</button>
                 <button type="reset" class="btn btn-default">Làm mới</button>
@@ -44,23 +34,25 @@
         </div>
       </div><!-- /.col-->
     </div><!-- /.row -->
+    <!-- /.container-fluid -->
+
   </div>
-  <!--/.main-->
+  <!-- End of Main Content -->
+  <!-- Footer -->
+  <%- include("../../layouts/footer") %>
+  <!-- End of Footer -->
 </body>
-<script src="js/jquery.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/jquery-validation-1.19.2/vali/jquery.validate.js"></script>
 <script>
   $("#form-add-services").validate({
     rules: {
       name: { required: true },
-      price: { required: true},
-      
+      price: { required: true },
+
     },
     messages: {
       name: { required: "Tên dịch vụ không được để trống " },
       price: { required: "Giá dịch vụ không được để trống " },
-      
+
     }
   })
   $("#btn-add-services").click(function () {
@@ -85,5 +77,4 @@
     }
   })   
 </script>
-
 </html>

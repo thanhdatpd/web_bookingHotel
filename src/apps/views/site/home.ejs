@@ -15,7 +15,7 @@
         <div class="col-xl-4 col-lg-5 offset-xl-2 offset-lg-1">
           <div class="booking-form">
             <h3>Đặt phòng ngay</h3>
-            <form >
+            <form action="/check" method="POST">
               <div class="check-date">
                 <label for="date-in">Ngày đến:</label>
                 <input type="text" class="date-input" id="startAt" name="startAt" required>
@@ -33,14 +33,7 @@
                   <option value="three"> 3 Người trở lên</option>
                 </select>
               </div>
-              <!-- <div class="select-option">
-                <label for="room">Phòng:</label>
-                <select id="room">
-                  <option value="">1 Phòng</option>
-                  <option value="">2 Phòng</option>
-                </select>
-              </div> -->
-              <button onclick="check()"> Kiểm tra </button>
+              <button type="submit" > Kiểm tra </button>
             </form>
           </div>
         </div>
@@ -268,27 +261,31 @@
   </section> -->
   <!-- Home Room Section End -->
     <%- include("./layouts/footer") %>
-    <script>
+    <!-- <script>
       function check(){
         var startAt = $("#startAt").val();
         var endAt = $("#endAt").val();
         var numberCustomer = $("#numberCustomer").val();
         $.ajax({
           url: "/check",
-          method: "POST",
+          method: "GET",
           data: {
             startAt: startAt,
             endAt: endAt,
             numberCustomer: numberCustomer,
           }
         })
-          .then(function (data) {
-            alertify.success(data.message);
+          .then(function (data) { 
+            // window.location.href = "/check "
+             // alert(data.rooms)
+            // $.redirect("/check", data.rooms)
             // window.timeout = setTimeout(function () {
-            //   window.location.href = "/room-result";
-            // }, 2000)
+              
+            //    window.location.href = "/check ";
+              
+            // }, 1000)
           }).catch(function (err) {
-           // alertify.error(err.responseJSON.message);
+            alertify.error(err.responseJSON.message);
           })
       }
-    </script>
+    </script> -->

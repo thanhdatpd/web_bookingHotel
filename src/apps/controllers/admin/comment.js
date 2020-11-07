@@ -18,6 +18,8 @@ exports.comments = async (req, res, next) => {
 
   const comments = await commentModel
     .find({})
+    .populate("userId")
+    .populate("roomId")
     .sort("-_id")
     .limit(limit)
     .skip(skip);
@@ -28,3 +30,9 @@ exports.comments = async (req, res, next) => {
     totalPages,
   });
 };
+//delete comment
+exports.delete = async (req, res) => {
+   const { id } = req.params;
+   await commentModel.deleteOne({ _id: id });
+  return res.redirect("/admin/comments");
+}

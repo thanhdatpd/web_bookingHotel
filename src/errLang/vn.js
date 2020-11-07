@@ -4,6 +4,8 @@ module.exports.transValidation = {
   input_incorrect: " Vui lòng kiểm tra lại thông tin ",
   input_success:
     "Đặt phòng thành công , xin vui lòng đợi xác nhận từ khách sạn ",
+  input_success_room:
+    "Thêm mới phòng thành công ",
   input_continue_success:
     "Đặt phòng thành công , bạn có muốn tiếp tục đặt thêm phòng không ? ",
   checkLogin_incorrect:

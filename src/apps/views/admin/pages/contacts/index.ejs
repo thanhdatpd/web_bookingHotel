@@ -1,107 +1,126 @@
-<%- include("../../layouts/head.ejs") %>
+<%- include("../../layouts/head") %>
 
-<body>
-  <%- include("../../layouts/header.ejs") %>
-  <%- include("../../layouts/leftMenu.ejs") %>
-  <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
-    <div class="row">
-      <ol class="breadcrumb">
-        <li><a href="#"><svg class="glyph stroked home">
-              <use xlink:href="#stroked-home"></use>
-            </svg></a></li>
-        <li class="active">Phản hồi</li>
-      </ol>
+<body id="page-top">
+  <%- include("../../layouts/sidebar") %>
+  <%- include("../../layouts/header") %>
+  <!-- Begin Page Content -->
+  <div class="container-fluid">
+
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-center mb-4">
+      <h1 class=" h3 mb-0 text-gray-800  ">Thông tin phản hồi</h1>
     </div>
-    <!--/.row-->
-    <div class="row">
-      <div class="col-lg-12">
-        <h1 class="page-header text-center">Danh sách phản hồi</h1>
+
+
+    <!-- Content Row -->
+
+    <div class="card shadow mb-4">
+      <div class="card-header py-3">
+        <a href="/admin/contacts" class="btn btn-success">
+          <i class="glyphicon glyphicon-plus"></i> Thêm mới phản hồi
+        </a>
       </div>
-    </div>
-    <!--/.row-->
-    <div id="toolbar" class="btn-group">
-      <a href="/admin/contacts" class="btn btn-success">
-        <i class="glyphicon glyphicon-plus"></i> Thêm phản hồi
-      </a>
-    </div>
-    <div class="row">
-      <div class="col-lg-12">
-        <div class="panel panel-default">
-          <div class="panel-body">
-            <table data-toolbar="#toolbar" data-toggle="table">
-
-              <thead>
-                <tr>
-                  <th data-field="id" data-sortable="true">ID</th>
-                  <th data-field="name" data-sortable="true">Tên khách hàng</th>
-                  <th data-field="email" data-sortable="true">Email</th>
-                  <th data-field="content" data-sortable="true">Nội dung phản hồi</th>
-                  <th>Hành động</th>
-                </tr>
-              </thead>
-              <tbody>
-                <% contacts.forEach((contact, index) => { %>
-                <tr>
-                  <td style=""> <%=index+1 %> </td>
-                  <td style=""><%=contact.userId.fullName %></td>
-                  <td style=""><%=contact.userId.email %></td>
-                  <td style=""><%=contact.content%> </td>
-
-                  <td class="form-group">
-                    <a href="/admin/contacts" class="btn btn-primary"><i
-                        class="glyphicon glyphicon-pencil"></i></a>
-                    <a href="/admin/contact-delete/<%=contact._id%>"
-                      onclick="return confirm('Bạn chắc chắn muốn xoá phản hồi của <%=contact.userId.fullName%> chứ ?')"
-                      class="btn btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
-                  </td>
-                </tr>
-                <% }) %>
-              </tbody>
-            </table>
-          </div>
-          <div class="panel-footer" style='display: flex; justify-content: center;'>
-            <nav aria-label="Page navigation example">
-              <ul class="pagination">
-                <nav aria-label="Page navigation example">
-                  <ul class="pagination">
-                    <% if (page > 1) { %>
-                    <li class="page-item ">
-                      <a class="page-link" href="/admin/contacts?page=<%= page - 1 %>"> Prev </a>
-                    </li>
-                    <% } %>
-                    <% range.map((i) => { %>
-                    <li class="page-item <%= page === i ? "active" : "" %>">
-
-                      <% if (i === "...") { %>
-
-                      <span> <%= i %> </span>
-
-                      <% } else { %>
-
-                      <a class="page-link" href="/admin/contacts?page=<%= i %>"><%= i %></a>
-                      <% } %>
-                    </li>
+      <div class="card-body">
+        <div class="table-responsive">
+          <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
+            <div class="row">
+              <div class="col-sm-12 col-md-6">
+                <div id="dataTable_filter" class="dataTables_filter"><label>Tìm kiếm:<input type="search"
+                      class="form-control form-control-sm" placeholder="" aria-controls="dataTable"></label></div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12">
+                <table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid"
+                  aria-describedby="dataTable_info" style="width: 100%;">
+                  <thead>
+                    <tr role="row">
+                      <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1"
+                        aria-label="#: activate to sort column descending" aria-sort="ascending" style="width: 4px;">
+                        #</th>
+                      <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1"
+                        aria-label="fullName: activate to sort column ascending" style="width: 150px;">Tên khách hàng</th>
+                      <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1"
+                        aria-label="Email: activate to sort column ascending" style="width: 150px;">Email</th>
+                      <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1"
+                        aria-label="Age: activate to sort column ascending" style="width: 160px;">Nội dung phản hồi</th>
+                      <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1"
+                        aria-label="Salary: activate to sort column ascending" style="width: 100px;">Hành Động</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% contacts.forEach((contact, index) => { %>
+                    <tr role="row" class="odd">
+                      <td class="sorting_1"><%=index+1 %></td>
+                      <td><%=contact.userId.fullName %></td>
+                      <td><%=contact.userId.email %></td>
+                      <td><%=contact.content%></td>
+                      <td class="form-group">
+                        <a href="/admin/contacts" class="btn btn-info btn-circle"><i
+                            class="fas fa-edit"></i></a>
+                        <a href="/admin/contact-delete/<%=contact._id%>"
+                          onclick="return confirm('Bạn chắc chắn muốn xoá phản hồi của <%=contact.userId.fullName%> chứ ?')"
+                          class="btn btn-danger btn-circle"><i class="fas fa-trash"></i></a>
+                      </td>
+                    </tr>
                     <% }) %>
-                    <% if (page < totalPages) { %>
-                    <li class="page-item ">
-                      <a class="page-link" href="/admin/contacts?page=<%= page + 1 %>"> Next </a>
-                    </li>
-                    <% } %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12 col-md-5">
+                <div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">Trang thứ <%=page%>
+                  của <%=totalPages%>
+                  trang </div>
+              </div>
+              <div class="col-sm-12 col-md-7">
+                <div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate">
+                  <ul class="pagination">
+                    <nav aria-label="Page navigation example">
+                      <ul class="pagination ">
+                        <% if (page > 1) { %>
+                        <li class="page-item ">
+                          <a class="page-link" href="/admin/contacts?page=<%= page - 1 %>"> Prev </a>
+                        </li>
+                        <% } %>
+                        <% range.map((i) => { %>
+                        <li class="page-item <%= page === i ? "active" : "" %>">
 
+                          <% if (i === "...") { %>
+
+                          <span> <%= i %> </span>
+
+                          <% } else { %>
+
+                          <a class="page-link" href="/admin/contacts?page=<%= i %>"><%= i %></a>
+                          <% } %>
+                        </li>
+                        <% }) %>
+                        <% if (page < totalPages) { %>
+                        <li class="page-item ">
+                          <a class="page-link" href="/admin/contacts?page=<%= page + 1 %>"> Next </a>
+                        </li>
+                        <% } %>
+
+                      </ul>
+                    </nav>
                   </ul>
-                </nav>
-              </ul>
-            </nav>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-    <!--/.row-->
+
+    <!-- /.container-fluid -->
+
   </div>
-  <!--/.main-->
+  <!-- End of Main Content -->
+  <!-- Footer -->
+  <%- include("../../layouts/footer") %>
+  <!-- End of Footer -->
 </body>
-<script src="js/jquery-1.11.1.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/bootstrap-table.js"></script>
 
 </html>

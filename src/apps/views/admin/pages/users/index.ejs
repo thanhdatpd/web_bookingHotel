@@ -1,67 +1,85 @@
-<%- include("../../layouts/head.ejs") %>
-<body>
-  <%- include("../../layouts/header.ejs") %>
-  <%- include("../../layouts/leftMenu.ejs") %>
-      <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
-        <div class="row">
-          <ol class="breadcrumb">
-            <li><a href="#"><svg class="glyph stroked home">
-                  <use xlink:href="#stroked-home"></use>
-                </svg></a></li>
-            <li class="active" >Thành viên</li>
-          </ol>
-        </div>
-        <!--/.row-->
-        <div class="row">
-          <div class="col-lg-12">
-            <h1 class="page-header text-center">Danh sách thành viên</h1>
-          </div>
-        </div>
-        <!--/.row-->
-        <div id="toolbar" class="btn-group">
+<%- include("../../layouts/head") %>
+
+<body id="page-top">
+  <%- include("../../layouts/sidebar") %>
+  <%- include("../../layouts/header") %>
+  <!-- Begin Page Content -->
+  <div class="container-fluid">
+  
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-center mb-4">
+      <h1 class=" h3 mb-0 text-gray-800  ">Thông tin tài khoản</h1>
+    </div>
+  
+  
+    <!-- Content Row -->
+  
+    <div class="card shadow mb-4">
+      <div class="card-header py-3">
           <a href="/admin/users/add" class="btn btn-success">
-            <i class="glyphicon glyphicon-plus"></i> Thêm thành viên
+            <i class="glyphicon glyphicon-plus"></i> Thêm mới tài khoản
           </a>
-        </div>
-        <div class="row">
-          <div class="col-lg-12">
-            <div class="panel panel-default">
-              <div class="panel-body">
-                <table data-toolbar="#toolbar" data-toggle="table">
-      
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
+            <div class="row">
+              <div class="col-sm-12 col-md-6">
+                <div id="dataTable_filter" class="dataTables_filter"><label>Tìm kiếm:<input type="search"
+                      class="form-control form-control-sm" placeholder="" aria-controls="dataTable"></label></div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12">
+                <table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid"
+                  aria-describedby="dataTable_info" style="width: 100%;">
                   <thead>
-                    <tr>
-                      <th data-field="id" data-sortable="true">ID</th>
-                      <th data-field="name" data-sortable="true">Họ & Tên</th>
-                      <th data-field="price" data-sortable="true">Email</th>
-                      <th>Số điện thoại</th> 
-                      <th>Quyền</th>
-                      <th>Hành động</th>
+                    <tr role="row">
+                      <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1"
+                        aria-label="#: activate to sort column descending" aria-sort="ascending" style="width: 4px;">
+                        #</th>
+                      <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1"
+                        aria-label="fullName: activate to sort column ascending" style="width: 150px;">Họ và tên</th>
+                      <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1"
+                        aria-label="Email: activate to sort column ascending" style="width: 150px;">Email</th>
+                      <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1"
+                        aria-label="Age: activate to sort column ascending" style="width: 160px;">Số điện thoại</th>
+                      <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1"
+                        aria-label="Start date: activate to sort column ascending" style="width: 100px;">Quyền </th>
+                      <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1"
+                        aria-label="Salary: activate to sort column ascending" style="width: 100px;">Hành Động</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <% users.forEach((user, index) => { %>
-                            <tr>
-                              <td style=""> <%=index+1 %> </td>
-                              <td style=""><%=user.fullName %></td>
-                              <td style=""><%=user.email%></td>
-                              <td style=""><%=user.phoneNumber%></td>
-                              <% if (user.role === "user") { %>
-                              <td><span class="label label-success">User</span></td>
-                              <% }else{ %>
-                              <td><span class="label label-danger">Admin</span></td>
-                              <% } %>
-                              <td class="form-group">
-                                <a href="/admin/user-edit/<%=user._id%>" class="btn btn-primary"><i class="glyphicon glyphicon-pencil"></i></a>
-                                <a href="/admin/user-delete/<%=user._id%>" onclick="return confirm('Bạn chắc chắn muốn xoá tài khoản <%=user.email%> chứ ?')"class="btn btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
-                              </td>
-                            </tr>
+                    <% users.forEach((user, index) => { %>                                        
+                    <tr role="row" class="odd">
+                      <td class="sorting_1"><%=index+1 %></td>
+                      <td><%=user.fullName %></td>
+                      <td><%=user.email%></td>
+                      <td><%=user.phoneNumber%></td>
+                      <% if (user.role === "user") { %>
+                      <td><span class="badge badge-success">User</span></td>
+                      <% }else{ %>
+                      <td><span class="badge badge-danger">Admin</span></td>
+                      <% } %>
+                      <td class="form-group">
+                        <a href="/admin/user-edit/<%=user._id%>" class="btn btn-info btn-circle"><i class="fas fa-edit"></i></a>
+                        <a href="/admin/user-delete/<%=user._id%>"
+                          onclick="return confirm('Bạn chắc chắn muốn xoá tài khoản <%=user.email%> chứ ?')" class="btn btn-danger btn-circle"><i class="fas fa-trash"></i></a>
+                      </td>
+                    </tr>
                     <% }) %>
                   </tbody>
                 </table>
               </div>
-              <div class="panel-footer" style='display: flex; justify-content: center;' >
-                <nav aria-label="Page navigation example">
+            </div>
+            <div class="row">
+              <div class="col-sm-12 col-md-5">
+                <div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">Trang thứ <%=page%> của <%=totalPages%>
+                  trang </div>
+              </div>
+              <div class="col-sm-12 col-md-7">
+                <div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate">
                   <ul class="pagination">
                     <nav aria-label="Page navigation example">
                       <ul class="pagination ">
@@ -72,13 +90,13 @@
                         <% } %>
                         <% range.map((i) => { %>
                         <li class="page-item <%= page === i ? "active" : "" %>">
-                    
+                  
                           <% if (i === "...") { %>
-                    
+                  
                           <span> <%= i %> </span>
-                    
+                  
                           <% } else { %>
-                    
+                  
                           <a class="page-link" href="/admin/users?page=<%= i %>"><%= i %></a>
                           <% } %>
                         </li>
@@ -88,21 +106,25 @@
                           <a class="page-link" href="/admin/users?page=<%= page + 1 %>"> Next </a>
                         </li>
                         <% } %>
-                    
+                  
                       </ul>
                     </nav>
                   </ul>
-                </nav>
+                </div>
               </div>
             </div>
           </div>
         </div>
-        <!--/.row-->
       </div>
-      <!--/.main-->
+    </div>
+  
+    <!-- /.container-fluid -->
+  
+  </div>
+  <!-- End of Main Content -->
+  <!-- Footer -->
+  <%- include("../../layouts/footer") %>
+  <!-- End of Footer -->
 </body>
-<script src="js/jquery-1.11.1.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/bootstrap-table.js"></script>
 
 </html>

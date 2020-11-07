@@ -30,6 +30,10 @@ router
   .route("/contacts")
   .get(SiteController.contact)
   .post(SiteController.p_contact);
+
+
+
+
 router.get("/rooms", SiteController.room);
 router.get("/room-single", SiteController.room_single);
 router.get("/room-double", SiteController.room_double);
@@ -38,7 +42,10 @@ router.get("/news", SiteController.new);
 router.get("/room-detail/:id", SiteController.room_detail);
 router.get("/profile", SiteController.profile);
 
-router.post("/check", SiteController.check);
+router
+  .route("/check")
+  .post(SiteController.check)
+  // .post(SiteController.p_check);
 router.post("/booking", SiteController.booking);
 router.get("/my-bookings", SiteController.myBooking);
 
@@ -88,7 +95,7 @@ router.route("/admin/bookings/update/:id")
   .get(BookingsController.update)
   .post(BookingsController.p_update)
 
-router.route("/admin/bookings-delete/:id").get(BookingsController.delete);
+router.route("/admin/booking-delete/:id").get(BookingsController.delete);
 
 //dashboard_services
 router.get("/admin/services", ServicesController.services)
@@ -105,9 +112,11 @@ router.route("/admin/services-delete/:id").get(ServicesController.delete);
 
 //dashboard_comments
 router.get("/admin/comments", CommentsController.comments);
+router.route("/admin/comments-delete/:id").get(CommentsController.delete);
 
 //dashboard_contacts
 router.get("/admin/contacts", ContactsController.contacts);
 router.route("/admin/contact-delete/:id").get(ContactsController.delete);
+
 
 module.exports = router;

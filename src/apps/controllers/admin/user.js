@@ -86,27 +86,12 @@ exports.edit = async (req, res) => {
 exports.p_edit = async (req, res) => {
    try {
       const { id } = req.params;
-      const bodySchema = joi.object({
-         id: joi.string(),
-         email: joi.string().required(),
-         fullName: joi.string(),
-         password: joi.string(),
-         phoneNumber: joi.string().min(9),
-         role: joi.string(),
-         avatar: joi.string(),
-         gender: joi.string(),
-
-      });
-      const value = await bodySchema.validateAsync(req.body)
-      //update user
       const updateUser = {
-         email: value.email,
-         fullName: value.fullName,
-         password: value.password,
-         role: value.role,
-         // avatar: value.avatar,
-          phoneNumber: value.phoneNumber,
-         gender: value.gender,
+         email: req.body.email,
+         fullName: req.body.fullName,
+         password: req.body.password,
+         role: req.body.role,
+         phoneNumber: req.body.phoneNumber,
       };
       const hashPassword = await bcrypt.hash(updateUser.password, salt);
       updateUser.password = hashPassword;
@@ -121,8 +106,6 @@ exports.p_edit = async (req, res) => {
          message: transValidation.input_incorrect,
       });
    }
-   
-
 };
 //delete user
 exports.delete = async (req, res) => {

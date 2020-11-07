@@ -97,12 +97,12 @@
           confirm_password: { required: true, equalTo: "#password" },
         },
         messages:{
-          email: { required: "Email không được để trống " },
-          phoneNumber: { required: "Số điện thoại không được để trống", minlength: "Số điện thoại chưa đúng" },
-          fullName: { required: "Họ tên không được để trống" },
-          password: { required: "Mật khẩu không được để trống", minlength: "Mật khẩu tối thiểu 6 kí tự"},
-          confirm_password: { required: " Nhập lại mật khẩu không được để trống",
-          equalTo: "Hai password phải giống nhau"},
+          email: { required: "*Email không được để trống " },
+          phoneNumber: { required: "*Số điện thoại không được để trống", minlength: "*Số điện thoại chưa đúng" },
+          fullName: { required: "*Họ tên không được để trống" },
+          password: { required: "*Mật khẩu không được để trống", minlength: "*Mật khẩu tối thiểu 6 kí tự"},
+          confirm_password: { required: "*Nhập lại mật khẩu không được để trống",
+          equalTo: "*Hai password phải giống nhau"},
         }
      })
     $("#btn-register").click(function(){

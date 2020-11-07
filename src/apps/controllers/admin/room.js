@@ -75,7 +75,7 @@ exports.p_add = (req, res) => {
     });
   
      newRoom.save();
-
+    
     return res.redirect("/admin/rooms");
     })
 };
@@ -101,7 +101,6 @@ exports.p_edit =  (req, res) => {
         description: req.body.description,
       };
       await roomModel.updateOne({ _id: id }, updateRoom);
-      return res.redirect("/admin/rooms");
     } else {
       if (err instanceof multer.MulterError) {
         res.json("Lỗi định dạng, vui lòng xem lại ảnh");
@@ -118,8 +117,6 @@ exports.p_edit =  (req, res) => {
         image: req.file.filename,
       };
       await roomModel.updateOne({ _id: id }, updateRoom);
-
-      return res.redirect("/admin/rooms");
     }
   });
  
