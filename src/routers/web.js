@@ -39,13 +39,11 @@ router.get("/room-single", SiteController.room_single);
 router.get("/room-double", SiteController.room_double);
 router.get("/room-vip", SiteController.room_vip);
 router.get("/news", SiteController.new);
-router.get("/room-detail/:id", SiteController.room_detail);
+router.get("/room-detail", SiteController.room_detail);
 router.get("/profile", SiteController.profile);
 
-router
-  .route("/check")
-  .post(SiteController.check)
-  // .post(SiteController.p_check);
+
+router.get("/checks", SiteController.checks);
 router.post("/booking", SiteController.booking);
 router.get("/my-bookings", SiteController.myBooking);
 

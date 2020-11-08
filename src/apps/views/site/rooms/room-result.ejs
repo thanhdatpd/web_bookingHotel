@@ -51,7 +51,8 @@
                 </tbody>
               </table>
               <div class="text-center">
-                <a href="/room-detail/<%=room._id %>" class="primary-btn ">Xem thêm</a>
+                <a href="/room-detail?id=<%=room._id %>&startAt=<%=startAt%>&endAt=<%=endAt%>"
+                  class="primary-btn ">Xem thêm</a>
               </div>
   
             </div>
@@ -59,12 +60,12 @@
         </div>
   
         <% }) %>
-  
-  
+        
+
         <div class="col-lg-12 d-flex justify-content-center ">
           <% if (page > 1) { %>
           <div class="room-pagination p-2 ">
-            <a href="/rooms?page=<%= page - 1 %>"> Prev </a>
+            <a href="/checks?startAt=<%=startAt%>&endAt=<%=endAt%>&numberCustomer=<%=numberCustomer%>?page=<%= page - 1 %>"> Prev </a>
           </div>
           <% } %>
           <% range.map((i) => { %>
@@ -72,19 +73,22 @@
             <% if (i === "...") { %>
             <span> <%= i %> </span>
             <% } else { %>
-            <a href="/rooms?page=<%= i %>"><%= i %></a>
+            <a href="/checks?startAt=<%=startAt%>&endAt=<%=endAt%>&numberCustomer=<%=numberCustomer%>?page=<%= i %>"><%= i %></a>
             <% } %>
           </div>
           <% }) %>
           <% if (page < totalPages) { %>
           <div class="room-pagination p-2 ">
-            <a href="/rooms?page=<%= page + 1 %>"> Next </a>
+            <a href="/checks?startAt=<%=startAt%>&endAt=<%=endAt%>&numberCustomer=<%=numberCustomer%>?page=<%= page + 1 %>"> Next </a>
           </div>
           <% } %>
-  
+        
         </div>
+  
+        
       </div>
     </div>
+    
   </section>
   <!-- Rooms Section End -->
 
