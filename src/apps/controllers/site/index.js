@@ -1,23 +1,23 @@
-const mongoose = require("mongoose");
-const config = require("../../../config/default");
-const jwt = require("jsonwebtoken");
-const multer = require("multer");
-const moment = require("moment");
-const { accountValidation, transValidation } = require("../../../errLang/vn");
-const pagination = require("./../../../libs/pagination");
-const roomModel = require("../../models/roomModel");
-const userModel = require("../../models/userModel");
-const bookingModel = require("../../models/bookingModel");
-const contactModel = require("../../models/contactModel");
-const joi = require("joi");
+let mongoose = require("mongoose");
+let config = require("../../../config/default");
+let jwt = require("jsonwebtoken");
+let multer = require("multer");
+let moment = require("moment");
+let { accountValidation, transValidation } = require("../../../errLang/vn");
+let pagination = require("./../../../libs/pagination");
+let roomModel = require("../../models/roomModel");
+let userModel = require("../../models/userModel");
+let bookingModel = require("../../models/bookingModel");
+let contactModel = require("../../models/contactModel");
+let joi = require("joi");
 exports.index = (req, res) => {
   res.render("site/home")
 };
 exports.profile = async (req, res, next) => {
-  const token = req.cookies.token;
-  const decodeToken = jwt.verify(token, config.app.SECRET_TOKEN);
+  let token = req.cookies.token;
+  let decodeToken = jwt.verify(token, config.app.SECRET_TOKEN);
   //check decode token with id User
-  const user = await userModel.findOne({
+  let user = await userModel.findOne({
     _id: decodeToken._id,
   });
   res.render("site/profile", {user});
@@ -27,10 +27,10 @@ exports.about = (req, res) => {
 };
 exports.contact = async (req, res) => {
   try {
-    const token = req.cookies.token;
-  const decodeToken = jwt.verify(token, config.app.SECRET_TOKEN);
+    let token = req.cookies.token;
+  let decodeToken = jwt.verify(token, config.app.SECRET_TOKEN);
   //check decode token with id User
-  const user = await userModel.findOne({
+  let user = await userModel.findOne({
     _id: decodeToken._id,
   });
     if (user) {
@@ -44,7 +44,7 @@ exports.contact = async (req, res) => {
 exports.p_contact = async (req, res) => {
   try {
     //get idUser
-    const newContact = new contactModel({
+    let newContact = new contactModel({
       content: req.body.content,
       userId: req.body.id
     });
@@ -66,7 +66,7 @@ exports.new = (req, res) => {
 };
 /* @room */
 exports.room = async (req, res) => {
-  const {
+  let {
     limit,
     skip,
     range,
@@ -74,7 +74,7 @@ exports.room = async (req, res) => {
     page,
     totalPages,
   } = await pagination.room(req);
-  const rooms = await roomModel.find({ status: "empty" })
+  let rooms = await roomModel.find({ status: "empty" })
     .sort("-_id")
     .limit(limit)
     .skip(skip)
@@ -87,7 +87,7 @@ exports.room = async (req, res) => {
   });
 };
 exports.room_single = async (req, res) => {
-  const {
+  let {
     limit,
     skip,
     range,
@@ -95,7 +95,7 @@ exports.room_single = async (req, res) => {
     page,
     totalPages,
   } = await pagination.room_single(req);
-  const rooms = await roomModel
+  let rooms = await roomModel
     .find({ status: "empty", type: "single"})
     .sort("-_id")
     .limit(limit)
@@ -109,7 +109,7 @@ exports.room_single = async (req, res) => {
   });
 };
 exports.room_double = async (req, res) => {
-  const {
+  let {
     limit,
     skip,
     range,
@@ -117,7 +117,7 @@ exports.room_double = async (req, res) => {
     page,
     totalPages,
   } = await pagination.room_double(req);
-  const rooms = await roomModel
+  let rooms = await roomModel
     .find({ status: "empty", type: "double" })
     .sort("-_id")
     .limit(limit)
@@ -131,7 +131,7 @@ exports.room_double = async (req, res) => {
   });
 };
 exports.room_vip = async (req, res) => {
-  const {
+  let {
     limit,
     skip,
     range,
@@ -139,7 +139,7 @@ exports.room_vip = async (req, res) => {
     page,
     totalPages,
   } = await pagination.room_vip(req);
-  const rooms = await roomModel
+  let rooms = await roomModel
     .find({ status: "empty", type: "vip" })
     .sort("-_id")
     .limit(limit)
@@ -153,28 +153,63 @@ exports.room_vip = async (req, res) => {
   });
 };
 exports.room_detail = async (req, res) => {
-  const { startAt, endAt, id } = req.query; 
-  // const { id } = req.params;
-  const room = await roomModel.findOne({_id:id})
+  let { startAt, endAt, id } = req.query; 
+  let room = await roomModel.findOne({ _id: id })
   res.render("site/rooms/room-detail" , {room, startAt, endAt});
+ 
 };
 exports.checks = async (req, res) => {
   const { startAt, endAt, numberCustomer } = req.query;
-  const bookings = await bookingModel
-    .find({
-      //status: { $in: ["wait_check_in"] },
-      startAt: { $gte: moment.utc(startAt).format("DD-MM-YYYY 00:00:00") },
-      endAt: { $lt: moment.utc(endAt).format("DD-MM-YYYY 23:59:59") },
-    })
-    .populate("roomId");
-  //get list ID in Bookings
-  const arrRoomID = bookings.map((booking) => {
-    return booking.roomId.map((item) => item._id);
-  });
-  const arrRoomIDs = arrRoomID.join(",").split(",");
-
+  const startAtFormated = moment(startAt + "+0700", "DD-MM-YYYYZ");
+  const endAtFormated = moment(endAt + "/23:59:59+0700", "DD-MM-YYYY/HH:mm:ssZ");
+  let filter = {
+    $or: [
+      {
+        $and: [
+          { startAt: { $gte: startAtFormated } },
+          { startAt: { $lt: endAtFormated } },
+        ],
+      },
+      {
+        $and: [
+          { endAt: { $gte: startAtFormated } },
+          { endAt: { $lt: endAtFormated } },
+        ],
+      },
+    ],
+  };
+  const bookings = await bookingModel.find(filter).populate("roomId");
+  if (bookings === undefined || bookings.length == 0) {
+    let {
+      limit,
+      skip,
+      range,
+      rangerForDot,
+      page,
+      totalPages,
+    } = await pagination.room(req);
+    let rooms = await roomModel
+      .find({ status: "empty" })
+      .sort("-_id")
+      .limit(limit)
+      .skip(skip);
+    res.render("site/rooms/room-result", {
+      rooms,
+      startAt,
+      endAt,
+      numberCustomer,
+      range: rangerForDot,
+      page,
+      totalPages,
+    }); 
+  } else {
+    //get list ID in Bookings
+    const arrRoomID = bookings.map((booking) => {
+      return booking.roomId.map((item) => item._id);
+    });
+    const arrRoomIDs = arrRoomID.join(",").split(",");
     //panigition
-    const page = parseInt(req.query.page || 2);
+    const page = parseInt(req.query.page || 1);
     const limit = config.app.LIMIT;
     const skip = (page - 1) * limit;
     const totalDocuments = await roomModel
@@ -205,86 +240,149 @@ exports.checks = async (req, res) => {
       temp = i;
       rangerForDot.push(i);
     });
-  const rooms = await roomModel
-    .find({
-      _id: { $nin: arrRoomIDs },
-    })
-    .sort("-_id")
+    const rooms = await roomModel
+      .find({
+        _id: { $nin: arrRoomIDs },
+      })
+      .sort("-_id")
     .limit(limit)
     .skip(skip);
-  res.render("site/rooms/room-result", {
-    rooms,
-    startAt,
-    endAt,
-    numberCustomer,
-    range: rangerForDot,
-    page,
-    totalPages,
-  });
- 
+    res.render("site/rooms/room-result", {
+      rooms,
+      startAt,
+      endAt,
+      numberCustomer,
+      range: rangerForDot,
+      page,
+      totalPages,
+    });
+  }
+  
 };
 
+exports.checkRoom = async (req, res) => {
+  try {
+    const { startAt, endAt, roomId } = req.body;
+    const  startAtFormated = moment(startAt + "+0700", "DD-MM-YYYYZ");
+    const endAtFormated = moment(
+      endAt + "/23:59:59+0700",
+      "DD-MM-YYYY/HH:mm:ssZ"
+    );
+    let filter = {
+      $or: [
+        {
+          $and: [
+            { startAt: { $gte: startAtFormated } },
+            { startAt: { $lt: endAtFormated } },
+          ],
+        },
+        {
+          $and: [
+            { endAt: { $gte: startAtFormated } },
+            { endAt: { $lt: endAtFormated } },
+          ],
+        },
+      ],
+      roomId: {$in: [roomId]}
+  };
+  
+  let result = await bookingModel.find(filter);
+    if (!result.length) {
+      return res.status(200).json({
+        status: "success",
+        message: transValidation.success_room,
+      });
+    } else {
+      return res.status(400).json({
+        status: "fail",
+        message: transValidation.check_room,
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({
+      status: "fail",
+      message: transValidation.check_incorrect,
+    })
+  }
+};
 
 exports.booking = async (req, res) => {
+  // try {
+  //   //check decode token with id User
+  //   let { numberCustomer, roomId, contentConfirm, newBookingId } = req.body;
+  //   let {
+  //     startAt,
+  //     endAt,
+  //   } = req.query;
+  //   //get idUser
+  //   let token = req.cookies.token;
+  //   let decodeToken = jwt.verify(token, config.app.SECRET_TOKEN);
+  //   if (contentConfirm == "") {
+  //     let newBooking = new bookingModel({
+  //       startAt: moment.utc(startAt).format("DD-MM-YYYY"),
+  //       endAt: moment.utc(endAt).format("DD-MM-YYYY"),
+  //       roomId: [],
+  //       userId: decodeToken._id,
+  //       numberCustomer,
+  //     });
+  //     newBooking.roomId.push(roomId);
+  //     await newBooking.save();
+  //     //delete cookie
+  //     res.clearCookie("newBookingId");
+  //     return res.status(200).json({
+  //       status: "success",
+  //       message: transValidation.input_continue_success,
+  //       newBookingId: newBooking._id,
+  //     });
+  //   } else if (contentConfirm === "OK") {
+  //     await bookingModel.updateOne(
+  //       { _id: newBookingId },
+  //       { $push: { roomId: [roomId] } }
+  //     );
+  //       //delete cookie
+  //     res.clearCookie("newBookingId");
+  //     return res.status(200).json({
+  //       status: "success",
+  //       message: transValidation.input_continue_success,
+  //     });
 
-  try {
-    //check decode token with id User
-    const { startAt, endAt, numberCustomer, roomId, contentConfirm , newBookingId } = req.body;
-    //get idUser
-    const token = req.cookies.token;
-    const decodeToken = jwt.verify(token, config.app.SECRET_TOKEN);
-    if (contentConfirm == "") {
-      const newBooking = new bookingModel({
-        startAt: moment.utc(startAt).format("DD-MM-YYYY"),
-        endAt: moment.utc(endAt).format("DD-MM-YYYY"),
-        roomId: [],
-        userId: decodeToken._id,
-        numberCustomer,
-      });
-      newBooking.roomId.push(roomId);
-      await newBooking.save();
-      //delete cookie
-      res.clearCookie("newBookingId");
-      return res.status(200).json({
-        status: "success",
-        message: transValidation.input_continue_success,
-        newBookingId: newBooking._id,
-      });
-    } else if (contentConfirm === "OK") {
-      await bookingModel.updateOne(
-        { _id: newBookingId },
-        { $push: { roomId: [roomId] } }
-      );
-        //delete cookie
-      res.clearCookie("newBookingId");
-      return res.status(200).json({
-        status: "success",
-        message: transValidation.input_continue_success,
-      });
-
-    }
+  //   }
     
+  // } catch (error) {
+  //   return res.status(400).json({
+  //     status: "fail",
+  //     message: transValidation.check_incorrect,
+  //   });
+  // }
+  
+  try {
+    const { startAt, endAt,  numberCustomer, roomId, contentConfirm} = req.body;
+    return res.status(200).json({
+        status: "success",
+        message: transValidation.input_continue_success,
+      });
+
+
   } catch (error) {
     return res.status(400).json({
       status: "fail",
       message: transValidation.check_incorrect,
     });
   }
-  
-  
 };
 
 
 exports.myBooking = async (req, res) => {
   try {
-    const token = req.cookies.token;
-    const decodeToken = jwt.verify(token, config.app.SECRET_TOKEN);
+    let token = req.cookies.token;
+    let decodeToken = jwt.verify(token, config.app.SECRET_TOKEN);
     //check decode token with id User
-    const user = await userModel.findOne({
+    let user = await userModel.findOne({
       _id: decodeToken._id,
     });
     //check booking with userId
-    const bookings = await bookingModel
+    let bookings = await bookingModel
       .find({ userId: decodeToken._id, })
       .populate("userId")
       .populate("roomId")
@@ -298,3 +396,13 @@ exports.myBooking = async (req, res) => {
     })
   }
 }
+exports.confirmAndPay = async (req, res) => {
+  try {
+    res.render("site/confirmAndPay")
+  } catch (error) {
+    return res.status(400).json({
+      status: "fail",
+      message: transValidation.server_incorrect,
+    });
+  }
+};

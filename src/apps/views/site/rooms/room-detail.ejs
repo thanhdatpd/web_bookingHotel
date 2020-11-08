@@ -9,7 +9,7 @@
             <h2>Chi tiết phòng</h2>
             <div class="bt-option">
               <a href="/">Trang chủ</a>
-              <!-- <span><%=room.name %></span> -->
+              <span><%=room.name %></span>
             </div>
           </div>
         </div>
@@ -38,7 +38,7 @@
                     <i class="icon_star"></i>
                     <i class="icon_star-half_alt"></i>
                   </div>
-                  <a  onclick="checkBooking()">Đặt phòng ngay</a>
+                  <a  onclick="checkBooking()">Đặt phòng</a>
                 </div>
               </div>
               <h2><%=room.price %><span>/ 1 ngày</span></h2>
@@ -135,15 +135,15 @@
         <div class="col-lg-4">
           <div class="room-booking">
             <h3>Đặt phòng </h3>
-            <form>
+            <form id="form-check">
               <div class="check-date">
                 <label for="date-in">Ngày đến:</label>
-                <input type="text" class="date-input" id="startAt" name="startAt" required value="<%=startAt%>">
+                <input type="text" class="date-input" id="startAt" name="startAt" required value="<%=startAt%>" >
                 <i class="icon_calendar"></i>
               </div>
               <div class="check-date">
                 <label for="date-out">Ngày đi:</label>
-                <input type="text" class="date-input" id="endAt" name="endAt" required value="<%=endAt%>">
+                <input type="text" class="date-input" id="endAt" name="endAt" required value="<%=endAt%>" >
                 <i class="icon_calendar"></i>
               </div>
               <div class="select-option">
@@ -153,7 +153,7 @@
                   <option value="three">3 Người</option>
                 </select>
               </div>
-              <button onclick="check()">Kiểm tra</button>
+              <button type="button" onclick="check()" >Kiểm tra</button>
             </form>
           </div>
         </div>
@@ -161,111 +161,97 @@
     </div>
   </section>
 
-  <script>
-     //setCookie in Cookies
-      function setCookie(cname, cvalue, exdays) {
-        var d = new Date();
-        d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-        var expires = "expires=" + d.toUTCString();
-        document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-      }
-      //getCookie in Cookies
-      function getCookie(cname) {
-        var name = cname + "=";
-        var decodedCookie = decodeURIComponent(document.cookie);
-        var ca = decodedCookie.split(';');
-        for (var i = 0; i < ca.length; i++) {
-          var c = ca[i];
-          while (c.charAt(0) == ' ') {
-            c = c.substring(1);
-          }
-          if (c.indexOf(name) == 0) {
-            return c.substring(name.length, c.length);
-          }
+<script>
+  //getCookie in Cookies
+    function getCookie(cname) {
+      var name = cname + "=";
+      var decodedCookie = decodeURIComponent(document.cookie);
+      var ca = decodedCookie.split(';');
+      for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+          c = c.substring(1);
         }
-        return "";
+        if (c.indexOf(name) == 0) {
+          return c.substring(name.length, c.length);
+        }
       }
-
-    function check() {
-        // alert("Sẵn sàng đặt !!!!!")
-      }
+      return "";
+    }
+    function check(){
+    var startAt = $("#startAt").val();
+    var endAt = $("#endAt").val();
+    var roomId = $("#roomId").val();
+    var numberCustomer = $("#numberCustomer").val();
+    if(startAt == "" || startAt == "" || endAt == "" || numberCustomer == ""){
+      alertify.error(" Xin vui lòng nhập đầy đủ thông tin ");
+    }else{
+      $.ajax({
+        url: "/checkRoom",
+        method: "POST",
+        data: {
+          startAt: startAt,
+          endAt: endAt,
+          roomId: roomId,
+        }
+      }).then(function (data) {
+        alertify.success(data.message);
+      }).catch(function (err) {
+        alertify.error(err.responseJSON.message);
+      })
+    }
+      
+    }
+  
+  
+  
     function checkBooking(){
-      let cookieBooking = getCookie("newBookingId")
-      if(!cookieBooking){
-         var contentConfirm = "";
-        var startAt = $("#startAt").val();
-        var endAt = $("#endAt").val();
-        var numberCustomer = $("#numberCustomer").val();
-        var roomId = $("#roomId").val();
-        $.ajax({
-          url: "/booking",
-          method: "POST",
-          data: {
-            startAt: startAt,
-            endAt: endAt,
-            numberCustomer: numberCustomer,
-            roomId: roomId,
-            contentConfirm: contentConfirm
-          }
-        })
-          .then(function (data) {
-            setCookie("newBookingId", data.newBookingId, 1)
-            alertify.confirm(data.message,
-              function () {
-                window.timeout = setTimeout(async function () {
-                  window.location.href = "/rooms";
-                }, 1000)
-              },
-              function () {
-                alertify.success('Cám ơn bạn đã đặt phòng , vui lòng đợi xác nhận từ nhân viên khách sạn , chúc bạn có chuyến trải nghiệm thật vui vẻ ');
-                window.timeout = setTimeout(function () {
-                  window.location.href = "/";
-                }, 2000)
-              });
-          }).catch(function (err) {
-            alertify.error(err.responseJSON.message);
+    const user = getCookie("token")
+    if (user == "") {
+      window.location.href = "/login";
+    } else {
+      var contentConfirm = "";
+      var startAt = $("#startAt").val();
+      var endAt = $("#endAt").val();
+      var numberCustomer = $("#numberCustomer").val();
+      var roomId = $("#roomId").val();
+      $.ajax({
+        url: "/booking",
+        method: "POST",
+        data: {
+          startAt: startAt,
+          endAt: endAt,
+          numberCustomer: numberCustomer,
+          roomId: roomId,
+          contentConfirm: contentConfirm
+        }
+      }).then(function (data) {
+        alertify.confirm(data.message,
+          function () {
+            alertify.success('Cám ơn bạn đã đặt phòng , vui lòng đợi xác nhận từ nhân viên khách sạn, chúc bạn có chuyến trải nghiệm thật vui vẻ ');
+            // window.timeout = setTimeout(async function () {
+            //   window.location.href = "/rooms";
+            // }, 2000)
+          },
+          function () {
+            window.timeout = setTimeout(function () {
+              window.location.href = "/confirmAndPay";
+            }, 2000)
           })
-      }else{
-        checkBookingN()
+
+        })
+
+          .catch (function (err) {
+          alertify.error(err.responseJSON.message);
+        }) 
+
+
+
+
       }
-      }
-    function checkBookingN() {
-            var newBookingId = getCookie("newBookingId")
-            var contentConfirm = "OK";
-            var startAt = $("#startAt").val();
-            var endAt = $("#endAt").val();
-            var numberCustomer = $("#numberCustomer").val();
-            var roomId = $("#roomId").val();
-              $.ajax({
-                url: "/booking",
-                method: "POST",
-                data: {
-                  startAt: startAt,
-                  endAt: endAt,
-                  numberCustomer: numberCustomer,
-                  roomId: roomId,
-                  contentConfirm: contentConfirm,
-                  newBookingId : newBookingId
-                }
-              }).then(function (data) {
-                alertify.confirm(data.message,
-                  function () {
-                    alertify.success('Cám ơn bạn đã đặt phòng , vui lòng đợi xác nhận từ nhân viên khách sạn, chúc bạn có chuyến trải nghiệm thật vui vẻ ');
-                    window.timeout = setTimeout(async function () {
-                      window.location.href = "/rooms";
-                    }, 2000)
-                  },
-                   function () {
-                    alertify.success('Cám ơn bạn đã đặt phòng tại khách sạn , xin hãy đợi xác nhận từ khách sạn, chúc bạn có chuyến trải nghiệm thật vui vẻ ');
-                    window.timeout = setTimeout(function () {
-                      window.location.href = "/";
-                    }, 2000)
-                  });
-              }).catch(function (err) {
-                alertify.error(err.responseJSON.message);
-              })
-            }
-  </script>
-  <!-- Room Details Section End -->
-<!-- Rooms Section End -->
+    }
+  
+
+</script>
+
 <%- include("./../layouts/footer") %>
