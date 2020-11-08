@@ -153,16 +153,13 @@ exports.room_vip = async (req, res) => {
   });
 };
 exports.room_detail = async (req, res) => {
-  const { startAt, endAt, id } = req.query;
-  console.log("req.query", req.query)
-  
+  const { startAt, endAt, id } = req.query; 
   // const { id } = req.params;
   const room = await roomModel.findOne({_id:id})
   res.render("site/rooms/room-detail" , {room, startAt, endAt});
 };
 exports.checks = async (req, res) => {
   const { startAt, endAt, numberCustomer } = req.query;
-  console.log(req.query);
   const bookings = await bookingModel
     .find({
       //status: { $in: ["wait_check_in"] },
@@ -185,7 +182,6 @@ exports.checks = async (req, res) => {
         _id: { $nin: arrRoomIDs },
       })
       .countDocuments();
-    console.log("totalDocuments", totalDocuments);
     const totalPages = Math.ceil(totalDocuments / limit);
     const range = [];
     const rangerForDot = [];
@@ -216,9 +212,6 @@ exports.checks = async (req, res) => {
     .sort("-_id")
     .limit(limit)
     .skip(skip);
-  console.log("rooms", rooms);
-  console.log("page", page);
-  console.log("totalPages,", totalPages);
   res.render("site/rooms/room-result", {
     rooms,
     startAt,
