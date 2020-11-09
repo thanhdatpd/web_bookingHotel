@@ -10,7 +10,7 @@ module.exports.transValidation = {
     "Kiểm tra thành công , mời bạn bấm đặt phòng ",
   input_success_room: "Thêm mới phòng thành công ",
   input_continue_success:
-    "Đặt phòng thành công , bạn có muốn tiếp tục đặt thêm phòng không ? ",
+    "Đã thêm vào danh sách đặt phòng , bạn có muốn tiếp tục đặt thêm phòng không ? ",
   checkLogin_incorrect:
     " Bạn chưa đăng nhập , vui lòng thực hiện đăng nhập !!! ",
   contact_incorrect:

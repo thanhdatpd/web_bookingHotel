@@ -308,62 +308,25 @@ exports.checkRoom = async (req, res) => {
 };
 
 exports.booking = async (req, res) => {
-  // try {
-  //   //check decode token with id User
-  //   let { numberCustomer, roomId, contentConfirm, newBookingId } = req.body;
-  //   let {
-  //     startAt,
-  //     endAt,
-  //   } = req.query;
-  //   //get idUser
-  //   let token = req.cookies.token;
-  //   let decodeToken = jwt.verify(token, config.app.SECRET_TOKEN);
-  //   if (contentConfirm == "") {
-  //     let newBooking = new bookingModel({
-  //       startAt: moment.utc(startAt).format("DD-MM-YYYY"),
-  //       endAt: moment.utc(endAt).format("DD-MM-YYYY"),
-  //       roomId: [],
-  //       userId: decodeToken._id,
-  //       numberCustomer,
-  //     });
-  //     newBooking.roomId.push(roomId);
-  //     await newBooking.save();
-  //     //delete cookie
-  //     res.clearCookie("newBookingId");
-  //     return res.status(200).json({
-  //       status: "success",
-  //       message: transValidation.input_continue_success,
-  //       newBookingId: newBooking._id,
-  //     });
-  //   } else if (contentConfirm === "OK") {
-  //     await bookingModel.updateOne(
-  //       { _id: newBookingId },
-  //       { $push: { roomId: [roomId] } }
-  //     );
-  //       //delete cookie
-  //     res.clearCookie("newBookingId");
-  //     return res.status(200).json({
-  //       status: "success",
-  //       message: transValidation.input_continue_success,
-  //     });
-
-  //   }
-    
-  // } catch (error) {
-  //   return res.status(400).json({
-  //     status: "fail",
-  //     message: transValidation.check_incorrect,
-  //   });
-  // }
-  
   try {
-    const { startAt, endAt,  numberCustomer, roomId, contentConfirm} = req.body;
-    return res.status(200).json({
+    const { startAt, endAt, numberCustomer } = req.body;
+    if (startAt, endAt, numberCustomer){
+      return res.status(200).json({
         status: "success",
         message: transValidation.input_continue_success,
       });
-
-
+    }
+      // let token = req.cookies.token;
+      // let roomID = req.cookies.booking.roomID;
+      // let decodeToken = jwt.verify(token, config.app.SECRET_TOKEN);
+      //   let booking = {
+      //     startAt: moment(startAt + "+0700", "DD-MM-YYYYZ"),
+      //     endAt: moment(endAt + "/23:59:59+0700", "DD-MM-YYYY/HH:mm:ssZ"),
+      //     roomId: roomID,
+      //     userId: decodeToken._id,
+      //     numberCustomer,
+      //   };
+      //   console.log("booking", booking);    
   } catch (error) {
     return res.status(400).json({
       status: "fail",

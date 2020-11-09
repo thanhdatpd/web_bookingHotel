@@ -43,6 +43,7 @@
               </div>
               <h2><%=room.price %><span>/ 1 ngày</span></h2>
               <input type="hidden" id="roomId" name="roomId" required value="<%=room._id %>" class="form-control">
+              <input type="hidden" id="price" name="price" required value="<%=room.price %>" class="form-control">
               <table class="m-auto">
                 <tbody>
                   <tr>
@@ -162,23 +163,32 @@
   </section>
 
 <script>
-  //getCookie in Cookies
-    function getCookie(cname) {
-      var name = cname + "=";
-      var decodedCookie = decodeURIComponent(document.cookie);
-      var ca = decodedCookie.split(';');
-      for (var i = 0; i < ca.length; i++) {
-        var c = ca[i];
-        while (c.charAt(0) == ' ') {
-          c = c.substring(1);
-        }
-        if (c.indexOf(name) == 0) {
-          return c.substring(name.length, c.length);
-        }
+  /*get Cookie */
+ function getCookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+      var c = ca[i];
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1);
       }
-      return "";
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
     }
-    function check(){
+    return "";
+  }
+  /*set Cookie */
+  function setCookie(cname, cvalue, exdays) {
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+    var expires = "expires=" + d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+  }
+  
+  /*click check time booking*/     
+  function check(){
     var startAt = $("#startAt").val();
     var endAt = $("#endAt").val();
     var roomId = $("#roomId").val();
@@ -202,19 +212,25 @@
     }
       
     }
-  
-  
-  
+  /*click to booking*/
     function checkBooking(){
-    const user = getCookie("token")
+     const user = getCookie("token")
     if (user == "") {
       window.location.href = "/login";
     } else {
-      var contentConfirm = "";
-      var startAt = $("#startAt").val();
+      let cookieBooking = getCookie("booking")
+      if (!cookieBooking) {
+        var startAt = $("#startAt").val();
       var endAt = $("#endAt").val();
       var numberCustomer = $("#numberCustomer").val();
-      var roomId = $("#roomId").val();
+      var booking = [
+        {
+          roomId : $("#roomId").val(),
+          price : $("#price").val()
+        }
+      ]
+      //create cookie Booking to save information booking
+        setCookie("booking", JSON.stringify(booking), 1)
       $.ajax({
         url: "/booking",
         method: "POST",
@@ -222,35 +238,74 @@
           startAt: startAt,
           endAt: endAt,
           numberCustomer: numberCustomer,
-          roomId: roomId,
-          contentConfirm: contentConfirm
         }
       }).then(function (data) {
+        //$.cookie("booking", JSON.stringify(data.booking))
         alertify.confirm(data.message,
           function () {
-            alertify.success('Cám ơn bạn đã đặt phòng , vui lòng đợi xác nhận từ nhân viên khách sạn, chúc bạn có chuyến trải nghiệm thật vui vẻ ');
+          //  let contentConfirm = "OK"
             // window.timeout = setTimeout(async function () {
-            //   window.location.href = "/rooms";
-            // }, 2000)
+            //   window.location.href = "/checks?startAt=<%=startAt%>&endAt=<%=endAt%>";
+            // }, 1000)
+             checkBookingN()
           },
           function () {
+          //  let contentConfirm = "CANCEL"
+          //  setCookie("booking", JSON.stringify(data.booking), 1)
+            //let contentConfirm = "CANCEL";
             window.timeout = setTimeout(function () {
               window.location.href = "/confirmAndPay";
             }, 2000)
           })
-
         })
-
           .catch (function (err) {
           alertify.error(err.responseJSON.message);
         }) 
-
-
-
-
+      }else{
+        checkBookingN()
       }
+     }
     }
-  
+    function checkBookingN(){
+    //  let contentConfirm;
+       var newBooking = 
+        {
+          roomId: $("#roomId").val(),
+          price: $("#price").val()
+        }
+      
+       console.log("checkBookingN -> newBooking", newBooking)
+      var booking = $.parseJSON(getCookie("booking"));
+      booking.push(newBooking)
+      console.log('booking', booking);
+      setCookie("booking", JSON.stringify(booking), 1)
+       $.ajax({
+        url: "/booking",
+        method: "POST",
+         data: {
+           startAt: startAt,
+           endAt: endAt,
+           numberCustomer: numberCustomer,
+         }  
+    }).then(function (data) {
+
+      alertify.confirm(data.message,
+        function () {
+           window.timeout = setTimeout(async function () {
+            window.location.href = "/checks?startAt=<%=startAt%>&endAt=<%=endAt%>";
+          }, 1000)
+           
+        },
+        function () {
+          window.timeout = setTimeout(function () {
+            window.location.href = "/confirmAndPay";
+          }, 2000)
+        })
+        
+    }).catch(function (err) {
+      alertify.error(err.responseJSON.message);
+    })
+    }
 
 </script>
 
