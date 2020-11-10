@@ -308,31 +308,61 @@ exports.checkRoom = async (req, res) => {
 };
 
 exports.booking = async (req, res) => {
+  let { token, bookings } = req.cookies;
+  let decodeToken = jwt.verify(token, config.app.SECRET_TOKEN);
+  //check decode token with id User
+  let user = await userModel.findOne({
+    _id: decodeToken._id,
+  });
+  const bookingArr = JSON.parse(bookings);
+  const total = bookingArr.reduce((total, booking) => {
+    return total + booking.price;
+  }, 0)
+  
+  res.render("site/confirmAndPay", { user, bookingArr, total });
+};
+exports.p_booking = async (req, res) => {
   try {
-    const { startAt, endAt, numberCustomer } = req.body;
-    if (startAt, endAt, numberCustomer){
-      return res.status(200).json({
-        status: "success",
-        message: transValidation.input_continue_success,
-      });
-    }
-      // let token = req.cookies.token;
-      // let roomID = req.cookies.booking.roomID;
-      // let decodeToken = jwt.verify(token, config.app.SECRET_TOKEN);
-      //   let booking = {
-      //     startAt: moment(startAt + "+0700", "DD-MM-YYYYZ"),
-      //     endAt: moment(endAt + "/23:59:59+0700", "DD-MM-YYYY/HH:mm:ssZ"),
-      //     roomId: roomID,
-      //     userId: decodeToken._id,
-      //     numberCustomer,
-      //   };
-      //   console.log("booking", booking);    
+    let token = req.cookies.token;
+    let decodeToken = jwt.verify(token, config.app.SECRET_TOKEN);
+    const { bookings } = req.cookies;
+    let bookingArr = JSON.parse(bookings);
+    const startAt = bookingArr.map((booking) => {
+      return booking.startAt;
+    });
+    const endAt = bookingArr.map((booking) => {
+      return booking.endAt;
+    });
+    const numberCustomer = bookingArr.map((booking) => {
+      return booking.numberCustomer;
+    });
+    const arrRoomID = bookingArr.map((booking) => {
+      return booking.roomId;
+    });
+    const total = bookingArr.reduce((total, booking) => {
+      return total + booking.price;
+    }, 0);
+    const newBooking = new bookingModel({
+      startAt: moment(startAt[0] + "+0700", "DD-MM-YYYYZ"),
+      endAt: moment(endAt[0] + "/23:59:59+0700", "DD-MM-YYYY/HH:mm:ssZ"),
+      userId: decodeToken._id,
+      roomId: arrRoomID,
+      numberCustomer: numberCustomer[0],
+      price: total,
+    });
+    await newBooking.save();
+    return res.status(200).json({
+      status: "success",
+      message: transValidation.input_success,
+    });
   } catch (error) {
     return res.status(400).json({
       status: "fail",
-      message: transValidation.check_incorrect,
-    });
+      message: transValidation.server_incorrect,
+    })
   }
+ 
+  
 };
 
 
@@ -359,13 +389,26 @@ exports.myBooking = async (req, res) => {
     })
   }
 }
-exports.confirmAndPay = async (req, res) => {
+
+exports.delete = async (req, res) => {
   try {
-    res.render("site/confirmAndPay")
+     const  roomId = req.body.roomId;
+     console.log("roomId", roomId)
+     let { bookings } = req.cookies;
+     const bookingArr = JSON.parse(bookings);
+     var newBooking = bookingArr.filter(function (el) {
+       
+       return el.roomId != roomId;
+     });
+     return res.status(200).json({
+       status: "success",
+       newBooking: newBooking,
+       message: transValidation.delete_incorrect,
+     });
   } catch (error) {
     return res.status(400).json({
       status: "fail",
       message: transValidation.server_incorrect,
     });
-  }
+  } 
 };

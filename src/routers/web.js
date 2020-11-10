@@ -45,8 +45,12 @@ router.get("/profile", SiteController.profile);
 
 router.get("/checks", SiteController.checks);
 router.post("/checkRoom", SiteController.checkRoom);
-router.post("/booking", SiteController.booking);
-router.get("/confirmAndPay", SiteController.confirmAndPay);
+router
+  .route("/checks/confirmAndPay")
+  .get(SiteController.booking)
+  .post(SiteController.p_booking);
+  router.route("/booking-delete").post(SiteController.delete);
+
 router.get("/my-bookings", SiteController.myBooking);
 
 

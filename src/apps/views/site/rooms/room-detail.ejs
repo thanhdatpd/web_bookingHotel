@@ -38,12 +38,19 @@
                     <i class="icon_star"></i>
                     <i class="icon_star-half_alt"></i>
                   </div>
-                  <a  onclick="checkBooking()">Đặt phòng</a>
+                <style>
+                  .disabled {
+                    pointer-events: none;
+                    cursor: default;
+                  }
+                </style>
+                  <a class="checkBooking disabled" onclick="checkBooking()">Đặt phòng</a>
                 </div>
               </div>
               <h2><%=room.price %><span>/ 1 ngày</span></h2>
               <input type="hidden" id="roomId" name="roomId" required value="<%=room._id %>" class="form-control">
               <input type="hidden" id="price" name="price" required value="<%=room.price %>" class="form-control">
+              <input type="hidden" id="roomName" name="roomName" required value="<%=room.name %>" class="form-control">
               <table class="m-auto">
                 <tbody>
                   <tr>
@@ -161,7 +168,7 @@
       </div>
     </div>
   </section>
-
+<script src="https://cdn.jsdelivr.net/npm/moment@2.24.0/moment.min.js"></script>
 <script>
   /*get Cookie */
  function getCookie(cname) {
@@ -206,6 +213,7 @@
         }
       }).then(function (data) {
         alertify.success(data.message);
+        $(".checkBooking").removeClass("disabled");
       }).catch(function (err) {
         alertify.error(err.responseJSON.message);
       })
@@ -218,78 +226,65 @@
     if (user == "") {
       window.location.href = "/login";
     } else {
-      let cookieBooking = getCookie("booking")
-      if (!cookieBooking) {
-        var startAt = $("#startAt").val();
+      var startAt = $("#startAt").val();
+      var startAtFormat = moment(startAt, "DD-MM-YYYY").valueOf();
       var endAt = $("#endAt").val();
-      var numberCustomer = $("#numberCustomer").val();
-      var booking = [
+      var endAtFormat = moment(endAt , "DD-MM-YYYY").valueOf();
+      var totalDaysBooking = parseInt((endAtFormat-startAtFormat)/ 86400000); // 1 days = 86400000 milisecond
+       var price = ($("#price").val() * totalDaysBooking)
+
+      let cookieBooking = getCookie("bookings")
+      if (!cookieBooking) {
+      var bookings = [
         {
-          roomId : $("#roomId").val(),
-          price : $("#price").val()
+          roomId: $("#roomId").val(),
+          startAt: startAt,
+          endAt: endAt,
+          price: price,
+          numberCustomer: $("#numberCustomer").val(),
+          roomName: $("#roomName").val(),
+          totalDaysBooking: totalDaysBooking,
         }
       ]
       //create cookie Booking to save information booking
-        setCookie("booking", JSON.stringify(booking), 1)
-      $.ajax({
-        url: "/booking",
-        method: "POST",
-        data: {
-          startAt: startAt,
-          endAt: endAt,
-          numberCustomer: numberCustomer,
-        }
-      }).then(function (data) {
-        //$.cookie("booking", JSON.stringify(data.booking))
-        alertify.confirm(data.message,
+        setCookie("bookings", JSON.stringify(bookings), 1)
+        alertify.confirm("Đã thêm phòng vào danh sách đặt phòng, bạn có muốn đặt thêm phòng không ?",
           function () {
-          //  let contentConfirm = "OK"
-            // window.timeout = setTimeout(async function () {
-            //   window.location.href = "/checks?startAt=<%=startAt%>&endAt=<%=endAt%>";
-            // }, 1000)
-             checkBookingN()
+              window.timeout = setTimeout(async function () {
+                window.location.href = "/checks?startAt=<%=startAt%>&endAt=<%=endAt%>";
+              }, 1000)
           },
           function () {
-          //  let contentConfirm = "CANCEL"
-          //  setCookie("booking", JSON.stringify(data.booking), 1)
-            //let contentConfirm = "CANCEL";
             window.timeout = setTimeout(function () {
-              window.location.href = "/confirmAndPay";
+              window.location.href = "/checks/confirmAndPay";
             }, 2000)
-          })
-        })
-          .catch (function (err) {
-          alertify.error(err.responseJSON.message);
-        }) 
+          }) 
       }else{
         checkBookingN()
       }
      }
     }
     function checkBookingN(){
-    //  let contentConfirm;
-       var newBooking = 
+      var startAt = $("#startAt").val();
+      var startAtFormat = moment(startAt, "DD-MM-YYYY").valueOf();
+      var endAt = $("#endAt").val();
+      var endAtFormat = moment(endAt, "DD-MM-YYYY").valueOf();
+      var totalDaysBooking = parseInt((endAtFormat - startAtFormat)/86400000); // 1 days = 86400000 milisecond
+      var price = ($("#price").val() * totalDaysBooking)
+       let newBooking = 
         {
           roomId: $("#roomId").val(),
-          price: $("#price").val()
+          startAt: startAt,
+          endAt: endAt,
+         price: price,
+         numberCustomer: $("#numberCustomer").val(),
+         roomName: $("#roomName").val(),
+         totalDaysBooking: totalDaysBooking,
         }
-      
-       console.log("checkBookingN -> newBooking", newBooking)
-      var booking = $.parseJSON(getCookie("booking"));
-      booking.push(newBooking)
-      console.log('booking', booking);
-      setCookie("booking", JSON.stringify(booking), 1)
-       $.ajax({
-        url: "/booking",
-        method: "POST",
-         data: {
-           startAt: startAt,
-           endAt: endAt,
-           numberCustomer: numberCustomer,
-         }  
-    }).then(function (data) {
-
-      alertify.confirm(data.message,
+      let bookings = $.parseJSON(getCookie("bookings"));
+      bookings.push(newBooking)
+      setCookie("bookings", JSON.stringify(bookings), 1)
+      alertify.confirm("Đã thêm phòng vào danh sách đặt phòng, bạn có muốn đặt thêm phòng không ?",
         function () {
            window.timeout = setTimeout(async function () {
             window.location.href = "/checks?startAt=<%=startAt%>&endAt=<%=endAt%>";
@@ -298,15 +293,10 @@
         },
         function () {
           window.timeout = setTimeout(function () {
-            window.location.href = "/confirmAndPay";
+            window.location.href = "/checks/confirmAndPay";
           }, 2000)
         })
-        
-    }).catch(function (err) {
-      alertify.error(err.responseJSON.message);
-    })
     }
-
 </script>
 
 <%- include("./../layouts/footer") %>

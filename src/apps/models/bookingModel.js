@@ -3,12 +3,14 @@ const mongoose = require("mongoose");
 const bookingSchema = new mongoose.Schema(
   {
     startAt: { type: Date, default: new Date() },
-    endAt: { type: Date, default: new Date()  },
-    roomId: [{
-      type: mongoose.Schema.Types.ObjectId,
-      required: true,
-      ref: "rooms",
-    }],
+    endAt: { type: Date, default: new Date() },
+    roomId: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: "rooms",
+      },
+    ],
     userId: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
@@ -25,6 +27,7 @@ const bookingSchema = new mongoose.Schema(
       enum: ["two", "three"],
       default: "two",
     },
+    price: { type: Number, default: 300000 },
   },
   {
     timestamps: true,
