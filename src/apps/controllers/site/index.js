@@ -11,6 +11,7 @@ let userModel = require("../../models/userModel");
 let bookingModel = require("../../models/bookingModel");
 let contactModel = require("../../models/contactModel");
 let servicesModel = require("../../models/servicesModel");
+let billServicesModel = require("../../models/billServicesModel");
 let joi = require("joi");
 exports.index = (req, res) => {
   res.render("site/home")
@@ -398,7 +399,6 @@ exports.myBooking = async (req, res) => {
 exports.delete = async (req, res) => {
   try {
      const  roomId = req.body.roomId;
-     console.log("roomId", roomId)
      let { bookings } = req.cookies;
      const bookingArr = JSON.parse(bookings);
      var newBooking = bookingArr.filter(function (el) {
@@ -439,16 +439,27 @@ exports.myServices = async (req, res) => {
 };
 exports.p_myServices = async (req, res) => {
   try {
-    // let token = req.cookies.token;
-    // let decodeToken = jwt.verify(token, config.app.SECRET_TOKEN);
-    // //check decode token with id User
-    // let user = await userModel.findOne({
-    //   _id: decodeToken._id,
+    let token = req.cookies.token;
+    let decodeToken = jwt.verify(token, config.app.SECRET_TOKEN);
+    const { arrServices } = req.body;
+    // var servicesIds = arrServices.filter(function (el) {
+    //   return el.id != "";
     // });
-    // //check booking with userId
-    // const services = await servicesModel.find().sort("-_id");
-    // res.render("site/myServices", { services, user });
-    res.json('ok')
+    const servicesIds = arrServices.map((service) => service.id);
+    console.log("arrServices", arrServices);
+    console.log("servicesIds", servicesIds)
+    const newBillServices = new billServicesModel({
+      userId: decodeToken._id,
+      servicesId: servicesIds,
+      //  quantity: billServices.quantity[0],
+    });
+    //newBillServices.servicesId.push(servicesIds);
+    console.log("newBillServices", newBillServices)
+    return res.status(200).json({
+      status: "success",
+      message: transValidation.services_room,
+    });
+
   } catch (error) {
     return res.status(400).json({
       status: "fail",

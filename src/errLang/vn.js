@@ -7,6 +7,7 @@ module.exports.transValidation = {
   input_success:
     "Đặt phòng thành công , xin vui lòng đợi xác nhận từ khách sạn ",
   success_room: "Kiểm tra thành công , mời bạn bấm đặt phòng ",
+  services_room: "Đặt dịch vụ thành công , vui lòng đợi xác nhận và mang đồ lên ",
   input_success_room: "Thêm mới phòng thành công ",
   input_continue_success:
     "Đã thêm vào danh sách đặt phòng , bạn có muốn tiếp tục đặt thêm phòng không ? ",
@@ -14,8 +15,7 @@ module.exports.transValidation = {
     " Bạn chưa đăng nhập , vui lòng thực hiện đăng nhập !!! ",
   contact_incorrect:
     " Cám ơn những ý kiến phản hồi quý báu của bạn , chúng tôi sẽ kiểm tra và thay đổi !!! ",
-  delete_incorrect:
-    "Bạn có muốn xóa phòng này không ?",
+  delete_incorrect: "Bạn có muốn xóa phòng này không ?",
 };
 module.exports.accountValidation = {
   account_incorrect: "Sai tài khoản hoặc mật khẩu",

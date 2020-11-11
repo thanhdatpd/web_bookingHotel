@@ -5,7 +5,12 @@ const billServicesSchema = new mongoose.Schema(
     userId: { type: mongoose.Schema.Types.ObjectId, ref: "users" },
     servicesId: [{ type: mongoose.Schema.Types.ObjectId, ref: "services" }],
     quantity: { type: Number, default: 1 },
-    status: { type: String, enum:["wait_confirm","ordered"] },  
+    //  price: { type: Number, default: 1 },
+    status: {
+      type: String,
+      enum: ["wait_confirm", "ordered"],
+      default: "wait_confirm",
+    },
   },
   {
     timestamps: true,
