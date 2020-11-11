@@ -4,6 +4,7 @@ const servicesSchema = new mongoose.Schema(
   {
     name: { type: String, default: "" },
     price: { type: Number, default: 10000 },
+    description: { type: String, default: ""}
   },
 );
 

@@ -4,6 +4,7 @@ const multer = require("multer");
 const { accountValidation, transValidation } = require("../../../errLang/vn");
 const pagination = require("./../../../libs/pagination");
 const roomModel = require("../../models/roomModel");
+const { formatPrice } = require("./../../../libs/utils");
 const joi = require("joi");
 
 const storage = multer.diskStorage({
@@ -40,6 +41,7 @@ exports.room = async (req, res, next) => {
     range: rangerForDot,
     page,
     totalPages,
+    formatPrice,
   });
 };
 //add room

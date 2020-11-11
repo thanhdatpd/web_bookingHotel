@@ -1,0 +1,152 @@
+<!-- Header -->
+<%- include("./layouts/header") %>
+<!-- Breadcrumb Section Begin -->
+<div class="breadcrumb-section">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="breadcrumb-text">
+          <h2>Trang cá nhân </h2>
+          <div class="bt-option">
+            <a href="/">Danh sách dịch vụ </a>
+            <span class="text-warning"><%= user.fullName %></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Breadcrumb Section End -->
+
+
+<!-- Rooms Section Begin -->
+<section class="rooms-section spad">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4 col-xs-12">
+        <div class="list-group mt-5">
+          <a href="/profile" class="list-group-item list-group-item-action active">
+            Thông tin dịch vụ
+          </a>
+          <a href="/my-services" class="list-group-item list-group-item-action">Thông tin đặt phòng</a>
+          <a href="/profile" class="list-group-item list-group-item-action">Thay đổi mật khẩu</a>
+          <a href="/my-services" class="list-group-item list-group-item-action">Thêm dịch vụ</a>
+          <a href="/profile" class="list-group-item list-group-item-action disabled">Hóa đơn chi phí</a>
+        </div>
+      </div>
+
+      <div class="col-md-8 col-xs-12 ">
+        <div class="input-group mb-3 d-flex justify-content-center">
+          <div class="">
+            <img src="/assets/images/uploads/users/<%=user.avatar %>" class="rounded-circle  " alt="Ảnh đại diện"
+              height="100" width="100">
+            <button type="button" class="btn btn-outline-warning"> Ảnh đại diện cute quá !!! </button>
+          </div>
+        </div>
+        <style>
+          .table {
+            height: 300px;
+            display: block;
+            overflow-y: scroll;
+            width: 100%;
+          }
+        
+          input {
+            width: 33.33%;
+          }
+        </style>
+        <div class="row">
+          <div class="col-sm-12">
+            <table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid"
+              aria-describedby="dataTable_info" style="width: 100%;">
+              <thead>
+                <tr role="row">
+                  <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1"
+                    aria-label="#: activate to sort column descending" aria-sort="ascending" style="width: 4px;">
+                    #</th>
+                  <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1"
+                    aria-label="fullName: activate to sort column ascending" style="width: 150px;">Tên dịch vụ </th>
+                  <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1"
+                    aria-label="Start date: activate to sort column ascending" style="width: 150px;">Số lượng</th>
+                  <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1"
+                    aria-label="Start date: activate to sort column ascending" style="width: 300px;">Mô tả </th>
+                  <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1"
+                    aria-label="Start date: activate to sort column ascending" style="width: 200px;">Giá tiền
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <% services.forEach((service, index) => { %>
+                  
+                <tr role="row" class="odd">
+                  <td class="sorting_1"><%=index+1 %></td>
+                  <td><%=service.name%></td>
+                  <td >
+                    <input class="quantity"   type="number"  min="1" value="0"> 
+                    <input type="hidden" id="serviceId" value="<>">
+                   </td>
+                  <td><%=service.description%></td>
+                  <td><%=formatPrice(service.price)%> đ</td>
+                </tr>
+                <% }) %>
+              </tbody>
+            </table>
+            <div class="d-flex  justify-content-center ">           
+              <span class="h5 pl-2 pb-3 mt-4 mb-4 text-primary ">+ Tổng tiền :
+            
+                <span class="badge badge-primary">0 VNĐ</span>           
+                <span>
+            </div>
+            <div class="col-lg-12 d-flex justify-content-center ">
+              <div class="col-lg-12">
+                <div class="room-pagination">
+                  <button type="button" onclick="callServices()" class="btn btn-success">Đặt dịch vụ </button>
+                  <button type="reset" class="btn btn-default">Làm mới</button>
+                </div>
+              </div>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<%- include("./layouts/footer") %>
+<script>
+  // $(document).ready(function () {
+  //    $(":input").bind('keyup mouseup', function () {
+        // var idServices = $("#serviceId").val();
+        // var arrServices = $('.quantity').map((_, el) => el.value).get()
+        // const a = arrServices.map((service) => {
+        //   return service;
+        // })
+        //   console.log("a", a)
+        // console.log("arrServices", arrServices) 
+
+    //});
+    // let arrServices = {
+    //   id : idServices,
+    //   quantity : 
+    // }
+    var quantity = document.getElementsByClassName("quantity");
+    console.log("quantity", quantity)
+    for (var i = 0; i < quantity.length; i++) {
+        var input = quantity[i];
+        input.addEventListener("change", function (event) {
+          var input = event.target
+          if (isNaN(input.value) || input.value <= 0) {
+            input.value = 1;
+          }
+          //update
+        })
+      }
+
+  function callServices(){
+    
+  }
+
+  // function changeQuantity(a) {
+  //   console.log(a);
+  // }
+</script>
+<!-- Rooms Section End -->

@@ -30,10 +30,6 @@ router
   .route("/contacts")
   .get(SiteController.contact)
   .post(SiteController.p_contact);
-
-
-
-
 router.get("/rooms", SiteController.room);
 router.get("/room-single", SiteController.room_single);
 router.get("/room-double", SiteController.room_double);
@@ -41,8 +37,6 @@ router.get("/room-vip", SiteController.room_vip);
 router.get("/news", SiteController.new);
 router.get("/room-detail", SiteController.room_detail);
 router.get("/profile", SiteController.profile);
-
-
 router.get("/checks", SiteController.checks);
 router.post("/checkRoom", SiteController.checkRoom);
 router
@@ -50,8 +44,11 @@ router
   .get(SiteController.booking)
   .post(SiteController.p_booking);
   router.route("/booking-delete").post(SiteController.delete);
-
 router.get("/my-bookings", SiteController.myBooking);
+router
+  .route("/my-services")
+  .get(SiteController.myServices)
+  .post(SiteController.p_myServices);
 
 
 

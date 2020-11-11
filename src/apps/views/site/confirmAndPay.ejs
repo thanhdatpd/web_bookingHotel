@@ -103,7 +103,7 @@
                     else { %>
                   <td><span class="badge badge-warning">3 người trở lên</span></td>
                   <% } %>
-                  <td><span class="badge badge-primary"><%=booking.price%> VNĐ</span></td>
+                  <td><span class="badge badge-primary"><%=formatPrice(booking.price)%> đ</span></td>
                   <td>
                     <a onclick="removeBooking()"
                     class="btn btn-danger btn-circle"><i class="fas fa-trash "></i></a>
@@ -121,7 +121,7 @@
         
           <span class="h5 pl-2 pb-3 mt-4 mb-4 text-primary ">+ Tổng tiền : 
 
-            <span class="badge badge-primary"><%=total %> VNĐ</span>
+            <span class="badge badge-primary"><%=formatPrice(total)%> đ</span>
 
             <span>         
         </div>
@@ -161,10 +161,6 @@
         var expires = "expires=" + d.toUTCString();
         document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
       }
-      /*delete Cookie */
-      function deleteCookie(name) {
-          document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-        }
     function removeBooking(){
       var roomId = $("#roomId").val();
       $.ajax({
@@ -198,8 +194,8 @@
           bookings: bookings,
         }
       }).then(function (data) {
-        deleteCookie("bookings")
         alertify.success(data.message);
+        setCookie("bookings","",0)
         window.timeout = setTimeout(function () {
           window.location.href = "/my-bookings";
         },2000)

@@ -47,7 +47,7 @@
                   <a class="checkBooking disabled" onclick="checkBooking()">Đặt phòng</a>
                 </div>
               </div>
-              <h2><%=room.price %><span>/ 1 ngày</span></h2>
+              <h2><%=formatPrice(room.price)%>đ<span>/ 1 ngày</span></h2>
               <input type="hidden" id="roomId" name="roomId" required value="<%=room._id %>" class="form-control">
               <input type="hidden" id="price" name="price" required value="<%=room.price %>" class="form-control">
               <input type="hidden" id="roomName" name="roomName" required value="<%=room.name %>" class="form-control">

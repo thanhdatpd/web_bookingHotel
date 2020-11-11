@@ -69,7 +69,7 @@
                     <% }else { %>
                     <td><span class="badge badge-warning">Phòng VIP</span></td>
                     <% } %>
-                    <td><%=room.price%> VNĐ</td>
+                    <td><%= formatPrice(room.price) %> đ</td>
                     <td><img width="160" height="160" src="/assets/images/uploads/rooms/<%= room.image %>" />
                     </td>
                     <% if (room.status === "empty") { %>

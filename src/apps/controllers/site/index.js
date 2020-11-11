@@ -5,10 +5,12 @@ let multer = require("multer");
 let moment = require("moment");
 let { accountValidation, transValidation } = require("../../../errLang/vn");
 let pagination = require("./../../../libs/pagination");
+const { formatPrice } = require("./../../../libs/utils");
 let roomModel = require("../../models/roomModel");
 let userModel = require("../../models/userModel");
 let bookingModel = require("../../models/bookingModel");
 let contactModel = require("../../models/contactModel");
+let servicesModel = require("../../models/servicesModel");
 let joi = require("joi");
 exports.index = (req, res) => {
   res.render("site/home")
@@ -84,6 +86,7 @@ exports.room = async (req, res) => {
     range: rangerForDot,
     page,
     totalPages,
+    formatPrice,
   });
 };
 exports.room_single = async (req, res) => {
@@ -106,6 +109,7 @@ exports.room_single = async (req, res) => {
     range: rangerForDot,
     page,
     totalPages,
+    formatPrice,
   });
 };
 exports.room_double = async (req, res) => {
@@ -128,6 +132,7 @@ exports.room_double = async (req, res) => {
     range: rangerForDot,
     page,
     totalPages,
+    formatPrice,
   });
 };
 exports.room_vip = async (req, res) => {
@@ -150,12 +155,13 @@ exports.room_vip = async (req, res) => {
     range: rangerForDot,
     page,
     totalPages,
+    formatPrice,
   });
 };
 exports.room_detail = async (req, res) => {
   let { startAt, endAt, id } = req.query; 
   let room = await roomModel.findOne({ _id: id })
-  res.render("site/rooms/room-detail" , {room, startAt, endAt});
+  res.render("site/rooms/room-detail", { room, startAt, endAt, formatPrice });
  
 };
 exports.checks = async (req, res) => {
@@ -319,7 +325,7 @@ exports.booking = async (req, res) => {
     return total + booking.price;
   }, 0)
   
-  res.render("site/confirmAndPay", { user, bookingArr, total });
+  res.render("site/confirmAndPay", { user, bookingArr, total, formatPrice });
 };
 exports.p_booking = async (req, res) => {
   try {
@@ -365,7 +371,6 @@ exports.p_booking = async (req, res) => {
   
 };
 
-
 exports.myBooking = async (req, res) => {
   try {
     let token = req.cookies.token;
@@ -380,7 +385,7 @@ exports.myBooking = async (req, res) => {
       .populate("userId")
       .populate("roomId")
       .sort("-_id");
-    res.render("site/myBooking", { user, bookings, moment });
+    res.render("site/myBooking", { user, bookings, moment, formatPrice });
     
   } catch (error) {
     return res.status(400).json({
@@ -411,4 +416,43 @@ exports.delete = async (req, res) => {
       message: transValidation.server_incorrect,
     });
   } 
+};
+exports.myServices = async (req, res) => {
+  try {
+    let token = req.cookies.token;
+    let decodeToken = jwt.verify(token, config.app.SECRET_TOKEN);
+    //check decode token with id User
+    let user = await userModel.findOne({
+      _id: decodeToken._id,
+    });
+    //check booking with userId
+    const services = await servicesModel 
+      .find()
+      .sort("-_id");
+    res.render("site/myServices", { services, user, formatPrice });
+  } catch (error) {
+    return res.status(400).json({
+      status: "fail",
+      message: transValidation.server_incorrect,
+    });
+  }
+};
+exports.p_myServices = async (req, res) => {
+  try {
+    // let token = req.cookies.token;
+    // let decodeToken = jwt.verify(token, config.app.SECRET_TOKEN);
+    // //check decode token with id User
+    // let user = await userModel.findOne({
+    //   _id: decodeToken._id,
+    // });
+    // //check booking with userId
+    // const services = await servicesModel.find().sort("-_id");
+    // res.render("site/myServices", { services, user });
+    res.json('ok')
+  } catch (error) {
+    return res.status(400).json({
+      status: "fail",
+      message: transValidation.server_incorrect,
+    });
+  }
 };

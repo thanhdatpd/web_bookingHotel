@@ -29,7 +29,7 @@
             <img src="/assets/images/uploads/rooms/<%=room.image %>" alt="" height="360px" width="234px" /> </a>
           <div class="ri-text">
             <h5 class="text-center text-uppercase text-warning"> <%=room.type %></h5>
-            <h3 class="text-center"><%=room.price %><span>/ 1 ngày</span></h3>
+            <h3 class="text-center"><%=formatPrice(room.price) %> đ<span>/ 1 ngày</span></h3>
             <table class="m-auto">
               <tbody>
                 <tr>
