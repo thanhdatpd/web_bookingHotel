@@ -11,13 +11,22 @@
             <a href="/">Trang chủ</a>
             <span>Phòng trống</span>
           </div>
+          <div class="mt-5">
+            <h4>Mời bạn đặt <span class="badge badge-warning"> <%=numberRoom%></span> phòng thật sang chảnh và đẹp nào
+              !!! </h4>
+          </div>
+          <input type="hidden" value="<%=numberRoom%>" id="numberRoom"/>
+          <div class="mt-5">
+            <button type="button" onclick="booking()" class="btn btn-outline-success">Đặt phòng</button>
+          </div>
+          
         </div>
+
       </div>
     </div>
   </div>
 </div>
 <!-- Breadcrumb Section End -->
-
 <!-- Rooms Section Begin -->
 <section class="rooms-section spad">
   <div class="container">
@@ -29,7 +38,13 @@
             <img src="/assets/images/uploads/rooms/<%=room.image %>" alt="" height="360px" width="234px" /> </a>
           <div class="ri-text">
             <h5 class="text-center text-uppercase text-warning"> <%=room.type %></h5>
-            <h3 class="text-center"><%=formatPrice(room.price) %> đ<span>/ 1 ngày</span></h3>
+            <div class="d-flex justify-content-end">
+              <div class="form-check checkbox-rounded         checkbox-living-coral-filled mb-2">
+                <input type="checkbox" class="form-check-input filled-in" id="clickMe" value="<%=room._id %>" name="roomIds">
+              </div>
+            </div>
+            <h3 class="text-center" style="font-size: 24px"><%=formatPrice(room.price) %> đ<span>/ 1 ngày</span></h3>
+
             <table class="m-auto">
               <tbody>
                 <tr>
@@ -38,7 +53,7 @@
                 </tr>
                 <tr>
                   <td class="r-o">Tối đa:</td>
-                  <td> 3 người</td>
+                  <td> 5 người</td>
                 </tr>
                 <tr>
                   <td class="r-o">Tên phòng :</td>
@@ -54,17 +69,15 @@
               <a href="/room-detail?id=<%=room._id %>&startAt=<%=startAt%>&endAt=<%=endAt%>" class="primary-btn ">Xem
                 thêm</a>
             </div>
-
           </div>
         </div>
       </div>
-
       <% }) %>
       <div class="col-lg-12 d-flex justify-content-center ">
         <% if (page > 1) { %>
         <div class="room-pagination p-2 ">
           <a
-            href="/checks?startAt=<%=startAt%>&endAt=<%=endAt%>&numberCustomer=<%=numberCustomer%>&page=<%=page - 1 %>">
+            href="/checks?startAt=<%=startAt%>&endAt=<%=endAt%>&numberRoom=<%=numberRoom%>&numberCustomer=<%=numberCustomer%>&page=<%=page - 1 %>">
             Prev </a>
         </div>
         <% } %>
@@ -74,14 +87,14 @@
           <span> <%= i %> </span>
           <% } else { %>
           <a
-            href="/checks?startAt=<%=startAt%>&endAt=<%=endAt%>&numberCustomer=<%=numberCustomer%>&page=<%= i %>"><%= i %></a>
+            href="/checks?startAt=<%=startAt%>&endAt=<%=endAt%>&numberRoom=<%=numberRoom%>&numberCustomer=<%=numberCustomer%>&page=<%= i %>"><%= i %></a>
           <% } %>
         </div>
         <% }) %>
         <% if (page < totalPages) { %>
         <div class="room-pagination p-2 ">
           <a
-            href="/checks?startAt=<%=startAt%>&endAt=<%=endAt%>&numberCustomer=<%=numberCustomer%>&page=<%= page + 1 %>">
+            href="/checks?startAt=<%=startAt%>&endAt=<%=endAt%>&numberRoom=<%=numberRoom%>&numberCustomer=<%=numberCustomer%>&page=<%= page + 1 %>">
             Next </a>
         </div>
         <% } %>
@@ -91,8 +104,23 @@
 
 </section>
 <!-- Rooms Section End -->
-
-
-
-<!-- Rooms Section End -->
+<script>
+  function booking(){
+      // var checkbox = document.getElementsByName('roomIds');
+      var checkbox = $('[name="roomIds"]'); 
+      var arrIds = [];
+      var numberRoom = $("#numberRoom").val();
+      for (var i = 0; i < checkbox.length; i++) {
+        if (checkbox[i].checked === true) {
+          arrIds.push(checkbox[i].value);
+        }
+      }
+      if(numberRoom != arrIds.length) {
+        alert(' Phai check du 5 phong ')
+      }else{
+        alert('Gui du lieu thanh cong')
+      }
+      
+    }
+</script>
 <%- include("./../layouts/footer") %>

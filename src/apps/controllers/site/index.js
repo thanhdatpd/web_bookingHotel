@@ -166,7 +166,7 @@ exports.room_detail = async (req, res) => {
  
 };
 exports.checks = async (req, res) => {
-  const { startAt, endAt, numberCustomer } = req.query;
+  const { startAt, endAt, numberCustomer, numberRoom } = req.query;
   const startAtFormated = moment(startAt + "+0700", "DD-MM-YYYYZ");
   const endAtFormated = moment(endAt + "/23:59:59+0700", "DD-MM-YYYY/HH:mm:ssZ");
   let filter = {
@@ -208,6 +208,8 @@ exports.checks = async (req, res) => {
       range: rangerForDot,
       page,
       totalPages,
+      formatPrice,
+      numberRoom,
     }); 
   } else {
     //get list ID in Bookings
@@ -262,6 +264,8 @@ exports.checks = async (req, res) => {
       range: rangerForDot,
       page,
       totalPages,
+      formatPrice,
+      numberRoom,
     });
   }
   
@@ -330,38 +334,39 @@ exports.booking = async (req, res) => {
 };
 exports.p_booking = async (req, res) => {
   try {
-    let token = req.cookies.token;
-    let decodeToken = jwt.verify(token, config.app.SECRET_TOKEN);
-    const { bookings } = req.cookies;
-    let bookingArr = JSON.parse(bookings);
-    const startAt = bookingArr.map((booking) => {
-      return booking.startAt;
-    });
-    const endAt = bookingArr.map((booking) => {
-      return booking.endAt;
-    });
-    const numberCustomer = bookingArr.map((booking) => {
-      return booking.numberCustomer;
-    });
-    const arrRoomID = bookingArr.map((booking) => {
-      return booking.roomId;
-    });
-    const total = bookingArr.reduce((total, booking) => {
-      return total + booking.price;
-    }, 0);
-    const newBooking = new bookingModel({
-      startAt: moment(startAt[0] + "+0700", "DD-MM-YYYYZ"),
-      endAt: moment(endAt[0] + "/23:59:59+0700", "DD-MM-YYYY/HH:mm:ssZ"),
-      userId: decodeToken._id,
-      roomId: arrRoomID,
-      numberCustomer: numberCustomer[0],
-      price: total,
-    });
-    await newBooking.save();
-    return res.status(200).json({
-      status: "success",
-      message: transValidation.input_success,
-    });
+    // let token = req.cookies.token;
+    // let decodeToken = jwt.verify(token, config.app.SECRET_TOKEN);
+    // const { bookings } = req.cookies;
+    // let bookingArr = JSON.parse(bookings);
+    // const startAt = bookingArr.map((booking) => {
+    //   return booking.startAt;
+    // });
+    // const endAt = bookingArr.map((booking) => {
+    //   return booking.endAt;
+    // });
+    // const numberCustomer = bookingArr.map((booking) => {
+    //   return booking.numberCustomer;
+    // });
+    // const arrRoomID = bookingArr.map((booking) => {
+    //   return booking.roomId;
+    // });
+    // const total = bookingArr.reduce((total, booking) => {
+    //   return total + booking.price;
+    // }, 0);
+    // const newBooking = new bookingModel({
+    //   startAt: moment(startAt[0] + "+0700", "DD-MM-YYYYZ"),
+    //   endAt: moment(endAt[0] + "/23:59:59+0700", "DD-MM-YYYY/HH:mm:ssZ"),
+    //   userId: decodeToken._id,
+    //   roomId: arrRoomID,
+    //   numberCustomer: numberCustomer[0],
+    //   price: total,
+    // });
+    // //await newBooking.save();
+    // return res.status(200).json({
+    //   status: "success",
+    //   message: transValidation.input_success,
+    // });
+    
   } catch (error) {
     return res.status(400).json({
       status: "fail",

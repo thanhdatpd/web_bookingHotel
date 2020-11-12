@@ -27,6 +27,10 @@ const bookingSchema = new mongoose.Schema(
       enum: ["two", "three"],
       default: "two",
     },
+    numberRoom: {
+      type: Number,
+      default: 1,
+    },
     price: { type: Number, default: 300000 },
   },
   {

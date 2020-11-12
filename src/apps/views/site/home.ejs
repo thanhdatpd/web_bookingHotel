@@ -26,10 +26,14 @@
                 <input type="text" class="date-input" id="endAt" name="endAt" required>
                 <i class="icon_calendar"></i>
               </div>
+              <div class="check-date">
+                <label for="date-out">Số lượng phòng</label>
+                <input type="number" class="numberRoom" id="numberRoom" name="numberRoom" min="1" required value="1">
+              </div>
               <div class="select-option">
                 <label for="guest">Số khách:</label>
                 <select id="numberCustomer" name="numberCustomer">
-                  <option value="two">1-2 Người</option>
+                  <option value="two" selected>1-2 Người</option>
                   <option value="three"> 3 Người trở lên</option>
                 </select>
               </div>
