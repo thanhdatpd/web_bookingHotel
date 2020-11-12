@@ -69,7 +69,7 @@ module.exports.services = async (req) => {
 };
 module.exports.room = async (req) => {
   const page = parseInt(req.query.page || 1);
-  const limit = 6;
+  const limit = 9;
   const skip = (page - 1) * limit;
   const totalDocuments = await roomModel.find().countDocuments();
   const totalPages = Math.ceil(totalDocuments / limit);

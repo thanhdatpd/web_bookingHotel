@@ -38,13 +38,6 @@
                     <i class="icon_star"></i>
                     <i class="icon_star-half_alt"></i>
                   </div>
-                <style>
-                  .disabled {
-                    pointer-events: none;
-                    cursor: default;
-                  }
-                </style>
-                  <a class="checkBooking disabled" onclick="checkBooking()">Đặt phòng</a>
                 </div>
               </div>
               <h2><%=formatPrice(room.price)%>đ<span>/ 1 ngày</span></h2>
@@ -146,157 +139,20 @@
             <form id="form-check">
               <div class="check-date">
                 <label for="date-in">Ngày đến:</label>
-                <input type="text" class="date-input" id="startAt" name="startAt" required value="<%=startAt%>" >
+                <input type="text" class="date-input" id="startAt" name="startAt" required value="<%=startAt%>" disabled>
                 <i class="icon_calendar"></i>
               </div>
               <div class="check-date">
                 <label for="date-out">Ngày đi:</label>
-                <input type="text" class="date-input" id="endAt" name="endAt" required value="<%=endAt%>" >
+                <input type="text" class="date-input" id="endAt" name="endAt" required value="<%=endAt%>" disabled>
                 <i class="icon_calendar"></i>
               </div>
-              <div class="select-option">
-                <label for="guest">Số người:</label>
-                <select id="numberCustomer" name="numberCustomer" required>
-                  <option value="two">1-2 Người</option>
-                  <option value="three">3 Người</option>
-                </select>
-              </div>
-              <button type="button" onclick="check()" >Kiểm tra</button>
+              <button type="button" >Chọn phòng này</button>
             </form>
           </div>
         </div>
       </div>
     </div>
   </section>
-<script src="https://cdn.jsdelivr.net/npm/moment@2.24.0/moment.min.js"></script>
-<script>
-  /*get Cookie */
- function getCookie(cname) {
-    var name = cname + "=";
-    var decodedCookie = decodeURIComponent(document.cookie);
-    var ca = decodedCookie.split(';');
-    for (var i = 0; i < ca.length; i++) {
-      var c = ca[i];
-      while (c.charAt(0) == ' ') {
-        c = c.substring(1);
-      }
-      if (c.indexOf(name) == 0) {
-        return c.substring(name.length, c.length);
-      }
-    }
-    return "";
-  }
-  /*set Cookie */
-  function setCookie(cname, cvalue, exdays) {
-    var d = new Date();
-    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-    var expires = "expires=" + d.toUTCString();
-    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-  }
-  
-  /*click check time booking*/     
-  function check(){
-    var startAt = $("#startAt").val();
-    var endAt = $("#endAt").val();
-    var roomId = $("#roomId").val();
-    var numberCustomer = $("#numberCustomer").val();
-    if(startAt == "" || startAt == "" || endAt == "" || numberCustomer == ""){
-      alertify.error(" Xin vui lòng nhập đầy đủ thông tin ");
-    }else{
-      $.ajax({
-        url: "/checkRoom",
-        method: "POST",
-        data: {
-          startAt: startAt,
-          endAt: endAt,
-          roomId: roomId,
-        }
-      }).then(function (data) {
-        alertify.success(data.message);
-        $(".checkBooking").removeClass("disabled");
-      }).catch(function (err) {
-        alertify.error(err.responseJSON.message);
-      })
-    }
-      
-    }
-  /*click to booking*/
-    function checkBooking(){
-     const user = getCookie("token")
-    if (user == "") {
-      window.location.href = "/login";
-    } else {
-      var startAt = $("#startAt").val();
-      var startAtFormat = moment(startAt, "DD-MM-YYYY").valueOf();
-      var endAt = $("#endAt").val();
-      var endAtFormat = moment(endAt , "DD-MM-YYYY").valueOf();
-      var totalDaysBooking = parseInt((endAtFormat-startAtFormat)/ 86400000); // 1 days = 86400000 milisecond
-       var price = ($("#price").val() * totalDaysBooking)
-
-      let cookieBooking = getCookie("bookings")
-      if (!cookieBooking) {
-      var bookings = [
-        {
-          roomId: $("#roomId").val(),
-          startAt: startAt,
-          endAt: endAt,
-          price: price,
-          numberCustomer: $("#numberCustomer").val(),
-          roomName: $("#roomName").val(),
-          totalDaysBooking: totalDaysBooking,
-        }
-      ]
-      //create cookie Booking to save information booking
-        setCookie("bookings", JSON.stringify(bookings), 1)
-        alertify.confirm("Đã thêm phòng vào danh sách đặt phòng, bạn có muốn đặt thêm phòng không ?",
-          function () {
-              window.timeout = setTimeout(async function () {
-                window.location.href = "/checks?startAt=<%=startAt%>&endAt=<%=endAt%>";
-              }, 1000)
-          },
-          function () {
-            window.timeout = setTimeout(function () {
-              window.location.href = "/checks/confirmAndPay";
-            }, 2000)
-          }) 
-      }else{
-        checkBookingN()
-      }
-     }
-    }
-    function checkBookingN(){
-      var startAt = $("#startAt").val();
-      var startAtFormat = moment(startAt, "DD-MM-YYYY").valueOf();
-      var endAt = $("#endAt").val();
-      var endAtFormat = moment(endAt, "DD-MM-YYYY").valueOf();
-      var totalDaysBooking = parseInt((endAtFormat - startAtFormat)/86400000); // 1 days = 86400000 milisecond
-      var price = ($("#price").val() * totalDaysBooking)
-       let newBooking = 
-        {
-          roomId: $("#roomId").val(),
-          startAt: startAt,
-          endAt: endAt,
-         price: price,
-         numberCustomer: $("#numberCustomer").val(),
-         roomName: $("#roomName").val(),
-         totalDaysBooking: totalDaysBooking,
-        }
-      let bookings = $.parseJSON(getCookie("bookings"));
-      bookings.push(newBooking)
-      setCookie("bookings", JSON.stringify(bookings), 1)
-      alertify.confirm("Đã thêm phòng vào danh sách đặt phòng, bạn có muốn đặt thêm phòng không ?",
-        function () {
-           window.timeout = setTimeout(async function () {
-            window.location.href = "/checks?startAt=<%=startAt%>&endAt=<%=endAt%>";
-          }, 1000)
-           
-        },
-        function () {
-          window.timeout = setTimeout(function () {
-            window.location.href = "/checks/confirmAndPay";
-          }, 2000)
-        })
-    }
-</script>
 
 <%- include("./../layouts/footer") %>

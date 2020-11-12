@@ -319,54 +319,54 @@ exports.checkRoom = async (req, res) => {
 };
 
 exports.booking = async (req, res) => {
-  let { token, bookings } = req.cookies;
+  let { arrIds} = req.query;
+  let { token} = req.cookies;
   let decodeToken = jwt.verify(token, config.app.SECRET_TOKEN);
   //check decode token with id User
   let user = await userModel.findOne({
     _id: decodeToken._id,
   });
-  const bookingArr = JSON.parse(bookings);
-  const total = bookingArr.reduce((total, booking) => {
-    return total + booking.price;
-  }, 0)
-  
-  res.render("site/confirmAndPay", { user, bookingArr, total, formatPrice });
+   
+   console.log("arrIdRooms", arrIds);
+  // const total = bookingArr.reduce((total, booking) => {
+  //   return total + booking.price;
+  // }, 0)
+  res.render("site/users/confirmAndPay", { user, arrIds, formatPrice });
 };
 exports.p_booking = async (req, res) => {
   try {
-    // let token = req.cookies.token;
-    // let decodeToken = jwt.verify(token, config.app.SECRET_TOKEN);
-    // const { bookings } = req.cookies;
-    // let bookingArr = JSON.parse(bookings);
-    // const startAt = bookingArr.map((booking) => {
-    //   return booking.startAt;
-    // });
-    // const endAt = bookingArr.map((booking) => {
-    //   return booking.endAt;
-    // });
-    // const numberCustomer = bookingArr.map((booking) => {
-    //   return booking.numberCustomer;
-    // });
-    // const arrRoomID = bookingArr.map((booking) => {
-    //   return booking.roomId;
-    // });
-    // const total = bookingArr.reduce((total, booking) => {
-    //   return total + booking.price;
-    // }, 0);
-    // const newBooking = new bookingModel({
-    //   startAt: moment(startAt[0] + "+0700", "DD-MM-YYYYZ"),
-    //   endAt: moment(endAt[0] + "/23:59:59+0700", "DD-MM-YYYY/HH:mm:ssZ"),
-    //   userId: decodeToken._id,
-    //   roomId: arrRoomID,
-    //   numberCustomer: numberCustomer[0],
-    //   price: total,
-    // });
-    // //await newBooking.save();
-    // return res.status(200).json({
-    //   status: "success",
-    //   message: transValidation.input_success,
-    // });
-    
+    let token = req.cookies.token;
+    let decodeToken = jwt.verify(token, config.app.SECRET_TOKEN);
+    const { bookings } = req.cookies;
+    let bookingArr = JSON.parse(bookings);
+    const startAt = bookingArr.map((booking) => {
+      return booking.startAt;
+    });
+    const endAt = bookingArr.map((booking) => {
+      return booking.endAt;
+    });
+    const numberCustomer = bookingArr.map((booking) => {
+      return booking.numberCustomer;
+    });
+    const arrRoomID = bookingArr.map((booking) => {
+      return booking.roomId;
+    });
+    const total = bookingArr.reduce((total, booking) => {
+      return total + booking.price;
+    }, 0);
+    const newBooking = new bookingModel({
+      startAt: moment(startAt[0] + "+0700", "DD-MM-YYYYZ"),
+      endAt: moment(endAt[0] + "/23:59:59+0700", "DD-MM-YYYY/HH:mm:ssZ"),
+      userId: decodeToken._id,
+      roomId: arrRoomID,
+      numberCustomer: numberCustomer[0],
+      price: total,
+    });
+    //await newBooking.save();
+    return res.status(200).json({
+      status: "success",
+      message: transValidation.input_success,
+    }); 
   } catch (error) {
     return res.status(400).json({
       status: "fail",
@@ -391,7 +391,8 @@ exports.myBooking = async (req, res) => {
       .populate("userId")
       .populate("roomId")
       .sort("-_id");
-    res.render("site/myBooking", { user, bookings, moment, formatPrice });
+    res.render("site/users/myBooking", { user, bookings, moment, formatPrice });
+
     
   } catch (error) {
     return res.status(400).json({
@@ -434,7 +435,7 @@ exports.myServices = async (req, res) => {
     const services = await servicesModel 
       .find()
       .sort("-_id");
-    res.render("site/myServices", { services, user, formatPrice });
+    res.render("site/users/myServices", { services, user, formatPrice });
   } catch (error) {
     return res.status(400).json({
       status: "fail",
