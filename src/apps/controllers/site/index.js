@@ -445,21 +445,18 @@ exports.p_myServices = async (req, res) => {
     // var servicesIds = arrServices.filter(function (el) {
     //   return el.id != "";
     // });
-    const servicesIds = arrServices.map((service) => service.id);
-    console.log("arrServices", arrServices);
-    console.log("servicesIds", servicesIds)
-    const newBillServices = new billServicesModel({
-      userId: decodeToken._id,
-      servicesId: servicesIds,
-      //  quantity: billServices.quantity[0],
-    });
-    //newBillServices.servicesId.push(servicesIds);
-    console.log("newBillServices", newBillServices)
+    for (let i = 0; i < arrServices.length; i++) {
+      const newBillServices = new billServicesModel({
+        userId: decodeToken._id,
+        servicesId: arrServices[i].id,
+        quantity: arrServices[i].quantity,
+      }); 
+      newBillServices.save();
+    }
     return res.status(200).json({
       status: "success",
       message: transValidation.services_room,
     });
-
   } catch (error) {
     return res.status(400).json({
       status: "fail",
