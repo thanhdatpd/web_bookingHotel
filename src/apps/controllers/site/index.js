@@ -310,7 +310,6 @@ exports.checkRoom = async (req, res) => {
       });
     }
   } catch (error) {
-    console.log(error);
     return res.status(400).json({
       status: "fail",
       message: transValidation.check_incorrect,
@@ -319,19 +318,28 @@ exports.checkRoom = async (req, res) => {
 };
 
 exports.booking = async (req, res) => {
-  let { arrIds} = req.query;
-  let { token} = req.cookies;
+  let { token, arrRooms } = req.cookies;
+  console.log("arrRooms", arrRooms);
   let decodeToken = jwt.verify(token, config.app.SECRET_TOKEN);
+   const infoRooms = JSON.parse(arrRooms); 
   //check decode token with id User
   let user = await userModel.findOne({
     _id: decodeToken._id,
   });
-   
-   console.log("arrIdRooms", arrIds);
   // const total = bookingArr.reduce((total, booking) => {
   //   return total + booking.price;
   // }, 0)
-  res.render("site/users/confirmAndPay", { user, arrIds, formatPrice });
+  res.render("site/users/confirmAndPay", {
+    user,
+    infoRooms,
+    formatPrice,
+  });
+  // return res.status(200).json({
+  //   status: "success",
+  //   user,
+  //   arrIds,
+  //   formatPrice,
+  // }); 
 };
 exports.p_booking = async (req, res) => {
   try {
