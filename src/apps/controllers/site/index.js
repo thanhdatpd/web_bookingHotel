@@ -322,24 +322,19 @@ exports.booking = async (req, res) => {
   console.log("arrRooms", arrRooms);
   let decodeToken = jwt.verify(token, config.app.SECRET_TOKEN);
    const infoRooms = JSON.parse(arrRooms); 
-  //check decode token with id User
+   console.log("infoRooms", infoRooms)
   let user = await userModel.findOne({
     _id: decodeToken._id,
   });
-  // const total = bookingArr.reduce((total, booking) => {
-  //   return total + booking.price;
-  // }, 0)
+  const totals = infoRooms.arrIds.reduce((total, booking) => {
+    return total + booking.price;
+  }, 0);
   res.render("site/users/confirmAndPay", {
     user,
     infoRooms,
     formatPrice,
+    totals,
   });
-  // return res.status(200).json({
-  //   status: "success",
-  //   user,
-  //   arrIds,
-  //   formatPrice,
-  // }); 
 };
 exports.p_booking = async (req, res) => {
   try {

@@ -49,10 +49,6 @@ router
   .route("/my-services")
   .get(SiteController.myServices)
   .post(SiteController.p_myServices);
-
-
-
-
 /* router admin */
 // router.use(checkLogin); // checkLogin
 

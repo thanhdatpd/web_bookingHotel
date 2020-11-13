@@ -16,6 +16,7 @@
               !!! </h4>
           </div>
           <input type="hidden" value="<%=numberRoom%>" id="numberRoom"/>
+          <input type="hidden" value="<%=numberCustomer%>" id="numberCustomer" />
           <div class="mt-5">
             <input type="hidden" value="<%=startAt%>" id="startAt"/>
             <input type="hidden" value="<%=endAt%>" id="endAt" />
@@ -42,9 +43,10 @@
             <h5 class="text-center text-uppercase text-warning"> <%=room.type %></h5>
             <div class="d-flex justify-content-end">
               <div class="form-check checkbox-rounded         checkbox-living-coral-filled mb-2">
-                <input type="checkbox" class="form-check-input filled-in" id="clickMe" value="{<%=room.name%>,<%=room.price%>}" name="roomIds">
+                <input type="checkbox" class="form-check-input filled-in" id="clickMe" value="<%=room.name%>" name="roomIds">
                 <input type="hidden"  id="name" value="<%=room.name %>" >
-                <input type="hidden" id="price" value="[%=room.price %>">
+                <input type="hidden" id="price" value="<%=room.price %>">
+                
               </div>
             </div>
             <h3 class="text-center" style="font-size: 24px"><%=formatPrice(room.price) %> đ<span>/ 1 ngày</span></h3>
@@ -121,24 +123,32 @@
       var checkbox = $('[name="roomIds"]'); 
       var arrIds = []
       var numberRoom = $("#numberRoom").val();
+      var numberCustomer = $("#numberCustomer").val();
        var startAt = $("#startAt").val();
        var startAtFormat = moment(startAt, "DD-MM-YYYY").valueOf();
        var endAt = $("#endAt").val();
        var endAtFormat = moment(endAt, "DD-MM-YYYY").valueOf();
        var totalDaysBooking = parseInt((endAtFormat - startAtFormat) / 86400000); // 1 days = 86400000 milisecond
-      // console.log("$ -> totalDaysBooking", totalDaysBooking)
        var price = ($("#price").val() * totalDaysBooking)
-      // console.log("$ -> price", price)
       var name = $("#name").val();
       for (let i = 0; i < checkbox.length; i++) {
         if (checkbox[i].checked === true) {
-          arrIds.push(checkbox[i].value);
+          arrIds.push({name:checkbox[i].value, price:price});
         }
       }
+      const user = getCookie("token")
+    if (user == "") {
+      window.location.href = "/login";
+    } else {
+       if (numberRoom != arrIds.length) {
+        alert(' Phai check dung so phong ')
+      } else {
       let arrRooms = {
         arrIds: arrIds,
         startAt: startAt,
         endAt: endAt, 
+        numberCustomer: numberCustomer,
+        totalDaysBooking: totalDaysBooking
       }
       setCookie('arrRooms', JSON.stringify(arrRooms), 1);
         $.ajax({
@@ -147,29 +157,12 @@
         }).then(function (data) {
           window.timeout = setTimeout(function () {
             window.location.href = "/checks/confirmAndPay";
-          }, 2000)
+          }, 1000)
         }).catch(function (err) {
           alertify.error(err.responseJSON.message);
         })
-
-
-      
-      
-
-    // const user = getCookie("token")
-    // if (user == "") {
-    //   window.location.href = "/login";
-    // } else {
-    //    if (numberRoom != arrIds.length) {
-    //     alert(' Phai check dung so phong ')
-    //   } else {
-        
-    //   }
-    // }
-    
+      }
+    }
   })
     
-      
-
 </script>
-<!-- Rooms Section End -->
