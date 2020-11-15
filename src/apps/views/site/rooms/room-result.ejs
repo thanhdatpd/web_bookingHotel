@@ -37,7 +37,7 @@
       <% rooms.forEach((room, index) => { %>
       <div class="col-lg-4 col-md-6">
         <div class="room-item">
-          <a href="/room-detail/<%=room._id %>">
+          <a href="/room-detail?id=<%=room._id %>&startAt=<%=startAt%>&endAt=<%=endAt%>">
             <img for="clickMe" src="/assets/images/uploads/rooms/<%=room.image %>" alt="" height="360px" width="234px" /> </a>
           <div class="ri-text">
             <h5 class="text-center text-uppercase text-warning"> <%=room.type %></h5>
@@ -155,7 +155,6 @@
         numberCustomer: numberCustomer,
         totalDaysBooking: totalDaysBooking
       }
-      //setCookie('arrRooms', JSON.stringify(arrRooms), 1);
         $.ajax({
           url: "/checks/confirmAndPay",
           method: "POST",

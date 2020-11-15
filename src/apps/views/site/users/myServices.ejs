@@ -1,5 +1,5 @@
 <!-- Header -->
-<%- include("/../layouts/header") %>
+<%- include("./../layouts/header") %>
 <!-- Breadcrumb Section Begin -->
 <div class="breadcrumb-section">
   <div class="container">
@@ -26,12 +26,12 @@
       <div class="col-md-4 col-xs-12">
         <div class="list-group mt-5">
           <a href="/profile" class="list-group-item list-group-item-action active">
-            Thông tin dịch vụ
+            Thông tin tài khoản
           </a>
           <a href="/my-services" class="list-group-item list-group-item-action">Thông tin đặt phòng</a>
           <a href="/profile" class="list-group-item list-group-item-action">Thay đổi mật khẩu</a>
           <a href="/my-services" class="list-group-item list-group-item-action">Thêm dịch vụ</a>
-          <a href="/profile" class="list-group-item list-group-item-action disabled">Hóa đơn chi phí</a>
+          <a href="/my-bills" class="list-group-item list-group-item-action disabled">Hóa đơn chi phí</a>
         </div>
       </div>
 
@@ -109,7 +109,7 @@
     </div>
   </div>
 </section>
-<%- include("/../layouts/footer") %>
+<%- include("./../layouts/footer") %>
 <script>
   /*get Cookie */
     function getCookie(cname) {
@@ -157,7 +157,10 @@
         }
       }).then(function (data) {
         alertify.success(data.message)
-          //  setCookie("bookings", JSON.stringify(data.newBooking), 1)
+        setCookie("arrServices", "", 0)
+        window.timeout = setTimeout(function () {
+          window.location.href = "/my-bills";
+        }, 2000)
       }).catch(function (err) {
         alertify.error(err.responseJSON.message);
       })

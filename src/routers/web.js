@@ -49,6 +49,7 @@ router
   .route("/my-services")
   .get(SiteController.myServices)
   .post(SiteController.p_myServices);
+router.route("/my-bills").get(SiteController.myBill);
 /* router admin */
 // router.use(checkLogin); // checkLogin
 

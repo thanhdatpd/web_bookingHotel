@@ -219,7 +219,7 @@ exports.checks = async (req, res) => {
     const arrRoomIDs = arrRoomID.join(",").split(",");
     //panigition
     const page = parseInt(req.query.page || 1);
-    const limit = config.app.LIMIT;
+    const limit = 12;
     const skip = (page - 1) * limit;
     const totalDocuments = await roomModel
       .find({
@@ -343,7 +343,7 @@ exports.confirm = async (req, res) => {
     _id: decodeToken._id,
   });
   let totals = infoBookingRooms.infoRooms.reduce((total, booking) => {
-    return total + parseInt(booking.price);
+    return total + (parseInt(booking.price)*infoBookingRooms.totalDaysBooking);
   }, 0);
   res.render("site/users/confirmAndPay", {
     user,
@@ -358,16 +358,16 @@ exports.booking_success = async (req, res) => {
     let decodeToken = jwt.verify(token, config.app.SECRET_TOKEN);
     let { infoBookings } = req.cookies;
     let infoBookingRooms = JSON.parse(infoBookings);
-    console.log("infoBookingRooms", infoBookingRooms);
     const startAt = infoBookingRooms.startAt;
     const endAt = infoBookingRooms.endAt;
     const numberCustomer = infoBookingRooms.numberCustomer;
     const arrRoomID = infoBookingRooms.infoRooms.map((booking) => {
       return booking._id;
     });
-    console.log("arrRoomID", arrRoomID);
     let totals = infoBookingRooms.infoRooms.reduce((total, booking) => {
-      return total + parseInt(booking.price);
+      return (
+        total + parseInt(booking.price) * infoBookingRooms.totalDaysBooking
+      );
     }, 0);
     const newBooking = new bookingModel({
       startAt: moment(startAt + "+0700", "DD-MM-YYYYZ"),
@@ -415,28 +415,6 @@ exports.myBooking = async (req, res) => {
     })
   }
 }
-
-exports.delete = async (req, res) => {
-  try {
-     const  roomId = req.body.roomId;
-     let { bookings } = req.cookies;
-     const bookingArr = JSON.parse(bookings);
-     var newBooking = bookingArr.filter(function (el) {
-       
-       return el.roomId != roomId;
-     });
-     return res.status(200).json({
-       status: "success",
-       newBooking: newBooking,
-       message: transValidation.delete_incorrect,
-     });
-  } catch (error) {
-    return res.status(400).json({
-      status: "fail",
-      message: transValidation.server_incorrect,
-    });
-  } 
-};
 exports.myServices = async (req, res) => {
   try {
     let token = req.cookies.token;
@@ -462,9 +440,6 @@ exports.p_myServices = async (req, res) => {
     let token = req.cookies.token;
     let decodeToken = jwt.verify(token, config.app.SECRET_TOKEN);
     const { arrServices } = req.body;
-    // var servicesIds = arrServices.filter(function (el) {
-    //   return el.id != "";
-    // });
     for (let i = 0; i < arrServices.length; i++) {
       const newBillServices = new billServicesModel({
         userId: decodeToken._id,
@@ -483,4 +458,12 @@ exports.p_myServices = async (req, res) => {
       message: transValidation.server_incorrect,
     });
   }
+};
+exports.myBill = async (req, res) => {
+   let { token } = req.cookies;
+   let decodeToken = jwt.verify(token, config.app.SECRET_TOKEN);
+   let user = await userModel.findOne({
+     _id: decodeToken._id,
+   });
+  res.render("site/users/myBill", {user})
 };

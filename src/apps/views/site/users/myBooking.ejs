@@ -28,10 +28,10 @@
           <a href="/profile" class="list-group-item list-group-item-action active">
             Thông tin tài khoản
           </a>
-          <a href="/my-bookings" class="list-group-item list-group-item-action">Thông tin đặt phòng</a>
+          <a href="/profile" class="list-group-item list-group-item-action">Thông tin đặt phòng</a>
           <a href="/profile" class="list-group-item list-group-item-action">Thay đổi mật khẩu</a>
           <a href="/my-services" class="list-group-item list-group-item-action">Thêm dịch vụ</a>
-          <a href="/profile" class="list-group-item list-group-item-action disabled">Hóa đơn chi phí</a>
+          <a href="/my-bills" class="list-group-item list-group-item-action disabled">Hóa đơn chi phí</a>
         </div>
       </div>
 
@@ -65,15 +65,13 @@
                 <td> <%= moment(booking.endAt).format('DD-MM-YYYY') %> </td>
                 <td>
                   <% booking.roomId.map((item) =>{ %>
-                  <span class="bg-danger"><%=item.name%></span>
+                  <span class="bg-success"><%=item.name%></span>
                   <%})%>
                 </td>
-                <% if (booking.numberCustomer === "two") { %>
-                <td><span class="bg-warning">1-2 người</span></td>
-                <% }                                              
-                 else { %>
-                <td><span class="bg-danger">3 người trở lên</span></td>                
-                <% } %>                       
+                
+
+                <td><%=booking.numberCustomer%> người</td>                
+                                  
                 <% if (booking.status === "wait_confirm") { %>
                 <td><span class="bg-warning">Chờ xác nhận</span></td>
                 <% }else if (booking.status === "wait_check_in"){ %>
@@ -94,7 +92,6 @@
               <% }) %>
             </tbody>
           </table>
-    
           <div class="col-lg-12 d-flex justify-content-center ">
             <div class="col-lg-12">
               <div class="room-pagination">
@@ -106,16 +103,9 @@
       
           
           </div>
-
-
-
       </div>
-
-
     </div>
   </div>
-
-
 </section>
 
 
