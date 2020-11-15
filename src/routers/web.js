@@ -41,9 +41,9 @@ router.get("/checks", SiteController.checks);
 router.post("/checkRoom", SiteController.checkRoom);
 router
   .route("/checks/confirmAndPay")
-  .get(SiteController.booking)
-  .post(SiteController.p_booking);
-  router.route("/booking-delete").post(SiteController.delete);
+  .get(SiteController.confirm)
+  .post(SiteController.p_confirm);
+router.route("/booking-success").post(SiteController.booking_success);
 router.get("/my-bookings", SiteController.myBooking);
 router
   .route("/my-services")

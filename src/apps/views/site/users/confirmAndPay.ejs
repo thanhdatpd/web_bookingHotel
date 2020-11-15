@@ -1,25 +1,5 @@
 
 <%- include("./../layouts/header") %>
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        ...
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
 <!-- Breadcrumb Section Begin -->
 <div class="breadcrumb-section">
   <div class="container">
@@ -102,32 +82,42 @@
                 <th scope="col">Ngày bắt đầu</th>
                 <th scope="col">Ngày kết thúc</th>
                 <th scope="col">Tên phòng</th>
-                <th scope="col">Số người</th>
-                <th scope="col">Xem chi tiết</th>
+                <th scope="col">Loại phòng</th>
+                <th scope="col">Giá tiền </th>
+                <th scope="col">Số người</th>               
               </tr>
             </thead>
             <tbody>
-          <tr>           
-              <th scope="row">1</th>      
-              <td class="sorting_1"><%=infoRooms.startAt%></td>
-                <td>
-                  <%=infoRooms.endAt%>
-                </td>   
-                <td>
-                  <% infoRooms.arrIds.map((item) =>{ %>
-                  <span class="badge badge-success"><%=item.name%></span>
-                  <%})%>
-                </td>
-                <td><span class="badge badge-warning"><%=infoRooms.numberCustomer%> người </span></td>           
-               
-                <td>
-              <a  class="btn btn-info btn-circle"  data-toggle="modal" data-target="#exampleModal"  ><i class="fas fa-angle-double-down"  ></i></a>
-              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-               ok
-              </button>
-            </td>
-          </tr>
-          </tbody>
+              <tr>
+                <td >1</td>
+                <td><span class="badge badge-info"><%=infoBookingRooms.startAt %></span></td>
+                <td><span class="badge badge-info"><%=infoBookingRooms.endAt %></span></td>
+                
+                <td></td>
+                <td></td>
+                <td></td>
+                <td><span class="badge badge-info"><%=infoBookingRooms.numberCustomer %> người</span></td>
+              </tr>
+              <% infoBookingRooms.infoRooms.forEach((booking, index) => { %>
+              <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td><span class="badge badge-info"><%=booking.name%></span></td>
+                <% if (booking.type === "single") { %>
+                <td><span class="badge badge-success">Phòng đơn</span></td>
+                <% }else if (booking.type === "double"){ %>
+                <td><span class="badge badge-info">Phòng đôi</span></td>
+                <% }else { %>
+                <td><span class="badge badge-warning">Phòng VIP</span></td>
+                <% } %>
+                <td><span class="badge badge-info"><%=formatPrice(booking.price)%> đ / 1 ngày 
+                </span></td>
+              </tr>
+              <tr>
+              </tr>
+              <% }) %>
+            </tbody>
         </table>
           </div>
           </div>
@@ -144,6 +134,30 @@
           </div>
           </div>
           </div>
-          </div>
+          </div> 
       
-    <%- include("./../layouts/footer") %>
+<script>
+  /*set Cookie */
+    function setCookie(cname, cvalue, exdays) {
+      var d = new Date();
+      d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+      var expires = "expires=" + d.toUTCString();
+      document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+    }
+  function confirmAndPay() {
+      $.ajax({
+        url: "/booking-success",
+        method: "POST",
+      }).then(function (data) {
+        alertify.success(data.message);
+        setCookie("infoBookings", "", 0)
+        window.timeout = setTimeout(function () {
+          window.location.href = "/my-bookings";
+        }, 2000)
+      }).catch(function (err) {
+        alertify.error(err.responseJSON.message);
+      })
+    }
+</script>
+
+  <%- include("./../layouts/footer") %>

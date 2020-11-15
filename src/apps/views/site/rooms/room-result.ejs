@@ -38,15 +38,12 @@
       <div class="col-lg-4 col-md-6">
         <div class="room-item">
           <a href="/room-detail/<%=room._id %>">
-            <img src="/assets/images/uploads/rooms/<%=room.image %>" alt="" height="360px" width="234px" /> </a>
+            <img for="clickMe" src="/assets/images/uploads/rooms/<%=room.image %>" alt="" height="360px" width="234px" /> </a>
           <div class="ri-text">
             <h5 class="text-center text-uppercase text-warning"> <%=room.type %></h5>
             <div class="d-flex justify-content-end">
               <div class="form-check checkbox-rounded         checkbox-living-coral-filled mb-2">
-                <input type="checkbox" class="form-check-input filled-in" id="clickMe" value="<%=room.name%>" name="roomIds">
-                <input type="hidden"  id="name" value="<%=room.name %>" >
-                <input type="hidden" id="price" value="<%=room.price %>">
-                
+                <input type="checkbox" class="form-check-input filled-in" id="clickMe" data-id="<%=room._id%>" value="<%=room._id%>" name="roomIds">              
               </div>
             </div>
             <h3 class="text-center" style="font-size: 24px"><%=formatPrice(room.price) %> đ<span>/ 1 ngày</span></h3>
@@ -112,12 +109,21 @@
 <script src="https://cdn.jsdelivr.net/npm/moment@2.24.0/moment.min.js"></script>
 <%- include("./../layouts/footer") %>
 <script>
-  //setCookie in Cookies
-    function setCookie(cname, cvalue, exdays) {
-      var d = new Date();
-      d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-      var expires = "expires=" + d.toUTCString();
-      document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+  /*get Cookie */
+    function getCookie(cname) {
+      var name = cname + "=";
+      var decodedCookie = decodeURIComponent(document.cookie);
+      var ca = decodedCookie.split(';');
+      for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+          c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+          return c.substring(name.length, c.length);
+        }
+      }
+      return "";
     }
   $("#booking").click(function(){
       var checkbox = $('[name="roomIds"]'); 
@@ -129,11 +135,10 @@
        var endAt = $("#endAt").val();
        var endAtFormat = moment(endAt, "DD-MM-YYYY").valueOf();
        var totalDaysBooking = parseInt((endAtFormat - startAtFormat) / 86400000); // 1 days = 86400000 milisecond
-       var price = ($("#price").val() * totalDaysBooking)
-      var name = $("#name").val();
       for (let i = 0; i < checkbox.length; i++) {
+         
         if (checkbox[i].checked === true) {
-          arrIds.push({name:checkbox[i].value, price:price});
+          arrIds.push(checkbox[i].value);
         }
       }
       const user = getCookie("token")
@@ -150,11 +155,15 @@
         numberCustomer: numberCustomer,
         totalDaysBooking: totalDaysBooking
       }
-      setCookie('arrRooms', JSON.stringify(arrRooms), 1);
+      //setCookie('arrRooms', JSON.stringify(arrRooms), 1);
         $.ajax({
           url: "/checks/confirmAndPay",
-          method: "GET",
+          method: "POST",
+          data: {
+            arrRooms: arrRooms
+          }
         }).then(function (data) {
+          setCookie('infoBookings', JSON.stringify(data.infoRooms), 1);
           window.timeout = setTimeout(function () {
             window.location.href = "/checks/confirmAndPay";
           }, 1000)
@@ -163,6 +172,5 @@
         })
       }
     }
-  })
-    
+  }) 
 </script>
