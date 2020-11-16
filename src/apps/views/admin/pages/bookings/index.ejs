@@ -41,11 +41,11 @@
                         aria-label="#: activate to sort column descending" aria-sort="ascending" style="width: 4px;">
                         #</th>
                       <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1"
-                        aria-label="fullName: activate to sort column ascending" style="width: 150px;">Ngày bắt đầu </th>
+                        aria-label="fullName: activate to sort column ascending" style="width: 100px;">Ngày bắt đầu </th>
                       <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1"
-                        aria-label="Email: activate to sort column ascending" style="width: 150px;">Ngày kết thúc</th>
+                        aria-label="Email: activate to sort column ascending" style="width: 100px;">Ngày kết thúc</th>
                       <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1"
-                        aria-label="Age: activate to sort column ascending" style="width: 160px;">Phòng khách đặt</th>
+                        aria-label="Age: activate to sort column ascending" style="width: 100px;">Phòng khách đặt</th>
                       <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1"
                         aria-label="Start date: activate to sort column ascending" style="width: 100px;">Email khách đặt </th>
                       <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1"
@@ -60,7 +60,7 @@
                         aria-label="Start date: activate to sort column ascending" style="width: 100px;">Duyệt - Huỷ
                       </th>
                       <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1"
-                        aria-label="Salary: activate to sort column ascending" style="width: 100px;">Hành Động</th>
+                        aria-label="Salary: activate to sort column ascending" style="width: 100px;">Chi tiết hoá đơn</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -99,7 +99,7 @@
                             class="fas fa-edit"></i></a>
                         <a href="/admin/booking-delete/<%=booking._id%>"
                           onclick="return confirm('Bạn chắc chắn muốn xoá lịch đặt của <%=booking.userId.email%> chứ ?')"
-                          class="btn btn-danger btn-circle"><i class="fas fa-trash"></i></a>
+                          class="btn btn-danger btn-circle"><i class="far fa-eye"></i></a>
                       </td>
                     </tr>
                     <% }) %>

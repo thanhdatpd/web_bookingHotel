@@ -2,9 +2,14 @@ const mongoose = require("mongoose");
 
 const billServicesSchema = new mongoose.Schema(
   {
-    userId: { type: mongoose.Schema.Types.ObjectId, ref: "users" },
-    servicesId: { type: mongoose.Schema.Types.ObjectId, ref: "services" },
-    quantity: { type: Number, default: 1 },
+    bookingId: { type: mongoose.Schema.Types.ObjectId, ref: "bookings" },
+    servicesId: [
+      {
+        servicesId: { type: mongoose.Schema.Types.ObjectId, ref: "services" },
+        quantity: { type: Number, default: 1 },
+        price: { type: Number, default: 100000 },
+      },
+    ],
     status: {
       type: String,
       enum: ["wait_confirm", "ordered"],
@@ -15,6 +20,5 @@ const billServicesSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
-
 const billServicesModel = mongoose.model("billServices", billServicesSchema);
 module.exports = billServicesModel;

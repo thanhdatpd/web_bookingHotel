@@ -1,8 +1,10 @@
 let mongoose = require("mongoose");
 let config = require("../../../config/default");
 let jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
 let multer = require("multer");
 let moment = require("moment");
+const VAT = 1 / 10;
 let { accountValidation, transValidation } = require("../../../errLang/vn");
 let pagination = require("./../../../libs/pagination");
 const { formatPrice } = require("./../../../libs/utils");
@@ -377,7 +379,6 @@ exports.booking_success = async (req, res) => {
       numberCustomer: numberCustomer,
       price: totals,
     });
-    console.log("newBooking", newBooking);
     await newBooking.save();
     return res.status(200).json({
       status: "success",
@@ -440,14 +441,14 @@ exports.p_myServices = async (req, res) => {
     let token = req.cookies.token;
     let decodeToken = jwt.verify(token, config.app.SECRET_TOKEN);
     const { arrServices } = req.body;
-    for (let i = 0; i < arrServices.length; i++) {
-      const newBillServices = new billServicesModel({
-        userId: decodeToken._id,
-        servicesId: arrServices[i].id,
-        quantity: arrServices[i].quantity,
-      }); 
-      newBillServices.save();
-    }
+    let booking = await bookingModel
+      .findOne({ userId: decodeToken._id, status: "check_in",})
+    let newBillServices = new billServicesModel({
+      bookingId: booking._id,
+      servicesId: arrServices,
+      price: arrServices.price,
+    });
+    newBillServices.save();
     return res.status(200).json({
       status: "success",
       message: transValidation.services_room,
@@ -465,5 +466,78 @@ exports.myBill = async (req, res) => {
    let user = await userModel.findOne({
      _id: decodeToken._id,
    });
-  res.render("site/users/myBill", {user})
+  let booking = await bookingModel.findOne({
+    userId: decodeToken._id,
+    status: "check_in",
+  }).populate("roomId");
+  let services = await billServicesModel
+    .findOne({
+      bookingId: booking._id,
+    })
+    .populate({
+      path: "servicesId",
+      populate: ({
+        path: "servicesId",
+        models: "services",
+      })
+    });
+  let totals = services.servicesId.reduce((total, item) => {
+    return total + parseInt(item.price) * parseInt(item.quantity);
+  }, 0);
+  let totalsPay = totals + booking.price;
+  let price = totalsPay-(totalsPay * VAT);
+  res.render("site/users/myBill", {
+    user,
+    booking,
+    moment,
+    services,
+    totals,
+    totalsPay,
+    price,
+    formatPrice,
+  });
+};
+exports.changePassword = async (req, res) => {
+  let token = req.cookies.token;
+  let decodeToken = jwt.verify(token, config.app.SECRET_TOKEN);
+  //check decode token with id User
+  let user = await userModel.findOne({
+    _id: decodeToken._id,
+  });
+  res.render("site/users/changePassword",{user})
+};
+exports.p_changePassword = async (req, res) => {
+  try {
+    let token = req.cookies.token;
+    let decodeToken = jwt.verify(token, config.app.SECRET_TOKEN);
+    //check decode token with id User
+    let user = await userModel.findOne({
+      _id: decodeToken._id,
+    });
+    const { password, newPassword } = req.body;
+    const oldPassword = await userModel.findOne({ _id: decodeToken._id }, [
+      "password",
+    ]);
+    const comparePass = bcrypt.compareSync(password, oldPassword.password);
+    if (comparePass) {
+      const passwordUpdate = {
+        password: bcrypt.hashSync(newPassword, 10),
+      };
+      await userModel.updateOne({ _id: userId }, passwordUpdate);
+      return res.status(200).json({
+        status: "success",
+        message: transValidation.change_password,
+      });
+    }
+    return res.status(400).json({
+      status: "fail",
+      message: transValidation.change_password_fail,
+    });
+  } catch (error) {
+    
+    return res.status(400).json({
+      status: "fail",
+      message: transValidation.server_incorrect,
+    });
+  }
 };

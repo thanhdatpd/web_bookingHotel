@@ -50,6 +50,10 @@ router
   .get(SiteController.myServices)
   .post(SiteController.p_myServices);
 router.route("/my-bills").get(SiteController.myBill);
+router
+  .route("/change-password")
+  .get(SiteController.changePassword)
+  .post(SiteController.p_changePassword);
 /* router admin */
 // router.use(checkLogin); // checkLogin
 

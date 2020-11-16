@@ -53,9 +53,10 @@
   }
 </style>
 <div class="container mb-5">
-  <h3 class="text-center p-2">Khách sạn Phương Đông Sona </h3>
+  
   <div class="bg-light p-5">
-    <h3 class="text-center m-0"><%=user.fullName%></h3>
+    <h3 class="text-center p-2"><span class="badge badge-info">Khách sạn Phương Đông-Sona Hotel</span>  </h3>
+    <h3 class="text-center m-0"><span class="badge badge-info"> Hoá đơn của <%=user.fullName%></span></h3>
     <div class="row pt-3 mb-2">
       <div class="col-md-6 pull-left"><img src="img/logo.png" class="img-responsive"></div>
       <div class="col-md-6 text-right">
@@ -80,67 +81,141 @@
         <p>Loại thanh toán : Tiền mặt</p>
       </div>
     </div>
-    <div class="d-sm-flex align-items-center justify-content-center mb-4">
+<div class="d-sm-flex align-items-center justify-content-center mb-4">
       <h2 class=" h5 mb-0 text-gray-800 text-warning  ">* Thông tin phòng</h2>
     </div>
-    <table class="table">
-      <tr>
-        <thead>
-          <td>Name</td>
-          <td>Quantity</td>
-          <td>Price</td>
-          <td>Total</td>
-        </thead>
-      </tr>
-      <tr>
-        <td>ABC</td>
-        <td>3</td>
-        <td>$ 25</td>
-        <td>$ 75</td>
-      </tr>
+<div class="panel panel-default">
+  <div class="panel-body">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Ngày bắt đầu</th>
+          <th scope="col">Ngày kết thúc</th>
+          <th scope="col">Tên phòng</th>
+          <th scope="col">Loại phòng</th>
+          <th scope="col">Giá tiền </th>
+          <th scope="col">Số người</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td><span class="badge badge-info"><%=moment(booking.startAt).format('DD-MM-YYYY')%></span></td>
+          <td><span class="badge badge-info"><%=moment(booking.endAt).format('DD-MM-YYYY')%></span></td>
+
+          <td></td>
+          <td></td>
+          <td></td>
+          <td><span class="badge badge-info"><%=booking.numberCustomer%> người</span></td>
+        </tr>
+        <% booking.roomId.forEach((booking, index) => { %>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td><span class="badge badge-info"><%=booking.name%></span></td>
+          <% if (booking.type === "single") { %>
+          <td><span class="badge badge-success">Phòng đơn</span></td>
+          <% }else if (booking.type === "double"){ %>
+          <td><span class="badge badge-info">Phòng đôi</span></td>
+          <% }else { %>
+          <td><span class="badge badge-warning">Phòng VIP</span></td>
+          <% } %>
+          <td><span class="badge badge-info"><%=formatPrice(booking.price)%> đ / 1 ngày
+            </span></td>
+        </tr>
+        <tr>
+        </tr>
+        <% }) %>
+      </tbody>
     </table>
-    <div class="d-sm-flex align-items-center justify-content-center mb-4">
-      <h2 class=" h5 mb-0 text-gray-800 text-warning  ">* Thông tin dịch vụ</h2>
+    <div class="d-flex  justify-content-center ">
+      <span class="h6 pl-2 pb-3 mt-4 mb-4 text-info ">+ Tổng tiền đặt phòng :
+        <span class="badge badge-info"><%=formatPrice(booking.price)%> đ</span>
+        </span>
     </div>
-    <table class="table">
-      <tr>
-        <thead>
-          <td>Name</td>
-          <td>Quantity</td>
-          <td>Price</td>
-          <td>Total</td>
-        </thead>
-      </tr>
-      <tr>
-        <td>ABC</td>
-        <td>3</td>
-        <td>$ 25</td>
-        <td>$ 75</td>
-      </tr>
-    </table>
   </div>
+</div>
+ 
+
+<div class="d-sm-flex align-items-center justify-content-center mb-4">
+  <h2 class=" h5 mb-0 text-gray-800 text-warning  ">* Thông tin dịch vụ</h2>
+</div>
+<div class="panel panel-default">
+  <div class="panel-body">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Tên dịch vụ</th>
+          <th scope="col"> Giá tiền</th>
+          <th scope="col">Số lượng</th>
+          <th scope="col">Trạng thái đặt</th>
+        </tr>
+      </thead>
+      <tbody> 
+        <tr>
+          <td>1</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <% if (services.status === "wait_confirm") { %>
+          <td><span class="badge badge-warning">Chờ xác nhận</span></td>
+          <% }  else {%>
+          <td><span class="badge badge-success">Đã đặt</span></td>
+          <% } %>
+        </tr> 
+        <% services.servicesId.forEach((service, index) => { %>
+        <tr>
+          <td></td>
+          <td><span class="badge badge-info"><%= service.servicesId.name %></span></td>
+          <td><span class="badge badge-info"><%=formatPrice(service.price)%>đ</span></td>
+          <td><span class="badge badge-info"><%= service.quantity %></span></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <% }); %>
+      </tbody>
+    </table>
+    <div class="d-flex  justify-content-center ">
+      <span class="h6 pl-2 pb-3 mt-4 mb-4 text-info ">+ Tổng tiền đặt dịch vụ :
+        <span class="badge badge-info"><%=formatPrice(totals)%> đ</span>
+      </span>
+    </div>
+  </div>
+</div>
+  <style>
+    .text-white h3 ,.text-white h6{
+       color: #17a2b8
+    }  
+    h6{
+      font-size: 19px;
+      margin-right: 35px;
+    }
+    h3{
+       font-size: 27px;
+    }
+  </style>
   <div class="bg-dark text-white p-5">
     <div class="row">
       <div class="col-md-4">
       </div>
       <div class="col-md-3 text-right">
         <h6>Tổng tiền</h6>
-        <h3 class="text-center">300000đ</h3>
+        <h3 class="text-center ml-5"><%=formatPrice(totalsPay)%> đ</h3>
       </div>
       <div class="col-md-2 text-right">
         <h6>Thuế VAT</h6>
-        <h3>10%</h3>
+        <h3 class="text-center">10%</h3>
       </div>
       <div class="col-md-3 text-right">
         <h6>Tổng thanh toán</h6>
-        <h3>330000 đ</h3>
+        <h3 class="text-center"><%=formatPrice(price)%> đ</h3>
       </div>
     </div>
   </div>
 </div>
-
-
-
-
 <!-- Rooms Section End -->
 <%- include("./../layouts/footer") %>

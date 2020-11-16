@@ -4,7 +4,7 @@ const billSchema = new mongoose.Schema(
   {
     userId: { type: mongoose.Schema.Types.ObjectId, ref: "users" },
     bookingId: { type: mongoose.Schema.Types.ObjectId, ref: "booking" },
-    servicesId: [{ type: mongoose.Schema.Types.ObjectId, ref: "services" }],
+    billServicesId: [{ type: mongoose.Schema.Types.ObjectId, ref: "billServices" }],
   },
   {
     timestamps: true,

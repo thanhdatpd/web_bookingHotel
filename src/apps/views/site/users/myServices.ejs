@@ -18,22 +18,7 @@
 </div>
 <!-- Breadcrumb Section End -->
 
-
-<!-- Rooms Section Begin -->
-<section class="rooms-section spad">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-4 col-xs-12">
-        <div class="list-group mt-5">
-          <a href="/profile" class="list-group-item list-group-item-action active">
-            Thông tin tài khoản
-          </a>
-          <a href="/my-services" class="list-group-item list-group-item-action">Thông tin đặt phòng</a>
-          <a href="/profile" class="list-group-item list-group-item-action">Thay đổi mật khẩu</a>
-          <a href="/my-services" class="list-group-item list-group-item-action">Thêm dịch vụ</a>
-          <a href="/my-bills" class="list-group-item list-group-item-action disabled">Hóa đơn chi phí</a>
-        </div>
-      </div>
+<%- include("./../layouts/sidebar") %>
 
       <div class="col-md-8 col-xs-12 ">
         <div class="input-group mb-3 d-flex justify-content-center">
@@ -138,7 +123,7 @@
        var Services = $('.quantity').map((_, el) => {
         return {
           quantity: el.value,
-          id: $(el).attr("data-id"),
+          servicesId: $(el).attr("data-id"),
           price: $(el).attr("data-price")
         }
       }).get()
