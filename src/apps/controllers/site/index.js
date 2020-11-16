@@ -471,7 +471,7 @@ exports.myBill = async (req, res) => {
     status: "check_in",
   }).populate("roomId");
   let services = await billServicesModel
-    .findOne({
+    .find({
       bookingId: booking._id,
     })
     .populate({
@@ -481,9 +481,11 @@ exports.myBill = async (req, res) => {
         models: "services",
       })
     });
-  let totals = services.servicesId.reduce((total, item) => {
-    return total + parseInt(item.price) * parseInt(item.quantity);
-  }, 0);
+  
+  console.log("services", services);
+  // let totals = services.servicesId.reduce((total, item) => {
+  //   return total + parseInt(item.price) * parseInt(item.quantity);
+  // }, 0);
   let totalsPay = totals + booking.price;
   let price = totalsPay-(totalsPay * VAT);
   res.render("site/users/myBill", {
@@ -496,6 +498,9 @@ exports.myBill = async (req, res) => {
     price,
     formatPrice,
   });
+  console.log("services", services)
+  console.log("services", services)
+  console.log("services", services)
 };
 exports.changePassword = async (req, res) => {
   let token = req.cookies.token;
@@ -523,7 +528,7 @@ exports.p_changePassword = async (req, res) => {
       const passwordUpdate = {
         password: bcrypt.hashSync(newPassword, 10),
       };
-      await userModel.updateOne({ _id: userId }, passwordUpdate);
+      await userModel.updateOne({ _id: decodeToken._id }, passwordUpdate);
       return res.status(200).json({
         status: "success",
         message: transValidation.change_password,
