@@ -111,7 +111,7 @@ router
   .put(ServicesController.p_edit);
 router.route("/admin/services-delete/:id").get(ServicesController.delete);
 router
-  .route("/admin/bill-services")
+  .route("/admin/bill-services/:id")
   .get(ServicesController.billServices)
 //  .put(ServicesController.p_edit);
 

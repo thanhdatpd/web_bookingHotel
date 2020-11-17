@@ -60,7 +60,7 @@
                         aria-label="Start date: activate to sort column ascending" style="width: 100px;">Duyệt - Huỷ
                       </th>
                       <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1"
-                        aria-label="Salary: activate to sort column ascending" style="width: 100px;">Hành động</th>
+                        aria-label="Salary: activate to sort column ascending" style="width: 100px;">Hoá đơn dịch vụ</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -95,10 +95,7 @@
                       <i class="fas fa-cannabis"></i></a>
                     </td>
                       <td class="form-group">
-                        <a href="/admin/booking-edit/<%=booking._id%>" class="btn btn-info btn-circle"><i
-                            class="fas fa-edit"></i></a>
-                        <a href="/admin/booking-delete/<%=booking._id%>"
-                          onclick="return confirm('Bạn chắc chắn muốn xoá lịch đặt của <%=booking.userId.email%> chứ ?')"
+                        <a href="/admin/bill-services/<%=booking._id%>"
                           class="btn btn-danger btn-circle"><i class="far fa-eye"></i></a>
                       </td>
                     </tr>

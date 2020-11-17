@@ -160,28 +160,31 @@
           <td></td>
           <td></td>
           <td></td>
-          <td></td>
+          
           <% if (services.status === "wait_confirm") { %>
           <td><span class="badge badge-warning">Chờ xác nhận</span></td>
           <% }  else {%>
           <td><span class="badge badge-success">Đã đặt</span></td>
           <% } %>
         </tr> 
-        <% services.servicesId.forEach((service, index) => { %>
+        </tr>
+        <% services.forEach((service, index) => { %>
+        <% service.servicesId.forEach((item, index) => { %>
         <tr>
           <td></td>
-          <td><span class="badge badge-info"><%= service.servicesId.name %></span></td>
-          <td><span class="badge badge-info"><%=formatPrice(service.price)%>đ</span></td>
-          <td><span class="badge badge-info"><%= service.quantity %></span></td>
+          <td><span class="badge badge-info"><%=item.servicesId.name %></span></td>
+          <td><span class="badge badge-info"><%=formatPrice(item.price)%>đ</span></td>
+          <td><span class="badge badge-info"><%= item.quantity %></span></td>
           <td></td>
           <td></td>
         </tr>
+        <% }); %>
         <% }); %>
       </tbody>
     </table>
     <div class="d-flex  justify-content-center ">
       <span class="h6 pl-2 pb-3 mt-4 mb-4 text-info ">+ Tổng tiền đặt dịch vụ :
-        <span class="badge badge-info"><%=formatPrice(totals)%> đ</span>
+        <span class="badge badge-info"> đ</span>
       </span>
     </div>
   </div>
@@ -204,7 +207,7 @@
       </div>
       <div class="col-md-3 text-right">
         <h6>Tổng tiền</h6>
-        <h3 class="text-center ml-5"><%=formatPrice(totalsPay)%> đ</h3>
+        <h3 class="text-center ml-5"> đ</h3>
       </div>
       <div class="col-md-2 text-right">
         <h6>Thuế VAT</h6>
@@ -212,7 +215,7 @@
       </div>
       <div class="col-md-3 text-right">
         <h6>Tổng thanh toán</h6>
-        <h3 class="text-center"><%=formatPrice(price)%> đ</h3>
+        <h3 class="text-center"> đ</h3>
       </div>
     </div>
   </div>

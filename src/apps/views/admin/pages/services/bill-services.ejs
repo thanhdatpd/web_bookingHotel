@@ -10,38 +10,54 @@
     <div class="d-sm-flex align-items-center justify-content-center mb-4">
       <h1 class=" h3 mb-0 text-gray-800  ">Thông tin hoá đơn dịch vụ</h1>
     </div>
-
-    <div class="panel panel-default">
-      <div class="panel-body">
-        <table class="table table-hover">
-          <thead>
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">Email khách </th>
-              <th scope="col">Phòng khách đặt</th>
-              <th scope="col"> Dịch vụ</th>
-              <th scope="col">Tổng tiền</th>
-              <th scope="col">Trạng thái đặt</th>
-              <th scope="col">Duyệt-Huỷ</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% billServices.forEach((billService, index) => { %>
-            <th>
-              <td>1</td>
-              <td>1</td>
-              <td>1</td>
-              <td><%=billService.status%></td>
-              <td>1</td>
-              <td>1</td>
-            </th>
-            <% }) %>
-          </tbody>
-        </table>
-      
-      </div>
+<div class="panel panel-default">
+  <div class="panel-body">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Tên dịch vụ</th>
+          <th scope="col"> Giá tiền</th>
+          <th scope="col">Số lượng</th>
+          <th scope="col">Trạng thái đặt</th>
+          <th scope="col">Hành động</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          
+          <% if (services.status === "wait_confirm") { %>
+          <td><span class="badge badge-warning">Chờ xác nhận</span></td>
+          <% }  else {%>
+          <td><span class="badge badge-success">Đã đặt</span></td>
+          <% } %>
+          
+        </tr>
+        <% services.forEach((service, index) => { %>
+          <% service.servicesId.forEach((item, index) => { %>
+        <tr>
+          <td></td>        
+          <td><span class="badge badge-info"><%=item.servicesId.name %></span></td>
+          <td><span class="badge badge-info"><%=formatPrice(item.price)%>đ</span></td>
+          <td><span class="badge badge-info"><%= item.quantity %></span></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <% }); %>
+        <% }); %>
+      </tbody>
+    </table>
+    <div class="d-flex  justify-content-center ">
+      <span class="h6 pl-2 pb-3 mt-4 mb-4 text-info ">+ Tổng tiền đặt dịch vụ :
+        <span class="badge badge-info"> đ</span>
+      </span>
     </div>
-    
+  </div>
+</div>
 
   </div>
   <!-- End of Main Content -->

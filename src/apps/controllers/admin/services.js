@@ -4,6 +4,7 @@ const { accountValidation, transValidation } = require("../../../errLang/vn");
 const pagination = require("./../../../libs/pagination");
 const servicesModel = require("../../models/servicesModel");
 const billServicesModel = require("../../models/billServicesModel");
+const { formatPrice } = require("./../../../libs/utils");
 const joi = require("joi");
 
 //get services
@@ -16,7 +17,6 @@ exports.services = async (req, res, next) => {
     page,
     totalPages,
   } = await pagination.services(req);
-
   const services = await servicesModel
     .find({})
     .sort("-_id")
@@ -98,8 +98,18 @@ exports.delete = async (req, res) => {
 }
 //bills services
 exports.billServices = async (req, res) => {
-  const billServices = await billServicesModel.find({})
-    .populate("bookingId")
-    .sort("-_id") 
-  res.render("admin/pages/services/bill-services", { billServices });
+  const { id } = req.params;
+   let services = await billServicesModel
+     .find({
+       bookingId: id,
+     })
+     .populate({
+       path: "servicesId",
+       populate: {
+         path: "servicesId",
+         models: "services",
+       },
+     })
+     .sort("-_id");
+  res.render("admin/pages/services/bill-services", { services, formatPrice });
 }

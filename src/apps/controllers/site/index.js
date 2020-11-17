@@ -444,7 +444,6 @@ exports.p_myServices = async (req, res) => {
     let booking = await bookingModel
       .findOne({ userId: decodeToken._id, status: "check_in", })
     if (!booking) {
-      console.log("vao ");
       return res.status(400).json({
         status: "fail",
         message: transValidation.oder_room,
@@ -493,16 +492,16 @@ exports.myBill = async (req, res) => {
   // let totals = services.servicesId.reduce((total, item) => {
   //   return total + parseInt(item.price) * parseInt(item.quantity);
   // }, 0);
-  let totalsPay = totals + booking.price;
-  let price = totalsPay-(totalsPay * VAT);
+  //let totalsPay = totals + booking.price;
+  //let price = totalsPay-(totalsPay * VAT);
   res.render("site/users/myBill", {
     user,
     booking,
     moment,
     services,
-    totals,
-    totalsPay,
-    price,
+    // totals,
+    // totalsPay,
+    //price,
     formatPrice,
   });
   console.log("services", services)
