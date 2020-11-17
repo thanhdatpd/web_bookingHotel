@@ -3,6 +3,7 @@ const config = require("../../../config/default");
 const { accountValidation, transValidation } = require("../../../errLang/vn");
 const pagination = require("./../../../libs/pagination");
 const servicesModel = require("../../models/servicesModel");
+const billServicesModel = require("../../models/billServicesModel");
 const joi = require("joi");
 
 //get services
@@ -94,4 +95,11 @@ exports.delete = async (req, res) => {
    const { id } = req.params;
    await servicesModel.deleteOne({ _id: id });
   return res.redirect("/admin/services");
+}
+//bills services
+exports.billServices = async (req, res) => {
+  const billServices = await billServicesModel.find({})
+    .populate("bookingId")
+    .sort("-_id") 
+  res.render("admin/pages/services/bill-services", { billServices });
 }

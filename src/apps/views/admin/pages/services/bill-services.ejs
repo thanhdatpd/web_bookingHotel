@@ -1,0 +1,53 @@
+<%- include("../../layouts/head") %>
+
+<body id="page-top">
+  <%- include("../../layouts/sidebar") %>
+  <%- include("../../layouts/header") %>
+  <!-- Begin Page Content -->
+  <div class="container-fluid">
+
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-center mb-4">
+      <h1 class=" h3 mb-0 text-gray-800  ">Thông tin hoá đơn dịch vụ</h1>
+    </div>
+
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Email khách </th>
+              <th scope="col">Phòng khách đặt</th>
+              <th scope="col"> Dịch vụ</th>
+              <th scope="col">Tổng tiền</th>
+              <th scope="col">Trạng thái đặt</th>
+              <th scope="col">Duyệt-Huỷ</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% billServices.forEach((billService, index) => { %>
+            <th>
+              <td>1</td>
+              <td>1</td>
+              <td>1</td>
+              <td><%=billService.status%></td>
+              <td>1</td>
+              <td>1</td>
+            </th>
+            <% }) %>
+          </tbody>
+        </table>
+      
+      </div>
+    </div>
+    
+
+  </div>
+  <!-- End of Main Content -->
+  <!-- Footer -->
+  <%- include("../../layouts/footer") %>
+  <!-- End of Footer -->
+</body>
+
+</html>

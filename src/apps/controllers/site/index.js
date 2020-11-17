@@ -442,7 +442,14 @@ exports.p_myServices = async (req, res) => {
     let decodeToken = jwt.verify(token, config.app.SECRET_TOKEN);
     const { arrServices } = req.body;
     let booking = await bookingModel
-      .findOne({ userId: decodeToken._id, status: "check_in",})
+      .findOne({ userId: decodeToken._id, status: "check_in", })
+    if (!booking) {
+      console.log("vao ");
+      return res.status(400).json({
+        status: "fail",
+        message: transValidation.oder_room,
+      });
+    }
     let newBillServices = new billServicesModel({
       bookingId: booking._id,
       servicesId: arrServices,

@@ -2,10 +2,14 @@ const mongoose = require("mongoose");
 
 const roomSchema = new mongoose.Schema(
   {
-    name: { type: String, default: "" },
+    name: { type: String, default: "", unique: true },
     size: { type: Number, default: 30 },
     price: { type: String, default: 300000 },
-    type: { type: String, enum: ["single", "double", "vip"], default: "single" },
+    type: {
+      type: String,
+      enum: ["single", "double", "vip"],
+      default: "single",
+    },
     services: { type: String, default: "Wifi, Television, Bathroom,..." },
     description: { type: String, default: "" },
     image: { type: String, default: "default.jpeg" },

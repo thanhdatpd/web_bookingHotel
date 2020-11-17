@@ -110,6 +110,10 @@ router
   .get(ServicesController.edit)
   .put(ServicesController.p_edit);
 router.route("/admin/services-delete/:id").get(ServicesController.delete);
+router
+  .route("/admin/bill-services")
+  .get(ServicesController.billServices)
+//  .put(ServicesController.p_edit);
 
 
 //dashboard_comments

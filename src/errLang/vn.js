@@ -7,6 +7,7 @@ module.exports.transValidation = {
   input_success:
     "Đặt phòng thành công , xin vui lòng đợi xác nhận từ khách sạn ",
   success_room: "Kiểm tra thành công , mời bạn bấm đặt phòng ",
+  oder_room: "Vui lòng đợi nhận phòng để gọi dịch vụ ",
   services_room:
     "Đặt dịch vụ thành công , vui lòng đợi xác nhận và mang đồ lên ",
   input_success_room: "Thêm mới phòng thành công ",
