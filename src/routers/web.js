@@ -9,6 +9,7 @@ const {
   BookingsController,
   CommentsController,
   ContactsController,
+  BillsController,
 } = require("../apps/controllers");
 const { checkLogin } = require("../apps/middlewares/checkLogin");
 const { checkAdmin } = require("../apps/middlewares/checkAdmin");
@@ -113,8 +114,7 @@ router.route("/admin/services-delete/:id").get(ServicesController.delete);
 router
   .route("/admin/bill-services/:id")
   .get(ServicesController.billServices)
-// router.route("/admin/bill-services?id=").get(ServicesController.p_billServices);
- .post(ServicesController.p_billServices);
+
 
 
 //dashboard_comments
@@ -125,5 +125,6 @@ router.route("/admin/comments-delete/:id").get(CommentsController.delete);
 router.get("/admin/contacts", ContactsController.contacts);
 router.route("/admin/contact-delete/:id").get(ContactsController.delete);
 
-
+//dashboard_bills
+router.get("/admin/bills", BillsController.bills);
 module.exports = router;

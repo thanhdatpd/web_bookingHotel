@@ -5,6 +5,7 @@ const ServicesController = require("./admin/services");
 const CommentsController = require("./admin/comment");
 const BookingsController = require("./admin/booking");
 const ContactsController = require("./admin/contact");
+const BillsController = require("./admin/bill");
 const AuthController = require("./auth");
 const SiteController = require("./site");
 //
@@ -18,4 +19,5 @@ module.exports = {
   BookingsController,
   CommentsController,
   ContactsController,
+  BillsController,
 };

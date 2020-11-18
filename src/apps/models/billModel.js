@@ -3,10 +3,9 @@ const mongoose = require("mongoose");
 const billSchema = new mongoose.Schema(
   {
     userId: { type: mongoose.Schema.Types.ObjectId, ref: "users" },
-    bookingId: { type: mongoose.Schema.Types.ObjectId, ref: "booking" },
-    billServicesId: [
+    bookingId: { type: mongoose.Schema.Types.ObjectId, ref: "bookings" },
+    billServicesId: 
       { type: mongoose.Schema.Types.ObjectId, ref: "billServices" },
-    ],
     price: {
       type: Number,
       default: 100000,
@@ -18,4 +17,5 @@ const billSchema = new mongoose.Schema(
 );
 
 const billModel = mongoose.model("bills", billSchema);
+
 module.exports = billModel;

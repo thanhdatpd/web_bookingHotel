@@ -438,23 +438,55 @@ exports.myServices = async (req, res) => {
 };
 exports.p_myServices = async (req, res) => {
   try {
-    let token = req.cookies.token;
+    let { token, arrServices } = req.cookies;
     let decodeToken = jwt.verify(token, config.app.SECRET_TOKEN);
-    const { arrServices } = req.body;
-    let booking = await bookingModel
-      .findOne({ userId: decodeToken._id, status: "check_in", })
+    const { infoServices } = req.body;
+    let booking = await bookingModel.findOne({
+      userId: decodeToken._id,
+      status: "check_in",
+    });
     if (!booking) {
       return res.status(400).json({
         status: "fail",
         message: transValidation.oder_room,
       });
     }
-    let newBillServices = new billServicesModel({
+    let services = await billServicesModel.findOne({
       bookingId: booking._id,
-      servicesId: arrServices,
-      price: arrServices.price,
     });
-    newBillServices.save();
+    if (services) {
+      await billServicesModel.updateOne(
+        { bookingId: booking._id },
+        {
+          $push: { servicesId: infoServices },
+        }
+      );
+      let servicesUpdate = await billServicesModel.findOne({
+        bookingId: booking._id,
+      });
+      let totalsService = await servicesUpdate.servicesId.reduce(
+        (total, service) => {
+          return total + parseInt(service.price) * parseInt(service.quantity);
+        },
+        0
+      );
+      await billServicesModel.updateOne(
+         { bookingId: booking._id },
+        {
+          $set: { price: totalsService },
+        }
+       )
+    } else {
+      let totalsService = infoServices.reduce((total, service) => {
+        return total + parseInt(service.price) * parseInt(service.quantity);
+      }, 0);
+      let newBillServices = new billServicesModel({
+        bookingId: booking._id,
+        servicesId: infoServices,
+        price: totalsService,
+      });
+      newBillServices.save();
+    }
     return res.status(200).json({
       status: "success",
       message: transValidation.services_room,

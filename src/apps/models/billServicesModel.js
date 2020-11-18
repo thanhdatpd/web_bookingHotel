@@ -15,7 +15,10 @@ const billServicesSchema = new mongoose.Schema(
       enum: ["wait_confirm", "ordered"],
       default: "ordered",
     },
-    
+    price: {
+      type: Number,
+      default: 100000,
+    },
   },
   {
     timestamps: true,

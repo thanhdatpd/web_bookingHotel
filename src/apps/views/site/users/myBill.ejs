@@ -179,15 +179,16 @@
           <td></td>
         </tr>
         <% }); %>
-        <% }); %>
+        
       </tbody>
     </table>
     <div class="d-flex  justify-content-center ">
       <span class="h6 pl-2 pb-3 mt-4 mb-4 text-info ">+ Tổng tiền đặt dịch vụ :
-        <span class="badge badge-info"> đ</span>
+        <span class="badge badge-info"><%=formatPrice(service.price)%> đ</span>
       </span>
     </div>
   </div>
+  <% }); %>
 </div>
   <style>
     .text-white h3 ,.text-white h6{

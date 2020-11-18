@@ -43,19 +43,20 @@
           <td><span class="badge badge-info"><%=formatPrice(item.price)%>đ</span></td>
           <td><span class="badge badge-info"><%= item.quantity %></span></td>
           <td></td>
-          <td></td>
-          
-          
+          <td></td>         
         </tr>
         <% }); %>
+        <div class="d-flex  justify-content-center ">
+          <span class="h6 pl-2 pb-3 mt-4 mb-4 text-info ">+ Tổng tiền đặt dịch vụ :
+            <span class="badge badge-info"><%=formatPrice(service.price)%> đ</span>
+          </span>
+        </div>
         <% }); %>
+        
       </tbody>
     </table>
-    <div class="d-flex  justify-content-center ">
-      <span class="h6 pl-2 pb-3 mt-4 mb-4 text-info ">+ Tổng tiền đặt dịch vụ :
-        <span class="badge badge-info"> đ</span>
-      </span>
-    </div>
+    
+    
   </div>
 </div>
 
