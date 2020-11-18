@@ -488,7 +488,6 @@ exports.myBill = async (req, res) => {
       })
     });
   
-  console.log("services", services);
   // let totals = services.servicesId.reduce((total, item) => {
   //   return total + parseInt(item.price) * parseInt(item.quantity);
   // }, 0);
@@ -504,9 +503,7 @@ exports.myBill = async (req, res) => {
     //price,
     formatPrice,
   });
-  console.log("services", services)
-  console.log("services", services)
-  console.log("services", services)
+
 };
 exports.changePassword = async (req, res) => {
   let token = req.cookies.token;

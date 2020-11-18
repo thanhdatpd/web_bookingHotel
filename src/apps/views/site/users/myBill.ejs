@@ -156,7 +156,7 @@
       </thead>
       <tbody> 
         <tr>
-          <td>1</td>
+          <td></td>
           <td></td>
           <td></td>
           <td></td>
@@ -171,7 +171,7 @@
         <% services.forEach((service, index) => { %>
         <% service.servicesId.forEach((item, index) => { %>
         <tr>
-          <td></td>
+          <td><%= index+1%></td>
           <td><span class="badge badge-info"><%=item.servicesId.name %></span></td>
           <td><span class="badge badge-info"><%=formatPrice(item.price)%>đ</span></td>
           <td><span class="badge badge-info"><%= item.quantity %></span></td>

@@ -13,8 +13,9 @@ const billServicesSchema = new mongoose.Schema(
     status: {
       type: String,
       enum: ["wait_confirm", "ordered"],
-      default: "wait_confirm",
+      default: "ordered",
     },
+    
   },
   {
     timestamps: true,

@@ -4,7 +4,13 @@ const billSchema = new mongoose.Schema(
   {
     userId: { type: mongoose.Schema.Types.ObjectId, ref: "users" },
     bookingId: { type: mongoose.Schema.Types.ObjectId, ref: "booking" },
-    billServicesId: [{ type: mongoose.Schema.Types.ObjectId, ref: "billServices" }],
+    billServicesId: [
+      { type: mongoose.Schema.Types.ObjectId, ref: "billServices" },
+    ],
+    price: {
+      type: Number,
+      default: 100000,
+    },
   },
   {
     timestamps: true,

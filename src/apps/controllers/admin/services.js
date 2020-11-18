@@ -110,6 +110,14 @@ exports.billServices = async (req, res) => {
          models: "services",
        },
      })
-     .sort("-_id");
+    .sort("-_id");
+  // console.log("services", services);
   res.render("admin/pages/services/bill-services", { services, formatPrice });
+}
+//post bills services
+exports.p_billServices = async (req, res) => {
+  const { id } = req.params;
+  console.log(req.query); ;
+  console.log("id", id)
+   res.json('ok')
 }

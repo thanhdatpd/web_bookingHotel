@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const config = require("../../../config/default");
 const { accountValidation, transValidation } = require("../../../errLang/vn");
+const { formatPrice } = require("./../../../libs/utils");
 const pagination = require("./../../../libs/pagination");
 const bookingModel = require("../../models/bookingModel");
 const roomModel = require("../../models/roomModel");
@@ -32,6 +33,7 @@ exports.bookings = async (req, res, next) => {
     page,
     totalPages,
     moment,
+    formatPrice,
   });
 };
 //add bookings

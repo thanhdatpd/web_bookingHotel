@@ -113,7 +113,8 @@ router.route("/admin/services-delete/:id").get(ServicesController.delete);
 router
   .route("/admin/bill-services/:id")
   .get(ServicesController.billServices)
-//  .put(ServicesController.p_edit);
+// router.route("/admin/bill-services?id=").get(ServicesController.p_billServices);
+ .post(ServicesController.p_billServices);
 
 
 //dashboard_comments

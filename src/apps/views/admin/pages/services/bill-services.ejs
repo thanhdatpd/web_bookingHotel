@@ -20,16 +20,14 @@
           <th scope="col"> Giá tiền</th>
           <th scope="col">Số lượng</th>
           <th scope="col">Trạng thái đặt</th>
-          <th scope="col">Hành động</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td>1</td>
           <td></td>
           <td></td>
           <td></td>
-          
+          <td></td>
           <% if (services.status === "wait_confirm") { %>
           <td><span class="badge badge-warning">Chờ xác nhận</span></td>
           <% }  else {%>
@@ -40,12 +38,14 @@
         <% services.forEach((service, index) => { %>
           <% service.servicesId.forEach((item, index) => { %>
         <tr>
-          <td></td>        
+          <td><%=index+1%></td>        
           <td><span class="badge badge-info"><%=item.servicesId.name %></span></td>
           <td><span class="badge badge-info"><%=formatPrice(item.price)%>đ</span></td>
           <td><span class="badge badge-info"><%= item.quantity %></span></td>
           <td></td>
           <td></td>
+          
+          
         </tr>
         <% }); %>
         <% }); %>
