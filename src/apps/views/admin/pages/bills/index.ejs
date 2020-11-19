@@ -8,7 +8,7 @@
 
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-center mb-4">
-      <h1 class=" h3 mb-0 text-gray-800  ">Thông tin đặt phòng</h1>
+      <h1 class=" h3 mb-0 text-gray-800  ">Thông tin hoá đơn</h1>
     </div>
 
 
@@ -17,7 +17,7 @@
     <div class="card shadow mb-4">
       <div class="card-header py-3">
         <a href="/admin/bookings/add" class="btn btn-success">
-          <i class="glyphicon glyphicon-plus"></i> Thêm mới lịch đặt
+          <i class="glyphicon glyphicon-plus"></i> Thêm mới hoá đơn
         </a>
       </div>
       <div class="card-body">
@@ -66,7 +66,7 @@
                     <span class="badge badge-danger"><%=item.name%></span>
                         <% }) %>
                         </td>
-                        <td><%=bill.userId.email%></td>
+                        <td><%=bill.bookingId.email%></td>
                     <td class="form-group">
                       <a href="" class="btn btn-danger btn-circle"><i class="far fa-eye"></i></a>
                     </td>

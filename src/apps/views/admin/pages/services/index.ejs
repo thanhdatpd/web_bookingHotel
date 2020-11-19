@@ -51,7 +51,7 @@
                     <tr role="row" class="odd">
                       <td class="sorting_1"><%=index+1 %></td>
                       <td><%=service.name %></td>
-                      <td><%=service.price%> VNĐ</td>
+                      <td><%=formatPrice(service.price)%> đ</td>
                     
                       <td class="form-group">
                         <a href="/admin/services-edit/<%=service._id%>" class="btn btn-info btn-circle"><i

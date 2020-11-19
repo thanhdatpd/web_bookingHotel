@@ -26,6 +26,7 @@ exports.services = async (req, res, next) => {
     services,
     range: rangerForDot,
     page,
+    formatPrice,
     totalPages,
   });
 };

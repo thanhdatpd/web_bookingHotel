@@ -14,6 +14,7 @@ let bookingModel = require("../../models/bookingModel");
 let contactModel = require("../../models/contactModel");
 let servicesModel = require("../../models/servicesModel");
 let billServicesModel = require("../../models/billServicesModel");
+let billModel = require("../../models/billModel");
 let joi = require("joi");
 exports.index = (req, res) => {
   res.render("site/home")
@@ -406,9 +407,7 @@ exports.myBooking = async (req, res) => {
       .populate("userId")
       .populate("roomId")
       .sort("-_id");
-    res.render("site/users/myBooking", { user, bookings, moment, formatPrice });
-
-    
+    res.render("site/users/myBooking", { user, bookings, moment, formatPrice });    
   } catch (error) {
     return res.status(400).json({
       status: "fail",
@@ -438,7 +437,7 @@ exports.myServices = async (req, res) => {
 };
 exports.p_myServices = async (req, res) => {
   try {
-    let { token, arrServices } = req.cookies;
+    let { token } = req.cookies;
     let decodeToken = jwt.verify(token, config.app.SECRET_TOKEN);
     const { infoServices } = req.body;
     let booking = await bookingModel.findOne({
@@ -475,7 +474,13 @@ exports.p_myServices = async (req, res) => {
         {
           $set: { price: totalsService },
         }
-       )
+      )
+      await billModel.updateOne(
+        { bookingId: booking._id },
+        {
+          $set: { billServicesId: services._id },
+        }
+      );
     } else {
       let totalsService = infoServices.reduce((total, service) => {
         return total + parseInt(service.price) * parseInt(service.quantity);
@@ -485,17 +490,24 @@ exports.p_myServices = async (req, res) => {
         servicesId: infoServices,
         price: totalsService,
       });
-      newBillServices.save();
+      newBillServices.save();  
+      await billModel.updateOne(
+        { bookingId: booking._id },
+        {
+          $set: { billServicesId: newBillServices._id },
+        }
+      );
     }
     return res.status(200).json({
       status: "success",
       message: transValidation.services_room,
     });
   } catch (error) {
-    return res.status(400).json({
-      status: "fail",
-      message: transValidation.server_incorrect,
-    });
+    console.log(error);
+    // return res.status(400).json({
+    //   status: "fail",
+    //   message: transValidation.server_incorrect,
+    // });
   }
 };
 exports.myBill = async (req, res) => {

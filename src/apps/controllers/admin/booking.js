@@ -4,6 +4,7 @@ const { accountValidation, transValidation } = require("../../../errLang/vn");
 const { formatPrice } = require("./../../../libs/utils");
 const pagination = require("./../../../libs/pagination");
 const bookingModel = require("../../models/bookingModel");
+const billModel = require("../../models/billModel");
 const roomModel = require("../../models/roomModel");
 const moment = require("moment");
 const joi = require("joi");
@@ -75,7 +76,12 @@ exports.p_update = async (req, res) => {
         { _id: { $in: roomId } },
         { $set: { status: "ordered" } }
       );
-      
+      const booking = await bookingModel.findOne({ _id: id})
+      const newBill = new billModel({
+        bookingId: id,
+        price: booking.price,
+      });
+      await newBill.save();
     }
     if (text === "Huỷ đặt phòng") {
       await bookingModel.updateOne(

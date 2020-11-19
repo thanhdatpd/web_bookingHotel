@@ -142,7 +142,7 @@
         }
       }).then(function (data) {
         alertify.success(data.message)
-      //  setCookie("arrServices", "", 0)
+        setCookie("arrServices", "", 0)
         window.timeout = setTimeout(function () {
           window.location.href = "/my-bills";
         }, 2000)
