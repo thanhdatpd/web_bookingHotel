@@ -66,9 +66,9 @@
                     <span class="badge badge-danger"><%=item.name%></span>
                         <% }) %>
                         </td>
-                        <td><%=bill.bookingId.email%></td>
+                        <td><%=bill.bookingId.userId.email%></td>
                     <td class="form-group">
-                      <a href="" class="btn btn-danger btn-circle"><i class="far fa-eye"></i></a>
+                      <a href="/admin/bills/<%=bill._id%>" class="btn btn-danger btn-circle"><i class="far fa-eye"></i></a>
                     </td>
                     </tr>
                     <% }) %>

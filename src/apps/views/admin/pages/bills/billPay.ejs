@@ -1,0 +1,235 @@
+<%- include("../../layouts/head") %>
+
+<body id="page-top">
+  <%- include("../../layouts/sidebar") %>
+  <%- include("../../layouts/header") %>
+<style type="text/css">
+  h5,
+  h3 {
+    text-transform: capitalize;
+  }
+  img {
+    max-width: 20%;
+  }
+
+  .b-t {
+    border-top: 1px solid #ddd;
+  }
+
+  @media(max-width: 768px) {
+    .text-right {
+      text-align: center !important;
+    }
+
+    .pull-right {
+      float: none;
+      text-align: center;
+    }
+
+    .center {
+      text-align: center;
+    }
+
+    .bg-light.p-5:nth-child(1) {
+      padding: 1rem !important;
+    }
+
+    img {
+      max-width: 30%;
+      margin: 0 auto;
+      display: block;
+    }
+
+    .p-5 {
+      padding: 1rem !important;
+    }
+
+    .text-right h5:nth-child(3) {
+      padding-top: 15px !important;
+    }
+
+    .pt-5 {
+      padding-top: 1rem !important
+    }
+    
+  }
+</style>
+<div class="container mb-5">
+
+  <div class="bg-light p-5">
+    <h3 class="text-center p-2"><span class="badge badge-info">Khách sạn Phương Đông-Sona Hotel</span> </h3>
+    <h3 class="text-center m-0"><span class="badge badge-info"> Hoá đơn của <%=bill.bookingId.userId.fullName%></span>
+    </h3>
+    <div class="row pt-3 mb-2">
+      <div class="col-md-6 pull-left"><img src="../site/img/logo.png" class="img-responsive"></div>
+      <div class="col-md-6 text-right">
+        <h5 class="pt-4">Hoá đơn : #454</h5>
+        <p class="text-muted mb-0"><i>Ngày lập : <%= moment(bill.createdAt).format('DD-MM-YYYY') %></i></p>
+      </div>
+    </div>
+    <div class="row b-t pt-4">
+      <div class="col-md-6 pt-1 center">
+        <h5>Thông tin khách hàng</h5>
+        <p>-------------</p>
+        <p> Họ và tên : <%=bill.bookingId.userId.fullName%></p>
+        <p>-------------</p>
+        <p>Email: <%=bill.bookingId.userId.email%></p>
+        <p>-------------</p>
+        <p>Số điện thoại: <%=bill.bookingId.userId.phoneNumber%></p>
+      </div>
+      <div class="col-md-6 text-right">
+        <h5>Chi tiết thanh toán </h5>
+        <p>VAT: 1425782</p>
+        <p>VAT ID: 10253642</p>
+        <p>Loại thanh toán : Tiền mặt</p>
+      </div>
+    </div>
+    <div class="d-sm-flex align-items-center justify-content-center mb-4">
+      <h2 class=" h5 mb-0 text-gray-800 text-warning  ">* Thông tin phòng</h2>
+    </div>
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Ngày bắt đầu</th>
+              <th scope="col">Ngày kết thúc</th>
+              <th scope="col">Tên phòng</th>
+              <th scope="col">Loại phòng</th>
+              <th scope="col">Giá tiền </th>
+              <th scope="col">Số người</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td><span class="badge badge-info"><%=moment(bill.bookingId.startAt).format('DD-MM-YYYY')%></span></td>
+              <td><span class="badge badge-info"><%=moment(bill.bookingId.endAt).format('DD-MM-YYYY')%></span></td>
+
+              <td></td>
+              <td></td>
+              <td></td>
+              <td><span class="badge badge-info"><%=bill.bookingId.numberCustomer%> người</span></td>
+            </tr>
+            <% bill.bookingId.roomId.forEach((item, index) => { %>
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td><span class="badge badge-info"><%=item.name%></span></td>
+              <% if (item.type === "single") { %>
+              <td><span class="badge badge-success">Phòng đơn</span></td>
+              <% }else if (item.type === "double"){ %>
+              <td><span class="badge badge-info">Phòng đôi</span></td>
+              <% }else { %>
+              <td><span class="badge badge-warning">Phòng VIP</span></td>
+              <% } %>
+              <td><span class="badge badge-info"><%=formatPrice(item.price)%> đ / 1 ngày
+                </span></td>
+            </tr>
+            <tr>
+            </tr>
+            <% }) %>
+          </tbody>
+        </table>
+        <div class="d-flex  justify-content-center ">
+          <span class="h6 pl-2 pb-3 mt-4 mb-4 text-info ">+ Tổng tiền đặt phòng :
+            <span class="badge badge-info"><%=formatPrice(bill.bookingId.price)%> đ</span>
+          </span>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="d-sm-flex align-items-center justify-content-center mb-4">
+      <h2 class=" h5 mb-0 text-gray-800 text-warning  ">* Thông tin dịch vụ</h2>
+    </div>
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Tên dịch vụ</th>
+              <th scope="col"> Giá tiền</th>
+              <th scope="col">Số lượng</th>
+              <th scope="col">Trạng thái đặt</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td><span class="badge badge-success">Đã đặt</span></td>
+            </tr>
+            <% bill.billServicesId.servicesId.forEach((service, index) => { %>
+
+            <tr>
+
+              <td><%= index+1%></td>
+
+              <td><span class="badge badge-info"><%=service.servicesId.name%>
+                </span></td>
+
+              <td><span class="badge badge-info"><%=formatPrice(service.price)%>đ</span></td>
+              <td><span class="badge badge-info"><%= service.quantity %></span></td>
+              <td></td>
+              <td></td>
+            </tr>
+            <% }); %>
+          </tbody>
+        </table>
+        <div class="d-flex  justify-content-center ">
+          <span class="h6 pl-2 pb-3 mt-4 mb-4 text-info ">+ Tổng tiền đặt dịch vụ :
+            <span class="badge badge-info"><%=formatPrice(bill.billServicesId.price)%> đ</span>
+          </span>
+        </div>
+      </div>
+    </div>
+    <style>
+      .text-white h3,
+      .text-white h6 {
+        color: #17a2b8
+      }
+
+      h6 {
+        font-size: 19px;
+        margin-right: 35px;
+      }
+
+      h3 {
+        font-size: 27px;
+      }
+    </style>
+    <div class="bg-dark text-white p-5">
+      <div class="row">
+        <div class="col-md-4">
+        </div>
+        <div class="col-md-3 text-right">
+          <h6>Tổng tiền</h6>
+          <h3 class="text-center ml-5"><%=formatPrice(bill.price)%> đ</h3>
+        </div>
+        <div class="col-md-2 text-right">
+          <h6>Thuế VAT</h6>
+          <h3 class="text-center">10%</h3>
+        </div>
+        <div class="col-md-3 text-right">
+          <h6>Tổng thanh toán</h6>
+          <h3 class="text-center"><%=formatPrice(totalsPay)%> đ</h3>
+        </div>        
+      </div>
+      <div class="col-md-9 pt-4 text-right">
+        <button class="btn btn-success text-center">In hoá đơn và trả phòng</button>
+      </div>     
+      </div>      
+    </div>
+  </div>
+  <!-- Rooms Section End -->
+<%- include("../../layouts/footer") %>
+<!-- End of Footer -->
+</body>
+
+</html>

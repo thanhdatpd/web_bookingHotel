@@ -127,4 +127,5 @@ router.route("/admin/contact-delete/:id").get(ContactsController.delete);
 
 //dashboard_bills
 router.get("/admin/bills", BillsController.bills);
+router.route("/admin/bills/:id").get(BillsController.detailBills);
 module.exports = router;

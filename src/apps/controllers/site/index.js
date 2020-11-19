@@ -450,6 +450,9 @@ exports.p_myServices = async (req, res) => {
         message: transValidation.oder_room,
       });
     }
+    let bill = await billModel.findOne({
+      bookingId: booking._id,
+    });
     let services = await billServicesModel.findOne({
       bookingId: booking._id,
     });
@@ -478,7 +481,10 @@ exports.p_myServices = async (req, res) => {
       await billModel.updateOne(
         { bookingId: booking._id },
         {
-          $set: { billServicesId: services._id },
+          $set: {
+            billServicesId: services._id,
+            price: booking.price + totalsService,
+          },
         }
       );
     } else {
@@ -494,7 +500,10 @@ exports.p_myServices = async (req, res) => {
       await billModel.updateOne(
         { bookingId: booking._id },
         {
-          $set: { billServicesId: newBillServices._id },
+          $set: {
+            billServicesId: newBillServices._id,
+            price: bill.price + totalsService,
+          }, 
         }
       );
     }
@@ -503,51 +512,55 @@ exports.p_myServices = async (req, res) => {
       message: transValidation.services_room,
     });
   } catch (error) {
-    console.log(error);
-    // return res.status(400).json({
-    //   status: "fail",
-    //   message: transValidation.server_incorrect,
-    // });
+    return res.status(400).json({
+      status: "fail",
+      message: transValidation.server_incorrect,
+    });
   }
 };
 exports.myBill = async (req, res) => {
-   let { token } = req.cookies;
-   let decodeToken = jwt.verify(token, config.app.SECRET_TOKEN);
-   let user = await userModel.findOne({
-     _id: decodeToken._id,
-   });
+  let { token } = req.cookies;
+  let decodeToken = jwt.verify(token, config.app.SECRET_TOKEN);
+  let user = await userModel.findOne({
+    _id: decodeToken._id,
+  });
   let booking = await bookingModel.findOne({
     userId: decodeToken._id,
     status: "check_in",
-  }).populate("roomId");
-  let services = await billServicesModel
-    .find({
-      bookingId: booking._id,
+  });
+  const bill = await billModel
+    .findOne({ bookingId: booking._id })
+    .populate({
+      path: "bookingId",
+      populate: {
+        path: "roomId",
+        model: "rooms",
+      },
     })
     .populate({
-      path: "servicesId",
+      path: "bookingId",
       populate: ({
+        path: "userId",
+        model: "users",
+      }),
+    })
+    .populate({
+      path: "billServicesId",
+      populate: {
         path: "servicesId",
-        models: "services",
-      })
+        populate: {
+          path: "servicesId",
+          model: "services",
+        },
+      },
     });
-  
-  // let totals = services.servicesId.reduce((total, item) => {
-  //   return total + parseInt(item.price) * parseInt(item.quantity);
-  // }, 0);
-  //let totalsPay = totals + booking.price;
-  //let price = totalsPay-(totalsPay * VAT);
+  const totalsPay = (bill.price + bill.price * VAT);
   res.render("site/users/myBill", {
-    user,
-    booking,
+    bill,
+    totalsPay,
     moment,
-    services,
-    // totals,
-    // totalsPay,
-    //price,
     formatPrice,
   });
-
 };
 exports.changePassword = async (req, res) => {
   let token = req.cookies.token;
