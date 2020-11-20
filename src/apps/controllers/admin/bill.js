@@ -47,6 +47,7 @@ exports.bills = async (req, res, next) => {
   //   .sort("-_id")
   //   .limit(limit)
   //   .skip(skip);
+ 
   res.render("admin/pages/bills/index", {
     bills,
     // range: rangerForDot,
@@ -57,7 +58,7 @@ exports.bills = async (req, res, next) => {
   });
 };
 
-//get bookings
+//get detailBills
 exports.detailBills = async (req, res, next) => {
   const { id } = req.params;
   const bill = await billModel
@@ -86,11 +87,29 @@ exports.detailBills = async (req, res, next) => {
         },
       },
     });
+   const isService = await billModel
+     .find({
+       billServicesId: {
+         $exists: true,
+         $ne: null,
+       },
+     })
+     .count();
   const totalsPay = bill.price + bill.price * VAT;
   res.render("admin/pages/bills/billPay", {
     bill,
     totalsPay,
+    isService,
     moment,
     formatPrice,
   });
+};
+
+//get pays
+exports.pays = async (req, res, next) => {
+  const {idBill} = req.body
+  console.log("idBill", idBill)
+  // update room
+  //update booking
+  
 };

@@ -115,8 +115,6 @@ router
   .route("/admin/bill-services/:id")
   .get(ServicesController.billServices)
 
-
-
 //dashboard_comments
 router.get("/admin/comments", CommentsController.comments);
 router.route("/admin/comments-delete/:id").get(CommentsController.delete);
@@ -128,4 +126,5 @@ router.route("/admin/contact-delete/:id").get(ContactsController.delete);
 //dashboard_bills
 router.get("/admin/bills", BillsController.bills);
 router.route("/admin/bills/:id").get(BillsController.detailBills);
+router.route("/admin/pays").post(BillsController.pays);
 module.exports = router;

@@ -554,10 +554,17 @@ exports.myBill = async (req, res) => {
         },
       },
     });
+  console.log("bill", bill);
+  const isService = await billModel.find({ "billServicesId": {
+    $exists: true,
+    $ne: null,
+  }
+  }).count();
   const totalsPay = (bill.price + bill.price * VAT);
   res.render("site/users/myBill", {
     bill,
     totalsPay,
+    isService,
     moment,
     formatPrice,
   });

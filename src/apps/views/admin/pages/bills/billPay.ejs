@@ -60,6 +60,7 @@
     <h3 class="text-center p-2"><span class="badge badge-info">Khách sạn Phương Đông-Sona Hotel</span> </h3>
     <h3 class="text-center m-0"><span class="badge badge-info"> Hoá đơn của <%=bill.bookingId.userId.fullName%></span>
     </h3>
+    <input id="id-bill" type="hidden" value="<%=bill._id%>">
     <div class="row pt-3 mb-2">
       <div class="col-md-6 pull-left"><img src="../site/img/logo.png" class="img-responsive"></div>
       <div class="col-md-6 text-right">
@@ -141,10 +142,11 @@
       </div>
     </div>
 
-
+    <%if (isService !== 0){ %>
     <div class="d-sm-flex align-items-center justify-content-center mb-4">
       <h2 class=" h5 mb-0 text-gray-800 text-warning  ">* Thông tin dịch vụ</h2>
     </div>
+    
     <div class="panel panel-default">
       <div class="panel-body">
         <table class="table table-hover">
@@ -158,6 +160,7 @@
             </tr>
           </thead>
           <tbody>
+           
             <tr>
               <td></td>
               <td></td>
@@ -166,29 +169,37 @@
               <td><span class="badge badge-success">Đã đặt</span></td>
             </tr>
             <% bill.billServicesId.servicesId.forEach((service, index) => { %>
-
             <tr>
-
               <td><%= index+1%></td>
-
               <td><span class="badge badge-info"><%=service.servicesId.name%>
                 </span></td>
-
               <td><span class="badge badge-info"><%=formatPrice(service.price)%>đ</span></td>
               <td><span class="badge badge-info"><%= service.quantity %></span></td>
               <td></td>
               <td></td>
             </tr>
-            <% }); %>
+            <% }); %>            
           </tbody>
         </table>
         <div class="d-flex  justify-content-center ">
           <span class="h6 pl-2 pb-3 mt-4 mb-4 text-info ">+ Tổng tiền đặt dịch vụ :
             <span class="badge badge-info"><%=formatPrice(bill.billServicesId.price)%> đ</span>
           </span>
-        </div>
+        </div>      
       </div>
     </div>
+    <% } %>
+    <div class="d-sm-flex align-items-center justify-content-center mb-4">
+      <h2 class=" h5 mb-0 text-gray-800 text-warning  ">* Thông tin dịch vụ</h2>
+    </div>
+    <p>--------------------------------------------------------------------------------------------------------------------------------------------------</p>
+    <p>
+      --------------------------------------------------------------------------------------------------------------------------------------------------
+    </p>
+    <p>
+      --------------------------------------------------------------------------------------------------------------------------------------------------
+    </p>
+    
     <style>
       .text-white h3,
       .text-white h6 {
@@ -222,13 +233,33 @@
         </div>        
       </div>
       <div class="col-md-9 pt-4 text-right">
-        <button class="btn btn-success text-center">In hoá đơn và trả phòng</button>
+        <button onclick="Pay()" class="btn btn-success text-center">In hoá đơn và trả phòng</button>
       </div>     
       </div>      
     </div>
   </div>
+  <%- include("../../layouts/footer") %>
+  <script>
+    var idBill = $("#id-bill").val()
+    function Pay(){
+       $.ajax({
+        url: "/admin/pays",
+        method: "POST",
+        data: {
+          idBill: idBill,
+        }
+      }).then(function (data) {
+       // alertify.success(data.message);
+        // window.timeout = setTimeout(function () {
+        //   window.location.href = "/admin/dashboard";
+        // }, 2000)
+      }).catch(function (err) {
+        alertify.error(err.responseJSON.message);
+      })  
+    }
+  </script>
   <!-- Rooms Section End -->
-<%- include("../../layouts/footer") %>
+
 <!-- End of Footer -->
 </body>
 
