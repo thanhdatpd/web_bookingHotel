@@ -29,11 +29,34 @@
     </div>
   </div>
 </div>
+
 <!-- Breadcrumb Section End -->
 <!-- Rooms Section Begin -->
 <section class="rooms-section spad">
   <div class="container">
+    <form >
     <div class="row">
+    <div class="d-flex flex-row  mb-3 text-success">
+      <label class=" ml-3 mt-2"> * Giá phòng : </label>
+      <select class=" ml-3" id="price" name="price">
+        <option value="asc" selected>--xxx--</option>
+        <option value="asc">Tăng dần </option>
+        <option value="desc">Giảm dần</option>
+      </select>
+    </div>
+    <div class="d-flex flex-row  mb-3 text-success">
+      <label class=" ml-3 mt-2"> * Loại phòng : </label>
+      <select class=" ml-3" id="type" name="type">
+        <option value="single" selected>--xxx--</option>
+        <option value="single">Phòng đơn </option>
+        <option value="double">Phòng đôi</option>
+        <option value="vip">Phòng vip</option>
+      </select>
+    </div>
+    <button id="" type="button" onclick="filter()" class="btn btn-outline-success ml-3 mb-3">Lọc phòng</button>
+    </div>
+    </form>
+    <div class="row">   
       <% rooms.forEach((room, index) => { %>
       <div class="col-lg-4 col-md-6">
         <div class="room-item">
@@ -172,4 +195,16 @@
       }
     }
   }) 
+  function filter(){
+    var price = $("#price").val();
+    var type = $("#type").val();
+    if(price != "" || type != ""){
+      window.location.href = `/checks?startAt=<%=startAt%>&endAt=<%=endAt%>&numberRoom=<%=numberRoom%>&numberCustomer=<%=numberCustomer%>&price=${price}&type=${type}`
+    }else if(price == "" || type != ""){
+      window.location.href = `/checks?startAt=<%=startAt%>&endAt=<%=endAt%>&numberRoom=<%=numberRoom%>&numberCustomer=<%=numberCustomer%>&price=asc&type=${type}`
+    }else if( price != "" || type == ""){
+       window.location.href = `/checks?startAt=<%=startAt%>&endAt=<%=endAt%>&numberRoom=<%=numberRoom%>&numberCustomer=<%=numberCustomer%>&price=${price}&type=single`
+    }
+    
+  }
 </script>

@@ -189,9 +189,6 @@
       </div>
     </div>
     <% } %>
-    <div class="d-sm-flex align-items-center justify-content-center mb-4">
-      <h2 class=" h5 mb-0 text-gray-800 text-warning  ">* Thông tin dịch vụ</h2>
-    </div>
     <p>--------------------------------------------------------------------------------------------------------------------------------------------------</p>
     <p>
       --------------------------------------------------------------------------------------------------------------------------------------------------
@@ -249,10 +246,10 @@
           idBill: idBill,
         }
       }).then(function (data) {
-       // alertify.success(data.message);
-        // window.timeout = setTimeout(function () {
-        //   window.location.href = "/admin/dashboard";
-        // }, 2000)
+       alertify.success(data.message);
+        window.timeout = setTimeout(function () {
+          window.location.href = "/admin/dashboard";
+        }, 2000)
       }).catch(function (err) {
         alertify.error(err.responseJSON.message);
       })  

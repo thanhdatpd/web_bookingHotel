@@ -147,13 +147,16 @@
                 <input type="text" class="date-input" id="endAt" name="endAt" required value="<%=endAt%>" disabled>
                 <i class="icon_calendar"></i>
               </div>
-              <button type="button" >Chọn phòng này</button>
-              <button type="button">Huỷ chọn phòng này</button><button type="button">Thoát</button>
+              <button type="button" onclick="goBack()">Thoát</button>
             </form>
           </div>
         </div>
       </div>
     </div>
   </section>
-
+<script>
+  function goBack() {
+    window.history.back();
+  }
+</script>
 <%- include("./../layouts/footer") %>

@@ -113,9 +113,7 @@ exports.p_update = async (req, res) => {
       message: transValidation.input_incorrect,
     });
   }
- 
 };
-
 //delete booking
 exports.delete = async (req, res) => {
    const { id } = req.params;

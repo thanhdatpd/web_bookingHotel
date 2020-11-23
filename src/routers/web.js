@@ -55,6 +55,8 @@ router
   .route("/change-password")
   .get(SiteController.changePassword)
   .post(SiteController.p_changePassword);
+
+  
 /* router admin */
 // router.use(checkLogin); // checkLogin
 
