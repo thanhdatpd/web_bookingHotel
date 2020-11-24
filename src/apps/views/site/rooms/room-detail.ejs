@@ -70,40 +70,26 @@
           </div>
           <div class="rd-reviews">
             <h4>Nhận xét</h4>
-            <div class="review-item">
-              <div class="ri-pic">
-                <img src="img/room/avatar/avatar-1.jpg" alt="">
-              </div>
-              <div class="ri-text">
-                <span>10 tháng 10 năm 2020</span>
-                <div class="rating">
-                  <i class="icon_star"></i>
-                  <i class="icon_star"></i>
-                  <i class="icon_star"></i>
-                  <i class="icon_star"></i>
-                  <i class="icon_star-half_alt"></i>
+            
+            <% room.commentId.forEach((item, index) => { %>
+              <div class="review-item">
+                <div class="ri-pic">
+                  <img src="/assets/images/uploads/users/<%=item.userId.avatar%>" alt="">
                 </div>
-                <h5>Trần Quân</h5>
-                <p>Phòng đẹp dã man </p>
-              </div>
-            </div>
-            <div class="review-item">
-              <div class="ri-pic">
-                <img src="img/room/avatar/avatar-2.jpg" alt="">
-              </div>
-              <div class="ri-text">
-                <span>20 tháng 10 năm 2020</span>
-                <div class="rating">
-                  <i class="icon_star"></i>
-                  <i class="icon_star"></i>
-                  <i class="icon_star"></i>
-                  <i class="icon_star"></i>
-                  <i class="icon_star-half_alt"></i>
+                <div class="ri-text">
+                  <span><%= moment(item.createdAt).format('DD-MM-YYYY') %></span>
+                  <div class="rating">
+                    <i class="icon_star"></i>
+                    <i class="icon_star"></i>
+                    <i class="icon_star"></i>
+                    <i class="icon_star"></i>
+                    <i class="icon_star-half_alt"></i>
+                  </div>
+                  <h5><%=item.userId.fullName%></h5>
+                  <p><%=item.content%> </p>
                 </div>
-                <h5>Trần Mai</h5>
-                <p>Phòng đẹp mê ly</p>
               </div>
-            </div>
+            <% }) %>
           </div>
           <div class="review-add">
             <h4>Thêm nhận xét</h4>

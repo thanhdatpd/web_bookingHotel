@@ -163,9 +163,18 @@ exports.room_vip = async (req, res) => {
 };
 exports.room_detail = async (req, res) => {
   let { startAt, endAt, id } = req.query; 
-  let room = await roomModel.findOne({ _id: id })
-  console.log("room", room);
-  res.render("site/rooms/room-detail", { room, startAt, endAt, formatPrice });
+  let room = await roomModel.findOne({ _id: id }).populate({
+    path: "commentId",
+    options: {
+    sort: { createdAt: -1 },
+    limit: 3
+  },
+    populate: {
+      path: "userId",
+      model: "users",
+    },
+  });
+  return res.render("site/rooms/room-detail", { room, startAt, endAt, formatPrice, moment });
 };
 exports.checks = async (req, res) => {
   let { startAt, endAt, numberCustomer, numberRoom, price, type } = req.query;
