@@ -41,6 +41,7 @@
                 <th scope="col">Số người</th>
                 <th scope="col">Trạng thái đặt</th>
                 <th scope="col">Giá tiền</th>
+                <th scope="col">Hoá đơn</th>
               </tr>
             </thead>
             <tbody>
@@ -74,7 +75,9 @@
                 
                 <% } %>
                 <td> <span class="bg-info"><%=formatPrice(booking.price) %> đ</span></td>
-              </tr>    
+                <td class="form-group">
+                  <a href="/my-bills" class="btn btn-danger btn-circle"><i class="far fa-eye"></i></a>
+                </td>
               <% }) %>
             </tbody>
           </table>

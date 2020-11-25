@@ -3,9 +3,13 @@ module.exports.transValidation = {
   check_incorrect: " Bạn chưa bấm kiểm tra ngày tháng, vui lòng thực hiện !!! ",
   check_room:
     " Phòng đã được đặt trong ngày này , xin vui lòng chọn ngày khác !!! ",
+  check_date:
+    " Ngày tháng nhập vào chưa đúng , xin vui lòng chọn ngày khác !!! ",
   input_incorrect: " Vui lòng kiểm tra lại thông tin ",
   input_success:
     "Đặt phòng thành công , xin vui lòng đợi xác nhận từ khách sạn ",
+  input_comment_success:
+    "Cám ơn bạn đã bình luận và đánh giá phòng để khách sạn ngày càng hoàn thiện hơn ",
   success_room: "Kiểm tra thành công , mời bạn bấm đặt phòng ",
   oder_room: "Vui lòng đợi nhận phòng để gọi dịch vụ ",
   oder_bill: "Vui lòng đặt phòng để xem hoá đơn ",

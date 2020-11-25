@@ -11,13 +11,14 @@ const { formatPrice } = require("./../../../libs/utils");
 let roomModel = require("../../models/roomModel");
 let userModel = require("../../models/userModel");
 let bookingModel = require("../../models/bookingModel");
+let commentModel = require("../../models/commentModel");
 let contactModel = require("../../models/contactModel");
 let servicesModel = require("../../models/servicesModel");
 let billServicesModel = require("../../models/billServicesModel");
 let billModel = require("../../models/billModel");
 let joi = require("joi");
 exports.index = (req, res) => {
-  res.render("site/home")
+  res.render("site/home", { error: "" });
 };
 exports.profile = async (req, res, next) => {
   let token = req.cookies.token;
@@ -162,19 +163,40 @@ exports.room_vip = async (req, res) => {
   });
 };
 exports.room_detail = async (req, res) => {
-  let { startAt, endAt, id } = req.query; 
-  let room = await roomModel.findOne({ _id: id }).populate({
-    path: "commentId",
-    options: {
-    sort: { createdAt: -1 },
-    limit: 3
-  },
-    populate: {
-      path: "userId",
-      model: "users",
-    },
-  });
-  return res.render("site/rooms/room-detail", { room, startAt, endAt, formatPrice, moment });
+   try {
+     let token = req.cookies.token;
+     let decodeToken = jwt.verify(token, config.app.SECRET_TOKEN);
+     //check decode token with id User
+     let user = await userModel.findOne({
+       _id: decodeToken._id,
+     });
+     if (user) {
+       let { startAt, endAt, id } = req.query;
+       let room = await roomModel.findOne({ _id: id }).populate({
+         path: "commentId",
+         options: {
+           sort: { createdAt: -1 },
+           limit: 3,
+         },
+         populate: {
+           path: "userId",
+           model: "users",
+         },
+       });
+       const isComment = Object.keys(room.commentId).length !== 0; 
+       return res.render("site/rooms/room-detail", {
+         room,
+         startAt,
+         endAt,
+         formatPrice,
+         moment,
+         user,
+         isComment,
+       });
+     }
+   } catch (error) {
+     res.render("site/home");
+   } 
 };
 exports.checks = async (req, res) => {
   let { startAt, endAt, numberCustomer, numberRoom, price, type } = req.query;
@@ -183,63 +205,119 @@ exports.checks = async (req, res) => {
     endAt + "/23:59:59+0700",
     "DD-MM-YYYY/HH:mm:ssZ"
   );
-  if ( price === undefined && type === undefined) {
-    let filter = {
-      $or: [
-        {
-          $and: [
-            { startAt: { $gte: startAtFormated } },
-            { startAt: { $lt: endAtFormated } },
-          ],
-        },
-        {
-          $and: [
-            { endAt: { $gte: startAtFormated } },
-            { endAt: { $lt: endAtFormated } },
-          ],
-        },
-      ],
-    };
-    const bookings = await bookingModel.find(filter).populate("roomId");
-    if (bookings === undefined || bookings.length == 0) {
-      let {
-        limit,
-        skip,
-        range,
-        rangerForDot,
-        page,
-        totalPages,
-      } = await pagination.room(req);
-      let rooms = await roomModel
-        .find({ status: "empty" })
-        .sort("-_id")
-        .limit(limit)
-        .skip(skip);
-      res.render("site/rooms/room-result", {
-        rooms,
-        startAt,
-        endAt,
-        numberCustomer,
-        range: rangerForDot,
-        page,
-        totalPages,
-        formatPrice,
-        numberRoom,
-      });
+  if (startAtFormated < Date.now() || endAtFormated < Date.now()) {
+    return res.render("site/home", {
+      error: "*Ngày tháng nhập vào chưa đúng , xin vui lòng chọn ngày lơn hơn ngày hiện tại !!!",
+    });
+  }
+    if (price === undefined && type === undefined) {
+      let filter = {
+        $or: [
+          {
+            $and: [
+              { startAt: { $gte: startAtFormated } },
+              { startAt: { $lt: endAtFormated } },
+            ],
+          },
+          {
+            $and: [
+              { endAt: { $gte: startAtFormated } },
+              { endAt: { $lt: endAtFormated } },
+            ],
+          },
+        ],
+      };
+      const bookings = await bookingModel.find(filter).populate("roomId");
+      if (bookings === undefined || bookings.length == 0) {
+        let {
+          limit,
+          skip,
+          range,
+          rangerForDot,
+          page,
+          totalPages,
+        } = await pagination.room(req);
+        let rooms = await roomModel
+          .find({ status: "empty" })
+          .sort("-_id")
+          .limit(limit)
+          .skip(skip);
+        res.render("site/rooms/room-result", {
+          rooms,
+          startAt,
+          endAt,
+          numberCustomer,
+          range: rangerForDot,
+          page,
+          totalPages,
+          formatPrice,
+          numberRoom,
+        });
+      } else {
+        //get list ID in Bookings
+        const arrRoomID = bookings.map((booking) => {
+          return booking.roomId.map((item) => item._id);
+        });
+        const arrRoomIDs = arrRoomID.join(",").split(",");
+        //panigition
+        const page = parseInt(req.query.page || 1);
+        const limit = 12;
+        const skip = (page - 1) * limit;
+        const totalDocuments = await roomModel
+          .find({
+            _id: { $nin: arrRoomIDs },
+          })
+          .countDocuments();
+        const totalPages = Math.ceil(totalDocuments / limit);
+        const range = [];
+        const rangerForDot = [];
+        const detal = 1;
+        const left = page - detal;
+        const right = page + detal;
+        for (let i = 1; i <= totalPages; i++) {
+          if (i === 1 || i === totalPages || (i >= left && i <= right)) {
+            range.push(i);
+          }
+        }
+        let temp;
+        range.map((i) => {
+          if (temp) {
+            if (i - temp === 2) {
+              rangerForDot.push(i - 1);
+            } else if (i - temp !== 1) {
+              rangerForDot.push("...");
+            }
+          }
+          temp = i;
+          rangerForDot.push(i);
+        });
+        let rooms = await roomModel
+          .find({
+            _id: { $nin: arrRoomIDs },
+          })
+          .sort("-_id")
+          .limit(limit)
+          .skip(skip);
+        return res.render("site/rooms/room-result", {
+          rooms,
+          startAt,
+          endAt,
+          numberCustomer,
+          range: rangerForDot,
+          page,
+          totalPages,
+          formatPrice,
+          numberRoom,
+        });
+      }
     } else {
-      //get list ID in Bookings
-      const arrRoomID = bookings.map((booking) => {
-        return booking.roomId.map((item) => item._id);
-      });
-      const arrRoomIDs = arrRoomID.join(",").split(",");
       //panigition
       const page = parseInt(req.query.page || 1);
       const limit = 12;
       const skip = (page - 1) * limit;
-      const totalDocuments = await roomModel
-        .find({
-          _id: { $nin: arrRoomIDs },
-        })
+      let totalDocuments = await roomModel
+        .find({ status: "empty" }, { type: type })
+        .sort({ price: price })
         .countDocuments();
       const totalPages = Math.ceil(totalDocuments / limit);
       const range = [];
@@ -264,14 +342,14 @@ exports.checks = async (req, res) => {
         temp = i;
         rangerForDot.push(i);
       });
+      if (price === "asc") price = 1;
+      if (price === "desc") price = -1;
       let rooms = await roomModel
-        .find({
-          _id: { $nin: arrRoomIDs },
-        })
-        .sort("-_id")
+        .find({ status: "empty", type: type })
+        .sort({ price: price })
         .limit(limit)
         .skip(skip);
-      return res.render("site/rooms/room-result", {
+      res.render("site/rooms/room-result", {
         rooms,
         startAt,
         endAt,
@@ -283,57 +361,6 @@ exports.checks = async (req, res) => {
         numberRoom,
       });
     }
-  } else {
-    //panigition
-    const page = parseInt(req.query.page || 1);
-    const limit = 12;
-    const skip = (page - 1) * limit;
-    let totalDocuments = await roomModel
-      .find({ status: "empty" }, { type: type })
-      .sort({ price: price })
-      .countDocuments();
-    const totalPages = Math.ceil(totalDocuments / limit);
-    const range = [];
-    const rangerForDot = [];
-    const detal = 1;
-    const left = page - detal;
-    const right = page + detal;
-    for (let i = 1; i <= totalPages; i++) {
-      if (i === 1 || i === totalPages || (i >= left && i <= right)) {
-        range.push(i);
-      }
-    }
-    let temp;
-    range.map((i) => {
-      if (temp) {
-        if (i - temp === 2) {
-          rangerForDot.push(i - 1);
-        } else if (i - temp !== 1) {
-          rangerForDot.push("...");
-        }
-      }
-      temp = i;
-      rangerForDot.push(i);
-    });
-    if (price === "asc") price = 1;
-    if (price === "desc") price = -1;
-    let rooms = await roomModel
-      .find({ status: "empty", type: type })
-      .sort({ price: price })
-      .limit(limit)
-      .skip(skip);
-    res.render("site/rooms/room-result", {
-      rooms,
-      startAt,
-      endAt,
-      numberCustomer,
-      range: rangerForDot,
-      page,
-      totalPages,
-      formatPrice,
-      numberRoom,
-    });
-  }
 };
 exports.checkRoom = async (req, res) => {
   try {
@@ -588,7 +615,7 @@ exports.myBill = async (req, res) => {
     status: "check_in",
   });
   if (!booking) {
-    return res.redirect("/")
+    return res.redirect("/my-bookings")
   }
   const bill = await billModel
     .findOne({ bookingId: booking._id })
@@ -674,3 +701,24 @@ exports.p_changePassword = async (req, res) => {
     });
   }
 };
+exports.comments = async (req, res) => {
+  try {
+    const { userId, roomId, content } = req.body;
+    const newComment = await new commentModel({
+      userId: userId,
+      roomId: roomId,
+      content: content,
+    });
+    newComment.save();
+    await roomModel.updateOne({ _id: roomId }, { $push: { commentId: newComment._id } });
+    return res.status(200).json({
+      status: "success",
+      message: transValidation.input_comment_success,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      status: "fail",
+      message: transValidation.server_incorrect,
+    });
+  }
+}

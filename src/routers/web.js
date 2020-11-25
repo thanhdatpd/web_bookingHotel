@@ -39,7 +39,7 @@ router.get("/news", SiteController.new);
 router.get("/room-detail", SiteController.room_detail);
 router.get("/profile", SiteController.profile);
 router.get("/checks", SiteController.checks);
-router.post("/checkRoom", SiteController.checkRoom);
+//router.post("/checkRoom", SiteController.checkRoom);
 router
   .route("/checks/confirmAndPay")
   .get(SiteController.confirm)
@@ -51,6 +51,7 @@ router
   .get(SiteController.myServices)
   .post(SiteController.p_myServices);
 router.route("/my-bills").get(SiteController.myBill);
+router.route("/comments").post(SiteController.comments);
 router
   .route("/change-password")
   .get(SiteController.changePassword)

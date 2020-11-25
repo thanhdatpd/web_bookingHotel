@@ -36,6 +36,17 @@
               </div>
               <button type="submit" > Kiểm tra </button>
             </form>
+            <div class="error mt-3">
+                <% if(error){ %>
+                  <span><%=error%><span>
+                <% } %>
+            </div>
+            <style>
+              .error {
+                color: red;
+                font-size: 15px;
+              }
+            </style>
           </div>
         </div>
       </div>

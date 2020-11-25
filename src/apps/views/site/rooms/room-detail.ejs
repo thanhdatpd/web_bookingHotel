@@ -70,8 +70,8 @@
           </div>
           <div class="rd-reviews">
             <h4>Nhận xét</h4>
-            
-            <% room.commentId.forEach((item, index) => { %>
+            <% if(isComment) {%>
+              <% room.commentId.forEach((item, index) => { %>
               <div class="review-item">
                 <div class="ri-pic">
                   <img src="/assets/images/uploads/users/<%=item.userId.avatar%>" alt="">
@@ -89,17 +89,25 @@
                   <p><%=item.content%> </p>
                 </div>
               </div>
-            <% }) %>
+              <% }) %>
+            <%}else{%>
+              <div class="row d flex justify-content-center">
+              <span class=" bg bg-success "> Phòng này chưa có bình luận nào  </span>
+              </div>
+            <%}%>
           </div>
           <div class="review-add">
             <h4>Thêm nhận xét</h4>
-            <form action="#" class="ra-form">
+            <form class="ra-form">
               <div class="row">
                 <div class="col-lg-6">
-                  <input type="text" placeholder="Tên của bạn *">
+                  <input type="text" placeholder="Tên của bạn *" value="<%=user.fullName%>">
                 </div>
                 <div class="col-lg-6">
-                  <input type="text" placeholder="Email của bạn *">
+                  <input type="text" placeholder="Email của bạn *"value="<%=user.email%>">
+                </div>
+                <div class="col-lg-6">
+                  <input type="hidden" value="<%=user._id%>" id="userId">
                 </div>
                 <div class="col-lg-12">
                   <div>
@@ -112,8 +120,8 @@
                       <i class="icon_star-half_alt"></i>
                     </div>
                   </div>
-                  <textarea placeholder="Nhận xét của bạn"></textarea>
-                  <button type="submit">Gửi ngay</button>
+                  <textarea placeholder="Nhận xét của bạn" id="content"> </textarea>
+                  <button onclick="sbmComment()" type="button">Gửi ngay</button>
                 </div>
               </div>
             </form>
@@ -143,6 +151,27 @@
 <script>
   function goBack() {
     window.history.back();
+  }
+  function sbmComment(){
+    var userId = $("#userId").val();
+    var roomId = $("#roomId").val();
+    var content = $("#content").val();
+    $.ajax({
+      url: '/comments', 
+      method: 'POST', 
+      data:{
+        userId, 
+        roomId, 
+        content,
+      }
+    }).then(function (data) {
+      alertify.success(data.message);
+      window.timeout = setTimeout(function () {
+        location.reload();
+      }, 2000)
+    }).catch(function (err) {
+      alertify.error(err.responseJSON.message);
+    })  
   }
 </script>
 <%- include("./../layouts/footer") %>
