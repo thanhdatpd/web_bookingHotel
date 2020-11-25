@@ -35,7 +35,6 @@
             overflow-y: scroll;
             width: 100%;
           }
-        
           input {
             width: 33.33%;
           }
@@ -133,18 +132,21 @@
       setCookie('arrServices', JSON.stringify(arrServices), 1);
     })
     function sendServices(){
+      var url = window.location.pathname;
+      var idBooking = url.substring(url.lastIndexOf('/') + 1);
        let arrServices = $.parseJSON(getCookie("arrServices"));
        $.ajax({
-        url: "/my-services",
+        url: `/my-services/${idBooking}`,
         method: "POST",
         data: {
           infoServices: arrServices,
+          idBooking,
         }
       }).then(function (data) {
         alertify.success(data.message)
         setCookie("arrServices", "", 0)
         window.timeout = setTimeout(function () {
-          window.location.href = "/my-bills";
+          window.location.href = `/my-bills/${idBooking}`;
         }, 2000)
       }).catch(function (err) {
         alertify.error(err.responseJSON.message);

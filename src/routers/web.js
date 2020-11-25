@@ -47,10 +47,10 @@ router
 router.route("/booking-success").post(SiteController.booking_success);
 router.get("/my-bookings", SiteController.myBooking);
 router
-  .route("/my-services")
+  .route("/my-services/:id")
   .get(SiteController.myServices)
   .post(SiteController.p_myServices);
-router.route("/my-bills").get(SiteController.myBill);
+router.route("/my-bills/:id").get(SiteController.myBill);
 router.route("/comments").post(SiteController.comments);
 router
   .route("/change-password")

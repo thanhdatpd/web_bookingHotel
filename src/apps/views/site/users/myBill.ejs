@@ -151,7 +151,7 @@
         </tr>
       </thead>
       <tbody> 
-        <%  if(isService !== 0){ %>
+        <%if ( bill.billServicesId !== undefined){ %>
         <tr>
           <td></td>
           <td></td>
@@ -183,8 +183,18 @@
       </span>
     </div>
   </div>
-
+  <% } else { %>
+  <span></span>
   <% } %>
+  <p>
+    --------------------------------------------------------------------------------------------------------------------------------------------------
+  </p>
+  <p>
+    --------------------------------------------------------------------------------------------------------------------------------------------------
+  </p>
+  <p>
+    --------------------------------------------------------------------------------------------------------------------------------------------------
+  </p>
   <div class="d-flex  justify-content-center mb-5 ">
   <span class="h6 pl-2 pb-3 mt-4 mb-4 text-info ">+ Bạn có muốn đặt thêm dịch vụ :
     <button type="button" onclick="sbmService()" class="badge badge-info"> Thêm dịch vụ</button>
@@ -223,7 +233,9 @@
 </div>
 <script>
   function sbmService(){
-    window.location.href = "/my-services"
+     var url = window.location.pathname;
+    var idBooking = url.substring(url.lastIndexOf('/') + 1);
+    window.location.href = `/my-services/${idBooking}`
   }
 </script>
 <!-- Rooms Section End -->

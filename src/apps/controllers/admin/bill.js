@@ -45,8 +45,8 @@ exports.bills = async (req, res, next) => {
           model: "services",
         },
       },
-    });
-  //   .sort("-_id")
+    })
+    .sort("-_id")
   //   .limit(limit)
   //   .skip(skip);
  
@@ -89,19 +89,20 @@ exports.detailBills = async (req, res, next) => {
         },
       },
     });
-   const isService = await billModel
-     .find({
-       billServicesId: {
-         $exists: true,
-         $ne: null,
-       },
-     })
-     .count();
+  //  const isService = await billModel
+  //    .findOne({_id:id,
+  //      billServicesId: {
+  //        $exists: true,
+  //        $ne: null,
+  //      },
+  //    })
+  //   .count();
+  
   const totalsPay = bill.price + bill.price * VAT;
   res.render("admin/pages/bills/billPay", {
     bill,
     totalsPay,
-    isService,
+    // isService,
     moment,
     formatPrice,
   });

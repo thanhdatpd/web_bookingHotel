@@ -142,11 +142,11 @@
       </div>
     </div>
 
-    <%if (isService !== 0){ %>
+    
     <div class="d-sm-flex align-items-center justify-content-center mb-4">
       <h2 class=" h5 mb-0 text-gray-800 text-warning  ">* Thông tin dịch vụ</h2>
     </div>
-    
+    <%if ( bill.billServicesId !== undefined){ %>
     <div class="panel panel-default">
       <div class="panel-body">
         <table class="table table-hover">
@@ -160,7 +160,6 @@
             </tr>
           </thead>
           <tbody>
-           
             <tr>
               <td></td>
               <td></td>
@@ -188,6 +187,8 @@
         </div>      
       </div>
     </div>
+    <% } else { %>
+      <span></span>
     <% } %>
     <p>--------------------------------------------------------------------------------------------------------------------------------------------------</p>
     <p>

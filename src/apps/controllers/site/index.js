@@ -504,11 +504,18 @@ exports.myBooking = async (req, res) => {
 exports.myServices = async (req, res) => {
   try {
     let token = req.cookies.token;
+    const {id} = req.params;
     let decodeToken = jwt.verify(token, config.app.SECRET_TOKEN);
     //check decode token with id User
     let user = await userModel.findOne({
       _id: decodeToken._id,
     });
+    let booking = await bookingModel.findOne({
+      _id: id,
+    });
+    if (booking.status !== "check_in") {
+      return res.redirect("/my-bookings");
+    }
     //check booking with userId
     const services = await servicesModel 
       .find()
@@ -525,10 +532,9 @@ exports.p_myServices = async (req, res) => {
   try {
     let { token } = req.cookies;
     let decodeToken = jwt.verify(token, config.app.SECRET_TOKEN);
-    const { infoServices } = req.body;
+    const { infoServices, idBooking } = req.body;
     let booking = await bookingModel.findOne({
-      userId: decodeToken._id,
-      status: "check_in",
+     _id: idBooking
     });
     if (!booking) {
       return res.status(400).json({
@@ -606,15 +612,15 @@ exports.p_myServices = async (req, res) => {
 };
 exports.myBill = async (req, res) => {
   let { token } = req.cookies;
+  const {id} = req.params;
   let decodeToken = jwt.verify(token, config.app.SECRET_TOKEN);
   let user = await userModel.findOne({
     _id: decodeToken._id,
   });
   let booking = await bookingModel.findOne({
-    userId: decodeToken._id,
-    status: "check_in",
+    _id:id
   });
-  if (!booking) {
+  if (booking.status !== 'check_in') {
     return res.redirect("/my-bookings")
   }
   const bill = await billModel

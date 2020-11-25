@@ -21,7 +21,7 @@
 
 <%- include("./../layouts/sidebar") %>
 
-      <div class="col-md-8 col-xs-12 ">
+      <div class="col-md-9 col-xs-12 ">
         <div class="input-group mb-3 d-flex justify-content-center">
           <div class="">
             <img src="/assets/images/uploads/users/<%=user.avatar %>" class="rounded-circle  " alt="Ảnh đại diện"
@@ -41,6 +41,8 @@
                 <th scope="col">Số người</th>
                 <th scope="col">Trạng thái đặt</th>
                 <th scope="col">Giá tiền</th>
+                <th scope="col">Thêm dịch vụ</th>
+                <th scope="col">Huỷ đặt phòng</th>
                 <th scope="col">Hoá đơn</th>
               </tr>
             </thead>
@@ -55,10 +57,7 @@
                   <span class="bg-success"><%=item.name%></span>
                   <%})%>
                 </td>
-                
-
-                <td><%=booking.numberCustomer%> người</td>                
-                                  
+                <td><%=booking.numberCustomer%> người</td>                                            
                 <% if (booking.status === "wait_confirm") { %>
                 <td><span class="bg-warning">Chờ xác nhận</span></td>
                 <% }else if (booking.status === "wait_check_in"){ %>
@@ -74,9 +73,15 @@
                 <td><span class="bg-success">Thành công</span></td>
                 
                 <% } %>
-                <td> <span class="bg-info"><%=formatPrice(booking.price) %> đ</span></td>
+                <td> <span class=""><%=formatPrice(booking.price) %> đ</span></td>
                 <td class="form-group">
-                  <a href="/my-bills" class="btn btn-danger btn-circle"><i class="far fa-eye"></i></a>
+                  <a href="/my-services/<%=booking._id%>" class="btn btn-warning btn-circle"><i class="fas fa-shopping-cart"></i></a>
+                </td>
+                <td class="form-group">
+                  <a href="/cancel" class="btn btn-danger btn-circle"><i class="fas fa-window-close"></i></a>
+                </td>
+                <td class="form-group">
+                  <a href="/my-bills/<%=booking._id%>" class="btn btn-warning btn-circle"><i class="far fa-eye"></i></a>
                 </td>
               <% }) %>
             </tbody>

@@ -57,6 +57,7 @@ exports.update = async (req, res) => {
 exports.p_update = async (req, res) => {
   try {
     const { id, text, roomId } = req.body;
+    console.log(req.body);
      if (text === "Chờ nhận phòng") {
        await bookingModel.updateOne(
          { _id: id },
