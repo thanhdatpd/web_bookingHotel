@@ -56,6 +56,11 @@ router
   .route("/change-password")
   .get(SiteController.changePassword)
   .post(SiteController.p_changePassword);
+  // router
+  //   .route("/change-avatar")
+  //   .post(SiteController.p_changeAvatar);
+router.route("/cancel/:id").post(SiteController.cancel);
+
 
   
 /* router admin */

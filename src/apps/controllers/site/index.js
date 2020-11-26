@@ -728,3 +728,37 @@ exports.comments = async (req, res) => {
     });
   }
 }
+exports.cancel = async (req, res) => { 
+  try {
+    const { idBooking } = req.body;
+    let booking = await bookingModel.findOne({
+      _id: idBooking,
+    });
+    if (booking.status === "wait_confirm") {
+      await bookingModel.updateOne(
+        { _id: idBooking },
+        { $set: { status: "fail" } }
+      );
+      return res.status(200).json({
+        status: "fail",
+        message: transValidation.cancel_booking,
+      })
+    }
+    if (booking.status === "wait_check_in") {
+      return res.status(200).json({
+        status: "fail",
+        message: transValidation.cancel_booking_wait,
+      })
+    } else {
+      return res.status(200).json({
+        status: "fail",
+        message: transValidation.cancel_not_booking,
+      })
+    }
+  } catch (error) {
+    return res.status(400).json({
+      status: "fail",
+      message: transValidation.server_incorrect,
+    });
+  }
+};

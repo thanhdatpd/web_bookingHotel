@@ -18,9 +18,7 @@
 </div>
 <!-- Breadcrumb Section End -->
 
-
 <%- include("./../layouts/sidebar") %>
-
       <div class="col-md-9 col-xs-12 ">
         <div class="input-group mb-3 d-flex justify-content-center">
           <div class="">
@@ -28,9 +26,7 @@
               height="100" width="100">
             <button type="button" class="btn btn-outline-warning"> Ảnh đại diện cute quá !!! </button>
           </div>
-
         </div>
-
           <table class="table table-hover">
             <thead>
               <tr>
@@ -49,6 +45,7 @@
             <tbody>
               <% bookings.forEach((booking, index) => { %>
               <tr>
+                <input type="hidden" id="idBooking" value="<%=booking._id%>"></input>
                 <th scope="row"><%=index+1 %></th>
                 <td> <%= moment(booking.startAt).format('DD-MM-YYYY') %> </td>
                 <td> <%= moment(booking.endAt).format('DD-MM-YYYY') %> </td>
@@ -63,22 +60,21 @@
                 <% }else if (booking.status === "wait_check_in"){ %>
                 <td><span class="bg-info">Chờ nhận phòng</span></td>
                 <% }
-                                    else if (booking.status === "check_in"){ %>
+                      else if (booking.status === "check_in"){ %>
                 <td><span class="bg-success">Đã nhận phòng</span></td>
                 <% }
-                                    else if (booking.status === "fail"){ %>
+                    else if (booking.status === "fail"){ %>
                 <td><span class="bg-danger">Huỷ phòng</span></td>
                 <% }
-                                    else { %>
+                      else { %>
                 <td><span class="bg-success">Thành công</span></td>
-                
                 <% } %>
                 <td> <span class=""><%=formatPrice(booking.price) %> đ</span></td>
                 <td class="form-group">
                   <a href="/my-services/<%=booking._id%>" class="btn btn-warning btn-circle"><i class="fas fa-shopping-cart"></i></a>
                 </td>
                 <td class="form-group">
-                  <a href="/cancel" class="btn btn-danger btn-circle"><i class="fas fa-window-close"></i></a>
+                  <a onclick="cancel()" class="btn btn-danger btn-circle"><i class="fas fa-window-close"></i></a>
                 </td>
                 <td class="form-group">
                   <a href="/my-bills/<%=booking._id%>" class="btn btn-warning btn-circle"><i class="far fa-eye"></i></a>
@@ -94,14 +90,35 @@
                 <a href="/my-bookings">Next </a>
               </div>
             </div>
-      
-          
           </div>
       </div>
     </div>
   </div>
 </section>
-
-
+<script>
+  function cancel(){
+    var idBooking = $("#idBooking").val();
+  $.ajax({
+      url: `/cancel/${idBooking}`,
+      method: "POST",
+      data: {
+        idBooking,
+      }
+    }).then(function (data) {
+      alertify.confirm('Khách sạn Phương Đông', 'Bạn có muốn huỷ lịch đặt không ?',
+       function () {
+          alertify.success(data.message)
+           window.timeout = setTimeout(function () {
+           location.reload();
+         }, 1000)
+},
+        function () { 
+          alertify.error('Đã huỷ thao tác') });
+       
+    }).catch(function (err) {
+      alertify.error(err.responseJSON.message);
+    })
+    }
+</script>
 <!-- Rooms Section End -->
 <%- include("./../layouts/footer") %>

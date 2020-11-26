@@ -10,6 +10,11 @@ module.exports.transValidation = {
     "Đặt phòng thành công , xin vui lòng đợi xác nhận từ khách sạn ",
   input_comment_success:
     "Cám ơn bạn đã bình luận và đánh giá phòng để khách sạn ngày càng hoàn thiện hơn ",
+  cancel_booking: "Bạn đã huỷ phòng thành công",
+  cancel_booking_wait:
+    "Bạn vui lòng đợi nhân viên khách sạn gọi điện để xác nhận huỷ phòng",
+  cancel_not_booking:
+    "Bạn không có quyền thực hiện hành động này",
   success_room: "Kiểm tra thành công , mời bạn bấm đặt phòng ",
   oder_room: "Vui lòng đợi nhận phòng để gọi dịch vụ ",
   oder_bill: "Vui lòng đặt phòng để xem hoá đơn ",

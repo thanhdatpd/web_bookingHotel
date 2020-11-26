@@ -9,6 +9,9 @@ const roomModel = require("../../models/roomModel");
 const VAT = 1/10;
 const moment = require("moment");
 const joi = require("joi");
+const puppeteer = require("puppeteer");
+const fs = require("fs");
+const path = require("path");
 //get bookings
 exports.bills = async (req, res, next) => {
   // const {
@@ -97,7 +100,6 @@ exports.detailBills = async (req, res, next) => {
   //      },
   //    })
   //   .count();
-  
   const totalsPay = bill.price + bill.price * VAT;
   res.render("admin/pages/bills/billPay", {
     bill,
@@ -136,6 +138,20 @@ exports.pays = async (req, res, next) => {
       { _id: { $in: bill.bookingId.roomId } },
       { $set: { status: "empty" } }
     );
+
+    (async () => {
+      const browser = await puppeteer.launch();
+      const page = await browser.newPage();
+      const html = fs.readFileSync(
+        path.join(__dirname,"..","..",'views/admin/pages/bills/billPay.ejs'), "utf8"
+      );
+      await page.setContent(html);
+      await page.pdf({
+        path: "src/apps/views/admin/pages/bills/invoice/bill.pdf",
+        
+      })
+      await browser.close();
+    })();
     return res.status(200).json({
       status: "success",
       message: transValidation.pay,

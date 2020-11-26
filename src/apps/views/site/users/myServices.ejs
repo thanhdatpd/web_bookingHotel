@@ -73,17 +73,16 @@
                 <% }) %>
               </tbody>
             </table>
-            <div class="d-flex  justify-content-center ">           
-              <span class="h5 pl-2 pb-3 mt-4 mb-4 text-primary ">+ Tổng tiền :
-            
+            <!-- <div class="d-flex  justify-content-center ">           
+              <span class="h5 pl-2 pb-3 mt-4 mb-4 text-primary ">+ Tổng tiền :           
                 <span class="badge badge-primary">0 VNĐ</span>           
                 <span>
-            </div>
+            </div> -->
             <div class="col-lg-12 d-flex justify-content-center ">
               <div class="col-lg-12">
                 <div class="room-pagination">
                   <button type="button" onclick="sendServices()" class="btn btn-success">Đặt dịch vụ </button>
-                  <button type="reset" class="btn btn-default">Làm mới</button>
+                  <button id="reset" type="reset" class="btn btn-default">Làm mới</button>
                 </div>
               </div>
           </div>
@@ -153,6 +152,9 @@
       })
    
     }
+    $("#reset").on("click", function () {
+        window.location.reload();
+      }); 
    
 
 
