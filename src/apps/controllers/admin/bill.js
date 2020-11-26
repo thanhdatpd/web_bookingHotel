@@ -12,6 +12,13 @@ const joi = require("joi");
 const puppeteer = require("puppeteer");
 const fs = require("fs");
 const path = require("path");
+const ejs = require("ejs")
+
+
+// ejs.registerHelper("dateFormat", (value, format) => {
+//   return moment(value).format(format)
+// })
+
 //get bookings
 exports.bills = async (req, res, next) => {
   // const {
@@ -49,7 +56,7 @@ exports.bills = async (req, res, next) => {
         },
       },
     })
-    .sort("-_id")
+    .sort("_id")
   //   .limit(limit)
   //   .skip(skip);
  
@@ -62,6 +69,7 @@ exports.bills = async (req, res, next) => {
     // formatPrice,
   });
 };
+
 
 //get detailBills
 exports.detailBills = async (req, res, next) => {
@@ -109,6 +117,7 @@ exports.detailBills = async (req, res, next) => {
     formatPrice,
   });
 };
+
 //get pays
 exports.pays = async (req, res, next) => {
   try {
@@ -138,20 +147,8 @@ exports.pays = async (req, res, next) => {
       { _id: { $in: bill.bookingId.roomId } },
       { $set: { status: "empty" } }
     );
-
-    (async () => {
-      const browser = await puppeteer.launch();
-      const page = await browser.newPage();
-      const html = fs.readFileSync(
-        path.join(__dirname,"..","..",'views/admin/pages/bills/billPay.ejs'), "utf8"
-      );
-      await page.setContent(html);
-      await page.pdf({
-        path: "src/apps/views/admin/pages/bills/invoice/bill.pdf",
-        
-      })
-      await browser.close();
-    })();
+    //  
+  
     return res.status(200).json({
       status: "success",
       message: transValidation.pay,
@@ -164,3 +161,59 @@ exports.pays = async (req, res, next) => {
   }
   
 };
+
+exports.createBill = async (req, res) => {
+  try {
+    const { idBill } = req.query;
+    const bill = await billModel
+      .findOne({ _id: idBill })
+      .populate({
+        path: "bookingId",
+        populate: {
+          path: "roomId",
+          model: "rooms",
+        },
+      })
+      .populate({
+        path: "bookingId",
+        populate: {
+          path: "userId",
+          model: "users",
+        },
+      });
+    const totalsPay = bill.price + bill.price * VAT;
+    (async () => {
+      const browser = await puppeteer.launch();
+      const page = await browser.newPage();
+      const filePath = path.join(
+        __dirname,
+        "..",
+        "..",
+        "views/admin/pages/bills/payPfd.ejs"
+      );
+      const html = fs.readFileSync(filePath, "utf-8");
+      const content = await ejs.render(html, {
+        bill,
+        moment,
+        formatPrice,
+        totalsPay,
+      });
+      await page.setContent(content);
+      await page.pdf({
+        path: "src/apps/views/admin/pages/bills/invoice/bill.pdf",
+        format: "A4",
+        printBackground: true,
+      });
+      await browser.close();
+    })();
+    return res.status(200).json({
+      status: "success",
+      message: transValidation.bill,
+    })
+  } catch (error) {
+    return res.status(400).json({
+      status: "fail",
+      message: transValidation.input_incorrect,
+    });
+  }
+}

@@ -135,4 +135,5 @@ router.route("/admin/contact-delete/:id").get(ContactsController.delete);
 router.get("/admin/bills", BillsController.bills);
 router.route("/admin/bills/:id").get(BillsController.detailBills);
 router.route("/admin/pays").post(BillsController.pays);
+router.route("/admin/createBill").get(BillsController.createBill);
 module.exports = router;
