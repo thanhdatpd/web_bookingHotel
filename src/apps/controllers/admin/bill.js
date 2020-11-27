@@ -148,7 +148,6 @@ exports.pays = async (req, res, next) => {
       { $set: { status: "empty" } }
     );
     //  
-  
     return res.status(200).json({
       status: "success",
       message: transValidation.pay,
@@ -158,10 +157,8 @@ exports.pays = async (req, res, next) => {
       status: "fail",
       message: transValidation.input_incorrect,
     });
-  }
-  
+  } 
 };
-
 exports.createBill = async (req, res) => {
   try {
     const { idBill } = req.query;
@@ -181,6 +178,14 @@ exports.createBill = async (req, res) => {
           model: "users",
         },
       });
+    const isService = await billModel
+      .find({
+        billServicesId: {
+          $exists: true,
+          $ne: null,
+        },
+      })
+      .count();
     const totalsPay = bill.price + bill.price * VAT;
     (async () => {
       const browser = await puppeteer.launch();
@@ -197,6 +202,7 @@ exports.createBill = async (req, res) => {
         moment,
         formatPrice,
         totalsPay,
+        isService,
       });
       await page.setContent(content);
       await page.pdf({
