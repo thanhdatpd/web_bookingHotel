@@ -764,24 +764,22 @@ exports.cancel = async (req, res) => {
 };
 exports.search = async function (req, res, next) {
   try {
-    const { q = "" } = req.query;
-      console.log("🚀 ~ file: index.js ~ line 769 ~ req.query", req.query);
+    const { q  } = req.query;
     const rooms = await roomModel.find({
-        $text: {
-          $search: q,
-        },
-    });
-    console.log("🚀 ~ file: index.js ~ line 774 ~ rooms", rooms)
+       status: "empty" ,
+      "name": {$regex: '.*' +q+ '.*'}
+    })
      return res.render("site/rooms/room", {
        rooms,
        q,
+       moment,
        formatPrice,
+       error:'',
      });
   } catch (error) {
-    // return res.status(400).json({
-    console.log("🚀 ~ file: index.js ~ line 782 ~ error", error)
-    //   status: "fail",
-    //   message: transValidation.server_incorrect,
-    // });
+    return res.status(400).json({
+      status: "fail",
+      message: transValidation.server_incorrect,
+    });
   }
 };

@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const roomSchema = new mongoose.Schema(
   {
-    name: { type: String, default: "", unique: true, text: true },
+    name: { type: String, default: "", unique: true,},
     size: { type: Number, default: 30 },
     price: { type: String, default: 300000 },
     type: {
@@ -11,7 +11,7 @@ const roomSchema = new mongoose.Schema(
       default: "single",
     },
     services: { type: String, default: "Wifi, Television, Bathroom,..." },
-    description: { type: String, default: "" , text:true },
+    description: { type: String, default: "" },
     image: { type: String, default: "default.jpeg" },
     status: { type: String, enum: ["empty", "ordered"], default: "empty" },
     commentId: [
@@ -37,7 +37,6 @@ const roomSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
-
+roomSchema.index({ "$**": "text" });
 const roomModel = mongoose.model("rooms", roomSchema);
-//roomModel.createIndex({ name: "text", description: "text" });
 module.exports = roomModel;
