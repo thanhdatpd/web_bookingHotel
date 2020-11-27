@@ -38,6 +38,10 @@ router.get("/room-vip", SiteController.room_vip);
 router.get("/news", SiteController.new);
 router.get("/room-detail", SiteController.room_detail);
 router.get("/profile", SiteController.profile);
+router
+  .route("/profile")
+  .get(SiteController.profile)
+  .post(SiteController.updateProfile);
 router.get("/checks", SiteController.checks);
 //router.post("/checkRoom", SiteController.checkRoom);
 router

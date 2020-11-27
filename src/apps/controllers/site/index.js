@@ -46,6 +46,32 @@ exports.profile = async (req, res, next) => {
   });
   res.render("site/users/profile", {user});
 }; 
+
+exports.updateProfile = async (req, res, next) => {
+  try {
+    const { id, email, fullName, phoneNumber ,gender } = req.body;
+    await userModel.updateOne(
+      { _id: id },
+      {
+        $set: {
+          email: email,
+          phoneNumber: phoneNumber,
+          fullName: fullName,
+          gender:gender},
+      }
+    );
+    return res.status(200).json({
+      status: "success",
+      message: accountValidation.account_update,
+    });
+  } catch (error) {
+     return res.status(400).json({
+       status: "fail",
+       message: transValidation.server_incorrect,
+     });
+  }
+}; 
+
 exports.about = (req, res) => {
   res.render("site/about");
 };
@@ -717,7 +743,6 @@ exports.p_changePassword = async (req, res) => {
       message: transValidation.change_password_fail,
     });
   } catch (error) {
-    
     return res.status(400).json({
       status: "fail",
       message: transValidation.server_incorrect,

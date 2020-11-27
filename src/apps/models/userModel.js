@@ -8,7 +8,7 @@ const userSchema = new mongoose.Schema(
     role: { type: String, default: "user" },
     avatar: { type: String, default: "avatar.jpg" },
     phoneNumber: { type: Number },
-    gender: { type: String, default: "male" },
+    gender: { type: String,enum: ["male","female"] ,default: "male" },
   },
   {
     timestamps: true,
