@@ -60,6 +60,7 @@ router
   //   .route("/change-avatar")
   //   .post(SiteController.p_changeAvatar);
 router.route("/cancel/:id").post(SiteController.cancel);
+router.route("/search").get(SiteController.search);
 
 
   
