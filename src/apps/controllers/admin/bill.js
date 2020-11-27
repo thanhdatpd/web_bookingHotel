@@ -108,6 +108,7 @@ exports.detailBills = async (req, res, next) => {
   //      },
   //    })
   //   .count();
+
   const totalsPay = bill.price + bill.price * VAT;
   res.render("admin/pages/bills/billPay", {
     bill,
@@ -148,6 +149,7 @@ exports.pays = async (req, res, next) => {
       { $set: { status: "empty" } }
     );
     //  
+   
     return res.status(200).json({
       status: "success",
       message: transValidation.pay,
@@ -177,15 +179,17 @@ exports.createBill = async (req, res) => {
           path: "userId",
           model: "users",
         },
-      });
-    const isService = await billModel
-      .find({
-        billServicesId: {
-          $exists: true,
-          $ne: null,
-        },
       })
-      .count();
+      .populate({
+        path: "billServicesId",
+        populate: {
+          path: "servicesId",
+          populate: {
+            path: "servicesId",
+            model: "services",
+          },
+        },
+      });
     const totalsPay = bill.price + bill.price * VAT;
     (async () => {
       const browser = await puppeteer.launch();
@@ -202,11 +206,10 @@ exports.createBill = async (req, res) => {
         moment,
         formatPrice,
         totalsPay,
-        isService,
       });
       await page.setContent(content);
       await page.pdf({
-        path: "src/apps/views/admin/pages/bills/invoice/bill.pdf",
+        path: `src/apps/views/admin/pages/bills/invoice/bill-${bill._id}.pdf`,
         format: "A4",
         printBackground: true,
       });

@@ -146,7 +146,7 @@
     <div class="d-sm-flex align-items-center justify-content-center mb-4">
       <h2 class=" h5 mb-0 text-gray-800 text-warning  ">* Thông tin dịch vụ</h2>
     </div>
-    <%if ( bill.billServicesId !== undefined){ %>
+    <%if ( bill.billServicesId != undefined){ %>
     <div class="panel panel-default">
       <div class="panel-body">
         <table class="table table-hover">
@@ -188,12 +188,8 @@
       </div>
     </div>
     <% } else { %>
-      <span></span>
-    <% } %>
     <p>--------------------------------------------------------------------------------------------------------------------------------------------------</p>
-    <p>
-      --------------------------------------------------------------------------------------------------------------------------------------------------
-    </p> 
+    <% } %>
     <style>
       .text-white h3,
       .text-white h6 {

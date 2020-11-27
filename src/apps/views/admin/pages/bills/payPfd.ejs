@@ -160,7 +160,7 @@ table .desc {
 
 table td {
   padding: 20px;
-  text-align: right;
+  text-align: center;
 }
 
 table td.service,
@@ -249,19 +249,57 @@ footer {
         <tr>
         </tr>
         <% }) %>
-        <tr>
-          <td colspan="6" class="sub">TIÈN PHÒNG</td>
-          <td class="sub total"><%=formatPrice(bill.price)%> đ</td>
-        </tr>
-        <tr>
-          <td colspan="6">THUẾ VAT </td>
-          <td class="total">10%</td>
-        </tr>
-        <tr>
-          <td colspan="6" class="grand total">TỔNG THANH TOÁN</td>
-          <td class="grand total"><%=formatPrice(totalsPay)%> đ</td>
-        </tr>
+        
+        <%if ( bill.billServicesId != undefined){ %>
       </tbody>
+    </table>
+    <table>
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Tên dịch vụ</th>
+          <th scope="col"> Giá tiền</th>
+          <th scope="col">Số lượng</th>
+          <th scope="col">Trạng thái đặt</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td><span class="badge badge-success">Đã đặt</span></td>
+          <td></td>
+        </tr>
+        <% bill.billServicesId.servicesId.forEach((service, index) => { %>
+        <tr>
+          <td><%= index+1%></td>
+          <td><span class="badge badge-info"><%=service.servicesId.name%>
+            </span></td>
+          <td><span class="badge badge-info"><%=formatPrice(service.price)%>đ</span></td>
+          <td><span class="badge badge-info"><%= service.quantity %></span></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <% }); %>
+      </tbody>
+      <% } %>
+    </table>
+    <table>
+      <tr>
+        <td colspan="6" class="sub">TỔNG TIÈN</td>
+        <td class="sub total"><%=formatPrice(bill.price)%> đ</td>
+      </tr>
+      <tr>
+        <td colspan="6">THUẾ VAT </td>
+        <td class="total">10%</td>
+      </tr>
+      <tr>
+        <td colspan="6" class="grand total">TỔNG THANH TOÁN</td>
+        <td class="grand total"><%=formatPrice(totalsPay)%> đ</td>
+      </tr>
     </table>
     <div id="details" class="clearfix">
       <div id="project">
