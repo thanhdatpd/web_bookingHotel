@@ -1,0 +1,10 @@
+<div class="input-group mb-3 d-flex justify-content-center">
+  <div class="">
+    <img src="/assets/images/uploads/users/<%=user.avatar %>" class="rounded-circle " id="img_pview" alt="Ảnh đại diện" height="100"
+      width="100">
+      <form method="post" action="/change-avatar" enctype="multipart/form-data">
+        <input type="file" name="avatar" id="avatar" style="" />
+        <button type="submit" id="OpenImgUpload" class="btn btn-outline-warning"  onclick="">Đổi ảnh đại diện</button>
+    </form>
+  </div>
+</div>

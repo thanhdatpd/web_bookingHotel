@@ -17,6 +17,23 @@ let servicesModel = require("../../models/servicesModel");
 let billServicesModel = require("../../models/billServicesModel");
 let billModel = require("../../models/billModel");
 let joi = require("joi");
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "src/public/images/uploads/users/");
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + "-" + file.originalname);
+  },
+});
+const upload = multer({
+  storage: storage,
+  limits: {
+    fileSize: 5 * 1024 * 1024, // limit file max 5MB
+  },
+}).single("avatar");
+
+
 exports.index = (req, res) => {
   res.render("site/home", { error: "" });
 };
@@ -776,6 +793,26 @@ exports.search = async function (req, res, next) {
        formatPrice,
        error:'',
      });
+  } catch (error) {
+    return res.status(400).json({
+      status: "fail",
+      message: transValidation.server_incorrect,
+    });
+  }
+};
+
+exports.p_changeAvatar =function (req, res, next) {
+  try {
+    let { token } = req.cookies;
+    let decodeToken = jwt.verify(token, config.app.SECRET_TOKEN);
+    upload(req, res, async function (err) { 
+      const file = req.file;
+      await userModel.updateOne(
+        { _id: decodeToken._id },
+        { $set: { avatar: file.filename } }
+      );
+    })
+    return res.redirect('/profile');
   } catch (error) {
     return res.status(400).json({
       status: "fail",

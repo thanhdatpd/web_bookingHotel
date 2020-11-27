@@ -89,7 +89,7 @@ exports.edit = async (req, res) => {
 };
 
 //edit room
-exports.p_edit =  (req, res) => {
+exports.p_edit = (req, res) => {
   const { id } = req.params;
   upload(req, res, async function (err) {
     // room not choose file to edit
