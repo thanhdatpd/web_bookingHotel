@@ -56,7 +56,7 @@ exports.bills = async (req, res, next) => {
         },
       },
     })
-    .sort("_id")
+    .sort("-_id")
   //   .limit(limit)
   //   .skip(skip);
  

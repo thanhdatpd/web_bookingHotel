@@ -812,7 +812,7 @@ exports.p_changeAvatar =function (req, res, next) {
         { $set: { avatar: file.filename } }
       );
     })
-    return res.redirect('/profile');
+    return res.redirect("/profile");
   } catch (error) {
     return res.status(400).json({
       status: "fail",

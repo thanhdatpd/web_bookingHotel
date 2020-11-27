@@ -21,7 +21,10 @@
 <%- include("./../layouts/sidebar") %>
 
       <div class="col-md-8 col-xs-12 ">
-        <%- include("./../layouts/avatar") %>
+        <div class="input-group mb-3 d-flex justify-content-center">
+          <img src="/assets/images/uploads/users/<%=user.avatar %>" class="rounded-circle" id="img_pview" alt="Ảnh đại diện"
+            height="110px" width="110px" style="border: 3px solid orange;">
+        </div>
         <style>
           .table {
             height: 300px;
