@@ -238,19 +238,27 @@ exports.room_detail = async (req, res) => {
        });
      }
    } catch (error) {
-     res.render("site/home");
+     res.render("auth/login");
    } 
 };
 exports.checks = async (req, res) => {
   let { startAt, endAt, numberCustomer, numberRoom, price, type } = req.query;
+  let roomsEmpty = await roomModel
+        .find({ status: "empty"})
+        .countDocuments()  
   const startAtFormated = moment(startAt + "+0700", "DD-MM-YYYYZ");
   const endAtFormated = moment(
     endAt + "/23:59:59+0700",
     "DD-MM-YYYY/HH:mm:ssZ"
   );
-  if (startAtFormated < Date.now() || endAtFormated < Date.now()) {
+  if (startAtFormated < Date.now() || endAtFormated < startAtFormated + 1 * 24 * 60 * 60 * 1000) {
     return res.render("site/home", {
-      error: "*Ngày tháng nhập vào chưa đúng , xin vui lòng chọn ngày lơn hơn ngày hiện tại !!!",
+      error: "*Ngày tháng nhập vào chưa đúng , xin vui lòng kiểm tra lại  !!!",
+    });
+  }
+  if (numberRoom > roomsEmpty) {
+    return res.render("site/home", {
+      error: `*Thật sự xin lỗi quý khách , hiện tại khách sạn chỉ còn ${roomsEmpty} phòng trống , xin vui lòng đặt lại !!!`,
     });
   }
     if (price === undefined && type === undefined) {
@@ -752,6 +760,19 @@ exports.p_changePassword = async (req, res) => {
 exports.comments = async (req, res) => {
   try {
     const { userId, roomId, content } = req.body;
+    let token = req.cookies.token;
+    let decodeToken = jwt.verify(token, config.app.SECRET_TOKEN);
+    const myBooking = await bookingModel.find({
+      userId: decodeToken._id,
+      status:"success"
+    })
+    const listRoom = myBooking.map((room) => room.roomId).join(",").split(",");
+    if (!listRoom.includes(roomId)) {
+      return res.status(400).json({
+        status: "fail",
+        message: transValidation.input_not_comment,
+      });
+    }
     const newComment = await new commentModel({
       userId: userId,
       roomId: roomId,

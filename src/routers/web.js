@@ -69,8 +69,8 @@ router.route("/search").get(SiteController.search);
 
   
 /* router admin */
-// router.use(checkLogin); // checkLogin
-// router.use("/admin" ,checkAdmin); // checkAdmin
+router.use(checkLogin); // checkLogin
+router.use("/admin" ,checkAdmin); // checkAdmin
 //dashboard_User
 router.get("/admin/dashboard", AdminController.dashboard);
 router.get("/admin/users", UserController.user);

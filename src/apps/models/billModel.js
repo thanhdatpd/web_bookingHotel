@@ -2,10 +2,11 @@ const mongoose = require("mongoose");
 
 const billSchema = new mongoose.Schema(
   {
+    //userCreateBill: { type: mongoose.Schema.Types.ObjectId, ref: "users" }
     bookingId: { type: mongoose.Schema.Types.ObjectId, ref: "bookings" },
-    billServicesId: 
-    {
-      type: mongoose.Schema.Types.ObjectId, ref: "billServices",
+    billServicesId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "billServices",
     },
     price: {
       type: Number,

@@ -95,27 +95,28 @@
 <script>
   function cancel(){
     var idBooking = $("#idBooking").val();
-  $.ajax({
-      url: `/cancel/${idBooking}`,
-      method: "POST",
-      data: {
-        idBooking,
-      }
-    }).then(function (data) {
-      alertify.confirm('Khách sạn Phương Đông', 'Bạn có muốn huỷ lịch đặt không ?',
-       function () {
+        alertify.confirm('Khách sạn Phương Đông', 'Bạn có muốn huỷ lịch đặt không ?',
+      function () {
+         $.ajax({
+          url: `/cancel/${idBooking}`,
+          method: "POST",
+          data: {
+            idBooking,
+          }
+        }).then(function (data) {
           alertify.success(data.message)
-           window.timeout = setTimeout(function () {
-           location.reload();
-         }, 1000)
-},
-        function () { 
-          alertify.error('Đã huỷ thao tác') });
-       
-    }).catch(function (err) {
-      alertify.error(err.responseJSON.message);
-    })
-    }
+          window.timeout = setTimeout(function () {
+            location.reload();
+          }, 1000)},)
+          .catch(function (err) {
+          alertify.error(err.responseJSON.message);
+        })
+  },
+      function () {
+        alertify.error('Đã huỷ thao tác')
+      }
+      )
+ }
 </script>
 <!-- Rooms Section End -->
 <%- include("./../layouts/footer") %>
